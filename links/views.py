@@ -74,7 +74,7 @@ def register(request):
 		if form.is_valid():
 			new_user = User.objects.create_user(
 					form.cleaned_data['username'],
-					form.cleaned_data['email'], 
+					form.cleaned_data['email'],
 					form.cleaned_data['password']
 				)
 			new_user.first_name = form.cleaned_data['firstname']
@@ -106,8 +106,20 @@ def logout(request):
 
 def upvote(request, submission_id):
 	if request.user.is_authenticated():
-		pass
+		submission = Submission.objects.get(pk=submission_id)
+		try:
+			SubmissionVote.objects.get(user=request.user, submission=submission)
+			return HttpResponseRedirect('/')
+		except SubmissionVote.DoesNotExist:
+			vote_record = SubmissionVote(
+					user=request.user,
+					submission=submission,
+					submit_date=dt.datetime.now()
+				)
+			vote_record.save()
+			submission.upvotes += 1
+			submission.save()
+			return HttpResponseRedirect('/')
 	else:
-		request.coming_from = upvote
-		request.submission_id = submission_id
+		request.session['login_redirect'] = 'upvote/' + submission_id
 		return HttpResponseRedirect('/login')
