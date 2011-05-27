@@ -54,7 +54,6 @@ class Vote(models.Model):
 	user = models.ForeignKey(User)
 	submit_date = models.DateTimeField()
 
-
 class SubmissionVote(Vote):
 	
 	submission = models.ForeignKey(Submission)
