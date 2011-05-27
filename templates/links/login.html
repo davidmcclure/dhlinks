@@ -4,7 +4,7 @@
 	
 	<h3>Login</h3>
 
-	<form action="/login/{{ redirect }}" method="post">
+	<form action="/login" method="post">
 		
 		<table>
 			{{ form.as_table }}
@@ -13,31 +13,6 @@
 		<input type="submit" value="Sign In">
 	
 	</form>
-	
-	
-	<!--
-	
-	<form action="/login/{{ redirect }}" method="post">
-		
-		{% csrf_token %}
-		
-		<table>
-			<tr>
-				<td><label for="username">Username: </label></td>
-				<td><input type="text" name="username" /></td>
-			</tr>
-			<tr>
-				<td><label for="password">Password: </label></td>
-				<td><input type="password" name="password" /></td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="Sign In"></td>
-			</tr>
-		</table>
-		
-	</form>
-	
-	-->
 	
 	<p>Not a member? <a href="/register">Sign up!</a></p>
 
