@@ -25,18 +25,19 @@ def submit(request):
 		if request.method == 'POST':
 			form = SubmitForm(request.POST)
 			if form.is_valid():
-				submission = Submission(url=form.cleaned_data['url'],
-								title=form.cleaned_data['title'],
-								user=request.user,
-								post_date=dt.datetime.now()
-								)
+				submission = Submission(
+						url=form.cleaned_data['url'],
+						title=form.cleaned_data['title'],
+						user=request.user,
+						post_date=dt.datetime.now()
+					)
 				submission.save()
 				if form.cleaned_data['comment'] != '':
 					firstcomment = Comment(
-									comment=form.cleaned_data['comment'],
-									post_date=dt.datetime.now(),
-									submission=submission
-									)
+							comment=form.cleaned_data['comment'],
+							post_date=dt.datetime.now(),
+							submission=submission
+						)
 					firstcomment.save()
 				return HttpResponseRedirect('/')
 		else:
@@ -53,9 +54,9 @@ def login(request):
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			user = auth.authenticate(
-							username=form.cleaned_data['username'],
-							password=form.cleaned_data['password']
-							)
+					username=form.cleaned_data['username'],
+					password=form.cleaned_data['password']
+				)
 			if user is not None and user.is_active:
 				auth.login(request, user)
 				request.session.set_expiry(0)
@@ -72,24 +73,24 @@ def register(request):
 		form = RegisterForm(request.POST)
 		if form.is_valid():
 			new_user = User.objects.create_user(
-							form.cleaned_data['username'],
-							form.cleaned_data['email'], 
-							form.cleaned_data['password']
-							)
+					form.cleaned_data['username'],
+					form.cleaned_data['email'], 
+					form.cleaned_data['password']
+				)
 			new_user.first_name = form.cleaned_data['firstname']
 			new_user.last_name = form.cleaned_data['lastname']
 			new_user.save()
 			new_user_profile = UserProfile(
-							user=new_user,
-							location=form.cleaned_data['location'],
-							website=form.cleaned_data['website'],
-							bio=form.cleaned_data['bio']
-							)
+					user=new_user,
+					location=form.cleaned_data['location'],
+					website=form.cleaned_data['website'],
+					bio=form.cleaned_data['bio']
+				)
 			new_user_profile.save()
 			user = auth.authenticate(
-							username = form.cleaned_data['username'],
-							password = form.cleaned_data['password']
-							)
+					username = form.cleaned_data['username'],
+					password = form.cleaned_data['password']
+				)
 			auth.login(request, user)
 			request.session.set_expiry(0)
 			return HttpResponseRedirect('/submit')
