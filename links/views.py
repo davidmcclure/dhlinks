@@ -45,9 +45,10 @@ def submit(request):
 			'form': form
 		})
 	else:
-		return HttpResponseRedirect('/login/submit')
+		request.session['login_redirect'] = 'submit'
+		return HttpResponseRedirect('/login')
 
-def login(request, redirect):
+def login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
@@ -58,11 +59,11 @@ def login(request, redirect):
 			if user is not None and user.is_active:
 				auth.login(request, user)
 				request.session.set_expiry(0)
-				return HttpResponseRedirect('/' + redirect)
+				return HttpResponseRedirect('/' + request.session.get('login_redirect'))
 	else:
 		form = LoginForm()
 	return render_to_response('links/login.html', {
-		'redirect': redirect,
+		'redirect': request.session.get('login_redirect'),
 		'form': form
 	})
 
