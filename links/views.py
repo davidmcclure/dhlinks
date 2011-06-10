@@ -10,15 +10,19 @@ from links.models import *
 import datetime as dt
 
 
-def frontpage(request, page_number=1):
-    return HttpResponseRedirect('/new')
+def frontpage(request, page_number = 1):
+    page_number = int(page_number)
+    # Earthshatteringly slow way of doing the sort. How do do this?
+    submissions = sorted(Submission.objects.all(), key = lambda a: a.score, reverse = True);
+    return render_to_response('links/links.html', {
+        'submissions': submissions
+    }, context_instance=RequestContext(request))
 
 
-def new(request, page_number=1):
-    links_per_page = 50
+def new(request, page_number = 1):
     page_number = int(page_number)
     submissions = Submission.objects.all().order_by('-post_date')\
-            [(page_number-1)*links_per_page:page_number*links_per_page]
+            [(page_number - 1) * Submission.links_per_page : page_number * Submission.links_per_page]
     return render_to_response('links/links.html', {
         'submissions': submissions
     }, context_instance=RequestContext(request))
@@ -30,17 +34,17 @@ def submit(request):
             form = SubmitForm(request.POST)
             if form.is_valid():
                 submission = Submission(
-                        url=form.cleaned_data['url'],
-                        title=form.cleaned_data['title'],
-                        user=request.user,
-                        post_date=dt.datetime.now()
+                        url = form.cleaned_data['url'],
+                        title = form.cleaned_data['title'],
+                        user = request.user,
+                        post_date = dt.datetime.now()
                     )
                 submission.save()
                 if form.cleaned_data['comment'] != '':
                     firstcomment = Comment(
-                            comment=form.cleaned_data['comment'],
-                            post_date=dt.datetime.now(),
-                            submission=submission
+                            comment = form.cleaned_data['comment'],
+                            post_date = dt.datetime.now(),
+                            submission = submission
                         )
                     firstcomment.save()
                 return HttpResponseRedirect('/')
@@ -51,71 +55,78 @@ def submit(request):
         })
     else:
         request.session['login_redirect'] = 'submit'
+        request.session['register_redirect'] = 'submit'
         return HttpResponseRedirect('/login')
 
 
 def login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            user = auth.authenticate(
-                    username=form.cleaned_data['username'],
-                    password=form.cleaned_data['password']
-                )
-            if user is not None and user.is_active:
-                auth.login(request, user)
-                request.session.set_expiry(0)
-                return HttpResponseRedirect('/' + request.session.get('login_redirect'))
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                user = auth.authenticate(
+                        username=form.cleaned_data['username'],
+                        password=form.cleaned_data['password']
+                    )
+                if user is not None and user.is_active:
+                    auth.login(request, user)
+                    request.session.set_expiry(0)
+                    return HttpResponseRedirect('/' + request.session.get('login_redirect'))
+        else:
+            form = LoginForm()
+        return render_to_response('links/login.html', {
+            'form': form
+        })
     else:
-        form = LoginForm()
-    return render_to_response('links/login.html', {
-        'redirect': request.session.get('login_redirect'),
-        'form': form
-    })
+        return HttpResponseRedirect('/');
 
 
 def register(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            new_user = User.objects.create_user(
-                    form.cleaned_data['username'],
-                    form.cleaned_data['email'],
-                    form.cleaned_data['password']
-                )
-            new_user.first_name = form.cleaned_data['firstname']
-            new_user.last_name = form.cleaned_data['lastname']
-            new_user.save()
-            new_user_profile = UserProfile(
-                    user=new_user,
-                    location=form.cleaned_data['location'],
-                    website=form.cleaned_data['website'],
-                    bio=form.cleaned_data['bio']
-                )
-            new_user_profile.save()
-            user = auth.authenticate(
-                    username = form.cleaned_data['username'],
-                    password = form.cleaned_data['password']
-                )
-            auth.login(request, user)
-            request.session.set_expiry(0)
-            return HttpResponseRedirect('/')
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = RegisterForm(request.POST)
+            if form.is_valid():
+                new_user = User.objects.create_user(
+                        form.cleaned_data['username'],
+                        form.cleaned_data['email'],
+                        form.cleaned_data['password']
+                    )
+                new_user.first_name = form.cleaned_data['firstname']
+                new_user.last_name = form.cleaned_data['lastname']
+                new_user.save()
+                new_user_profile = UserProfile(
+                        user = new_user,
+                        location = form.cleaned_data['location'],
+                        website = form.cleaned_data['website'],
+                        bio = form.cleaned_data['bio']
+                    )
+                new_user_profile.save()
+                user = auth.authenticate(
+                        username = form.cleaned_data['username'],
+                        password = form.cleaned_data['password']
+                    )
+                auth.login(request, user)
+                request.session.set_expiry(0)
+                return HttpResponseRedirect('/' + request.session.get('register_redirect', ''))
+        else:
+            form = RegisterForm()
+        return render_to_response('links/register.html', {
+                'form': form
+            })
     else:
-        form = RegisterForm()
-    return render_to_response('links/register.html', {
-            'form': form
-        })
+        return HttpResponseRedirect('/');
 
 
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
 
-def vote(request, submission_id, direction):
+
+def submissionvote(request, submission_id, direction):
     if request.user.is_authenticated():
-        submission = Submission.objects.get(pk=submission_id)
-        if SubmissionVote.objects.filter(user=request.user, submission=submission).exists():
-            SubmissionVote.objects.get(user=request.user, submission=submission)
+        submission = Submission.objects.get(pk = submission_id)
+        if SubmissionVote.objects.filter(user = request.user, submission = submission).exists():
+            SubmissionVote.objects.get(user = request.user, submission = submission)
             return HttpResponseRedirect('/')
         else:
             vote_record = SubmissionVote(

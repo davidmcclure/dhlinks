@@ -7,12 +7,11 @@
 
         <li>
 
-            <a href="/upvote/{{ submission.id }}">+</a>
-            <a href="/downvote/{{ submission.id }}">-</a>
+            <a href="/submission/upvote/{{ submission.id }}">+</a>
             <a href="{{ submission.url }}" target="_blank">{{ submission.title }}</a>
             ({{ submission.submission_type }})
             <br />
-            <span>{{ submission.number_of_votes }} vote{{ submission.abs_number_of_votes|pluralize }}</span> |
+            <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
             <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span> |
             <span><a href="/comments/{{ submission.id }}">{{ submission.number_of_comments }} Comment{{ submission.number_of_comments|pluralize }}</a></span>
 
