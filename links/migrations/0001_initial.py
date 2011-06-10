@@ -46,7 +46,6 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('submit_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('direction', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('links', ['Vote'])
 
@@ -194,7 +193,6 @@ class Migration(SchemaMigration):
         },
         'links.vote': {
             'Meta': {'object_name': 'Vote'},
-            'direction': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'submit_date': ('django.db.models.fields.DateTimeField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
