@@ -8,8 +8,10 @@ from links.forms import *
 from links.models import *
 import datetime as dt
 
+
 def frontpage(request, page_number=1):
 	return HttpResponseRedirect('/new')
+
 
 def new(request, page_number=1):
 	links_per_page = 50
@@ -19,6 +21,7 @@ def new(request, page_number=1):
 	return render_to_response('links/links.html', {
 		'submissions': submissions
 	})
+
 
 def submit(request):
 	if request.user.is_authenticated():
@@ -49,6 +52,7 @@ def submit(request):
 		request.session['login_redirect'] = 'submit'
 		return HttpResponseRedirect('/login')
 
+
 def login(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
@@ -67,6 +71,7 @@ def login(request):
 		'redirect': request.session.get('login_redirect'),
 		'form': form
 	})
+
 
 def register(request):
 	if request.method == 'POST':
@@ -100,9 +105,11 @@ def register(request):
 			'form': form
 		})
 
+
 def logout(request):
 	auth.logout(request)
 	return HttpResponseRedirect('/')
+
 
 def upvote(request, submission_id):
 	if request.user.is_authenticated():
