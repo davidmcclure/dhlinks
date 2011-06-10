@@ -29,7 +29,7 @@ def new(request, page_number = 1):
 
 
 def submit(request):
-    if request.user.is_authenticated():
+    if not request.user.is_authenticated():
         if request.method == 'POST':
             form = SubmitForm(request.POST)
             if form.is_valid():
@@ -60,7 +60,7 @@ def submit(request):
 
 
 def login(request):
-    if request.user.is_authenticated():
+    if not request.user.is_authenticated():
         if request.method == 'POST':
             form = LoginForm(request.POST)
             if form.is_valid():
@@ -71,7 +71,10 @@ def login(request):
                 if user is not None and user.is_active:
                     auth.login(request, user)
                     request.session.set_expiry(0)
-                    return HttpResponseRedirect('/' + request.session.get('login_redirect'))
+                    redirect = '/'
+                    if 'login_redirect' in request.session:
+                        redirect += request.session.get('login_redirect')
+                    return HttpResponseRedirect(redirect)
         else:
             form = LoginForm()
         return render_to_response('links/login.html', {
