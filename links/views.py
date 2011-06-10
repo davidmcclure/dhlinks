@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import auth
@@ -129,3 +130,8 @@ def vote(request, submission_id, direction):
     else:
         request.session['login_redirect'] = 'upvote/' + submission_id
         return HttpResponseRedirect('/login')
+
+
+# def jsontest(request):
+#     links = Submission.objects.all()
+#     return HttpResponse(serializers.serialize('json', links), mimetype='application/json')
