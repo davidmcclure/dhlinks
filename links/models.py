@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime as dt
 
 
 class UserProfile(models.Model):
@@ -21,6 +22,9 @@ class Submission(models.Model):
     user = models.ForeignKey(User)
     post_date = models.DateTimeField()
 
+    links_per_page = 50
+    gravity = 1.5
+
     def __unicode__(self):
         return self.title
 
@@ -29,19 +33,18 @@ class Submission(models.Model):
     number_of_comments = property(_get_number_of_comments)
 
     def _get_submission_type(self):
-        if self.url == '':
-            return 'Discussion'
-        else:
-            return 'Link'
+        return 'Discussion' if self.url == '' else 'Link'
     submission_type = property(_get_submission_type)
 
     def _get_number_of_votes(self):
-        return self.submissionvote_set.filter(direction=True).count() - self.submissionvote_set.filter(direction=False).count()
+        return self.submissionvote_set.filter(direction=True).count()
     number_of_votes = property(_get_number_of_votes)
 
-    def _get_abs_number_of_votes(self):
-        return abs(self.submissionvote_set.filter(direction=True).count() - self.submissionvote_set.filter(direction=False).count())
-    abs_number_of_votes = property(_get_abs_number_of_votes)
+    def _get_score(self):
+        votes = self._get_number_of_votes()
+        age = self.post_date - dt.datetime.now()
+        return (votes - 1) / pow(((age.seconds / 3600.00) + 2), self.gravity)
+    score = property(_get_score)
 
 
 class Comment(models.Model):
