@@ -1,42 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	
-	<title>{% block title %}Digital Humanities Links{% endblock %}</title>
+
+    <title>{% block title %}Digital Humanities Links{% endblock %}</title>
+
+    <link href="{{ STATIC_URL }}/css/style.css" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body>
-	
-	<div id="sidebar">
-		
-		<div id="logo">
-			<a href="/">DIGITAL HUMANITIES LINKS</a>
-		</div>
-		
-		<div id="navigation">
 
-			{% block navigation %}
-			
-			<ul>
-				<li><a href="/submit">submit</a></li>
-			</ul>
+    <div id="sidebar">
 
-			{% endblock %}
-			
-		</div>
-		
-	</div>
-	
-	<div id="content">
-		
-		{% block content %}{% endblock %}
-		
-	</div>
-	
+        <div id="logo">
+            <a href="/">Digital Humanities Links</a>
+        </div>
+
+        <div id="navigation">
+
+            {% block navigation %}
+
+            <ul>
+                <li><a href="/submit">submit</a></li>
+            </ul>
+
+            {% endblock %}
+
+        </div>
+
+    </div>
+
+    <div id="content">
+
+        {% block content %}{% endblock %}
+
+    </div>
+
 </body>
 
 </html>

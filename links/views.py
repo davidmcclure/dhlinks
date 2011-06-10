@@ -21,7 +21,7 @@ def new(request, page_number=1):
             [(page_number-1)*links_per_page:page_number*links_per_page]
     return render_to_response('links/links.html', {
         'submissions': submissions
-    })
+    }, context_instance=RequestContext(request))
 
 
 def submit(request):
