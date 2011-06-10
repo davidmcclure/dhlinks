@@ -98,7 +98,7 @@ def register(request):
                 )
             auth.login(request, user)
             request.session.set_expiry(0)
-            return HttpResponseRedirect('/submit')
+            return HttpResponseRedirect('/')
     else:
         form = RegisterForm()
     return render_to_response('links/register.html', {
@@ -110,18 +110,17 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
 
-
-def upvote(request, submission_id):
+def vote(request, submission_id, direction):
     if request.user.is_authenticated():
         submission = Submission.objects.get(pk=submission_id)
-        try:
+        if SubmissionVote.objects.filter(user=request.user, submission=submission).exists():
             SubmissionVote.objects.get(user=request.user, submission=submission)
             return HttpResponseRedirect('/')
-        except SubmissionVote.DoesNotExist:
+        else:
             vote_record = SubmissionVote(
                     user = request.user,
                     submission = submission,
-                    direction = True
+                    direction = direction,
                     submit_date = dt.datetime.now()
                 )
             vote_record.save()

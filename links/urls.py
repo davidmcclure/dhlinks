@@ -14,7 +14,8 @@ urlpatterns = patterns('links.views',
     (r'^login$', 'login'),
     (r'^logout', 'logout'),
     (r'^comments/(?P<submission_id>\d+)$', 'comments'),
-    (r'^upvote/(?P<submission_id>\d+)$', 'upvote'),
+    (r'^upvote/(?P<submission_id>\d+)$', 'vote', { 'direction': True }),
+    (r'^downvote/(?P<submission_id>\d+)$', 'vote', { 'direction': False }),
     (r'^register$', 'register')
 
 )
