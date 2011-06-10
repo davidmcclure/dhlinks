@@ -72,7 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/static'
+    '/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/static'
 )
 
 # List of finder classes that know how to find static files in
@@ -97,7 +97,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-	'django.middleware.csrf.CsrfResponseMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -108,7 +108,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/templates'
+    '/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/templates'
 )
 
 INSTALLED_APPS = (
@@ -118,7 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'links',
+    'links',
     'south'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

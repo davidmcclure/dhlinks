@@ -6,6 +6,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('links.views',
 
-	(r'^', include('links.urls')),
+    (r'^', include('links.urls')),
 
 )
