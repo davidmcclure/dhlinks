@@ -8,12 +8,18 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
+        # Deleting field 'Submission.upvotes'
+        db.delete_column('links_submission', 'upvotes')
+
         # Adding field 'Vote.direction'
         db.add_column('links_vote', 'direction', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
 
 
     def backwards(self, orm):
         
+        # Adding field 'Submission.upvotes'
+        db.add_column('links_submission', 'upvotes', self.gf('django.db.models.fields.PositiveIntegerField')(default=0), keep_default=False)
+
         # Deleting field 'Vote.direction'
         db.delete_column('links_vote', 'direction')
 
@@ -74,7 +80,6 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'post_date': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'upvotes': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
