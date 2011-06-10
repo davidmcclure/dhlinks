@@ -26,7 +26,6 @@ class Migration(SchemaMigration):
             ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('post_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('upvotes', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
         ))
         db.send_create_signal('links', ['Submission'])
 
@@ -37,7 +36,6 @@ class Migration(SchemaMigration):
             ('post_date', self.gf('django.db.models.fields.DateTimeField')()),
             ('submission', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['links.Submission'])),
             ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='mastercomment', null=True, to=orm['links.Comment'])),
-            ('upvotes', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
         ))
         db.send_create_signal('links', ['Comment'])
 
@@ -46,6 +44,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('submit_date', self.gf('django.db.models.fields.DateTimeField')()),
+            ('direction', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('links', ['Vote'])
 
@@ -149,8 +148,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'mastercomment'", 'null': 'True', 'to': "orm['links.Comment']"}),
             'post_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'submission': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['links.Submission']"}),
-            'upvotes': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'})
+            'submission': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['links.Submission']"})
         },
         'links.commentvote': {
             'Meta': {'object_name': 'CommentVote', '_ormbases': ['links.Vote']},
@@ -162,7 +160,6 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'post_date': ('django.db.models.fields.DateTimeField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'upvotes': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
@@ -193,6 +190,7 @@ class Migration(SchemaMigration):
         },
         'links.vote': {
             'Meta': {'object_name': 'Vote'},
+            'direction': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'submit_date': ('django.db.models.fields.DateTimeField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})

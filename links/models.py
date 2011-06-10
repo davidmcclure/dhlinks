@@ -35,6 +35,14 @@ class Submission(models.Model):
             return 'Link'
     submission_type = property(_get_submission_type)
 
+    def _get_number_of_votes(self):
+        return self.submissionvote_set.filter(direction=True).count() - self.submissionvote_set.filter(direction=False).count()
+    number_of_votes = property(_get_number_of_votes)
+
+    def _get_abs_number_of_votes(self):
+        return abs(self.submissionvote_set.filter(direction=True).count() - self.submissionvote_set.filter(direction=False).count())
+    abs_number_of_votes = property(_get_abs_number_of_votes)
+
 
 class Comment(models.Model):
 
@@ -42,7 +50,6 @@ class Comment(models.Model):
     post_date = models.DateTimeField()
     submission = models.ForeignKey(Submission)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='mastercomment')
-    upvotes = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return self.comment

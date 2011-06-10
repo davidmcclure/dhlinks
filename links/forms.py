@@ -51,7 +51,7 @@ class RegisterForm(forms.Form):
         if password != password_confirm:
             raise forms.ValidationError('Passwords do not match.')
 
-        if User.objects.get(username=cleaned_data.get('username')):
+        if User.objects.filter(username=cleaned_data.get('username')).exists():
             raise forms.ValidationError('Username taken.')
 
         return cleaned_data
