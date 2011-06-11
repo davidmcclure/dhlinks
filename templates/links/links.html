@@ -14,7 +14,6 @@
             <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
             <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span> |
             <span><a href="/comments/{{ submission.id }}">{{ submission.number_of_comments }} Comment{{ submission.number_of_comments|pluralize }}</a></span>
-            {{ submission.score }}
         </li>
 
     {% endfor %}
