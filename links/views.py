@@ -29,7 +29,7 @@ def new(request, page_number = 1):
 
 
 def submit(request):
-    if not request.user.is_authenticated():
+    if request.user.is_authenticated():
         if request.method == 'POST':
             form = SubmitForm(request.POST)
             if form.is_valid():
@@ -85,7 +85,7 @@ def login(request):
 
 
 def register(request):
-    if request.user.is_authenticated():
+    if not request.user.is_authenticated():
         if request.method == 'POST':
             form = RegisterForm(request.POST)
             if form.is_valid():

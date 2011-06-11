@@ -42,8 +42,8 @@ class Submission(models.Model):
 
     def _get_score(self):
         votes = self._get_number_of_votes()
-        age = self.post_date - dt.datetime.now()
-        return (votes - 1) / pow(((age.seconds / 3600.00) + 2), self.gravity)
+        age = dt.datetime.now() - self.post_date
+        return (votes) / pow(((age.seconds / 3600.00) + 2), self.gravity)
     score = property(_get_score)
 
 
