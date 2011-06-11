@@ -4,6 +4,8 @@ urlpatterns = patterns('links.views',
 
     (r'^$', 'frontpage'),
     (r'^(?P<page_number>\d+)$', 'frontpage'),
+    (r'^new$', 'new'),
+    (r'^new/(?P<page_number>\d+)$', 'new'),
     (r'^submit$', 'submit'),
     (r'^login$', 'login'),
     (r'^logout', 'logout'),
