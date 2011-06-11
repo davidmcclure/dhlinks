@@ -143,6 +143,7 @@ def submissionvote(request, submission_id, direction):
             return HttpResponseRedirect('/')
     else:
         request.session['login_redirect'] = 'submission/upvote/' + submission_id
+        request.session['register_redirect'] = 'submission/upvote/' + submission_id
         return HttpResponseRedirect('/login')
 
 
