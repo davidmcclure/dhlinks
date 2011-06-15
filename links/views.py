@@ -40,6 +40,13 @@ def submit(request):
                         post_date = dt.datetime.now()
                     )
                 submission.save()
+                vote_record = SubmissionVote(
+                        user = request.user,
+                        submission = submission,
+                        direction = True,
+                        submit_date = dt.datetime.now()
+                    )
+                vote_record.save()
                 if form.cleaned_data['comment'] != '':
                     firstcomment = Comment(
                             comment = form.cleaned_data['comment'],
