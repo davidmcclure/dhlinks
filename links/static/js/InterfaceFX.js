@@ -29,7 +29,7 @@ var InterfaceFX = new Class ({
             'logo_arrow_split'
         );
 
-        console.log(logo_spans);
+
 
     },
 
@@ -65,17 +65,17 @@ var InterfaceFX = new Class ({
 
     },
 
-    shuffleArray: function(arr) {
+    shuffleArray: function(a) {
 
-        for (i=0; i < arr.length; i++) {
-            swap_index = Number.random(0,arr.length-1);
-            the_el = arr[i];
-            swap_el = arr[swap_index];
-            arr[i] = swap_el;
-            arr[swap_index] = the_el;
+        for (i=0; i < a.length; i++) {
+            j = Number.random(0,a.length-1);
+            i_el = a[i];
+            j_el = a[j];
+            a[i] = j_el;
+            a[j] = i_el;
         }
 
-        return arr;
+        return a;
 
     }
 
