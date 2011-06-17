@@ -4,6 +4,14 @@ body {
     font-family: Cabin;
 }
 
+/* Layout */
+
+#sidebar {
+    float: left;
+    width: 300px;
+    margin: 0 0 0 0.4em;
+}
+
 /* Logo, left column */
 
 .logospan {
@@ -20,7 +28,7 @@ body {
 #logospan_links {
     font-size: 4.1em;
     margin: -0.2em 0 0 0;
-    color: #feb220;
+    color: #f7ba36;
     float: left;
 }
 
@@ -28,4 +36,6 @@ body {
     font-family: Consolas;
     font-size: 3em;
     letter-spacing: -0.15em;
+    color: #2b7bff;
+    margin: 0 0 0 0.2em;
 }

@@ -1,0 +1,5 @@
+var InterfaceFX = new Class ({
+
+
+
+});
