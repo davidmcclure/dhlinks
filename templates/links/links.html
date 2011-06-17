@@ -5,14 +5,24 @@
     <ol>
     {% for submission in submissions %}
 
-        <a href="/submission/upvote/{{ submission.id }}">+</a>
-        <li>
-            <a href="{{ submission.url }}" target="_blank">{{ submission.title }}</a> ({{ submission.submission_type }})
-            <br />
-            <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
-            <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span> |
-            <span><a href="/comments/{{ submission.id }}">{{ submission.number_of_comments }} Comment{{ submission.number_of_comments|pluralize }}</a></span>
-        </li>
+        <div class="link-container">
+
+            <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
+
+            <li class="link">
+                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> ({{ submission.submission_type }})
+                <div class="link-details">
+                    <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                    <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
+
+                    {% if submission.number_of_comments > 0 %}
+                        | <span><a href="/comments/{{ submission.id }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
+                    {% endif %}
+
+                </div>
+            </li>
+
+        </div>
 
     {% endfor %}
     </ul>
