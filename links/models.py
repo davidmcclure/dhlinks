@@ -36,12 +36,13 @@ class Submission(models.Model):
         return 'Discussion' if self.url == '' else 'Link'
     submission_type = property(_get_submission_type)
 
-    def _get_number_of_votes(self):
-        return self.submissionvote_set.filter(direction=True).count()
+    def _get_number_of_votes(self, minusone = True):
+        votes = self.submissionvote_set.filter(direction=True).count()
+        return votes - 1 if minusone else votes
     number_of_votes = property(_get_number_of_votes)
 
     def _get_score(self):
-        votes = self._get_number_of_votes()
+        votes = self._get_number_of_votes(minusone = False)
         age = dt.datetime.now() - self.post_date
         return (votes) / pow(((age.seconds / 3600.00) + 2), self.gravity)
     score = property(_get_score)

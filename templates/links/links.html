@@ -6,10 +6,8 @@
     {% for submission in submissions %}
 
         <li>
-
             <a href="/submission/upvote/{{ submission.id }}">+</a>
-            <a href="{{ submission.url }}" target="_blank">{{ submission.title }}</a>
-            ({{ submission.submission_type }})
+            <a href="{{ submission.url }}" target="_blank">{{ submission.title }}</a> ({{ submission.submission_type }})
             <br />
             <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
             <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span> |

@@ -1,0 +1,31 @@
+/* General */
+
+body {
+    font-family: Cabin;
+}
+
+/* Logo, left column */
+
+.logospan {
+    display: block;
+    font-weight: bold;
+}
+
+#logospan_digitalhumanities {
+    letter-spacing: 0.11em;
+    margin: 0 0 0 0.25em;
+    color: #2b7bff;
+}
+
+#logospan_links {
+    font-size: 4.1em;
+    margin: -0.2em 0 0 0;
+    color: #feb220;
+    float: left;
+}
+
+#logospan_arrow {
+    font-family: Consolas;
+    font-size: 3em;
+    letter-spacing: -0.15em;
+}
