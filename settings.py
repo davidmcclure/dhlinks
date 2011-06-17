@@ -60,7 +60,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/links/static'
+STATIC_URL = '/Users/davidmcclure/Projects/dhlinks/links/static'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -107,7 +107,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/davidmcclure/Desktop/Research/dhlinks/dhlinks/templates'
+    '/Users/davidmcclure/Projects/dhlinks/templates'
 )
 
 INSTALLED_APPS = (
