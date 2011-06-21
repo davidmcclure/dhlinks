@@ -53,7 +53,6 @@ var Logo = new Class ({
                     this.dighum_split,
                     [this.dighum_split.letters[i], '#2b7bff']
                 );
-                console.log(i, 'dh');
             }
 
             else if (lk_range.contains(i)) {
@@ -62,7 +61,6 @@ var Logo = new Class ({
                     this.links_split,
                     [this.links_split.letters[i-dh_len], '#f7ba36']
                 );
-                console.log(i, 'lk');
             }
 
             logo_c++;
