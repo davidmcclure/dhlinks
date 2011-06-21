@@ -50,14 +50,14 @@ var Letterer = new Class ({
     split_letters: function() {
 
         this.letters = [];
-        var letter_count = 0;
+        this.letter_count = 0;
 
         Array.each(this.divs, function(div) {
 
             var starting_text = div.get('text');
             div.set('html', '');
 
-            for (i=0; i<starting_text.length; i++) {
+            for (var i=0; i<starting_text.length; i++) {
 
                 var letter = starting_text[i];
                 span = new Element('span', {
@@ -69,7 +69,7 @@ var Letterer = new Class ({
 
             }
 
-            letter_count += starting_text.length;
+            this.letter_count += starting_text.length;
 
         }.bind(this));
 
@@ -77,67 +77,12 @@ var Letterer = new Class ({
 
     shift_letter_color: function(letter, color) {
 
+        letter.tween('color', color);
+
     },
 
     pop_letter_color: function(letter, color) {
 
-    },
-
-    iterate_sequential: function(delay) {
-
-        this.sequential_counter = 0;
-        this._do_sequential_iterate_step(delay);
-
-    },
-
-    _do_sequential_iterate_step: function(delay) {
-
-        if (this.sequential_counter < this.letters.length) {
-            this.fireEvent('sequentialStep', this.letters[this.sequential_counter]);
-            this.sequential_counter++;
-            this._do_sequential_iterate_step(delay);
-        }
-
-        else {
-            this.fireEvent('sequentialIterateFinished');
-        }
-
-    }.protect(),
-
-    iterate_shuffled: function(delay) {
-
-        this.shuffled_counter = 0;
-        this.shuffled_letters = this._shuffle_array(this.letters);
-        this._do_shuffled_iterate_step(delay);
-
-    },
-
-    _do_shuffled_iterate_step: function(delay) {
-
-        if (this.shuffled_counter < this.shuffled_letters.length) {
-            this.fireEvent('shuffledStep', this.shuffled_letters[this.shuffled_counter]);
-            this.shuffled_counter++;
-            this._do_shuffled_iterate_step.delay(delay, this, delay);
-        }
-
-        else {
-            this.fireEvent('shuffledIterateFinished');
-        }
-
-    }.protect(),
-
-    _shuffle_array: function(a) {
-
-        for (i=0; i < a.length; i++) {
-            j = Number.random(0,a.length-1);
-            i_el = a[i];
-            j_el = a[j];
-            a[i] = j_el;
-            a[j] = i_el;
-        }
-
-        return a;
-
-    }.protect()
+    }
 
 });
