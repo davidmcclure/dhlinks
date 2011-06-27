@@ -3,6 +3,7 @@ var Logo = new Class ({
     Implements: [Options, Events],
 
     options: {
+        container_div: 'logo',
         dighum_div: 'logospan_dighum',
         links_div: 'logospan_links',
         arrow_div: 'logospan_arrow',
@@ -24,6 +25,8 @@ var Logo = new Class ({
             links: this.links.get('text'),
             arrow: this.arrow.get('text')
         }
+
+        this.disable_select = new DisableSelect(this.options.container_div);
 
         this.split();
 
