@@ -21,6 +21,8 @@ var DisableSelect = new Class ({
             this.div.addEvent('mousedown', function() { return false; });
         }
 
+        this.div.setStyle('cursor', 'default');
+
     }
 
 
