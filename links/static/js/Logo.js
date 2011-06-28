@@ -8,7 +8,9 @@ var Logo = new Class ({
         links_div: 'logospan_links',
         arrow_div: 'logospan_arrow',
         pop_interval: 20,
-        starting_color: '#fff'
+        starting_color: '#fff',
+        orange: '#f7ba36',
+        blue: '#2b7bff'
     },
 
     initialize: function(options) {
@@ -74,6 +76,88 @@ var Logo = new Class ({
 
     },
 
+    materialize_done: function() {
+
+        this.add_letter_glosses();
+
+    },
+
+    add_letter_glosses: function() {
+
+        Array.each(this.dighum_split.letters, function(letter) {
+
+            letter.addEvents({
+
+                'mouseenter': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseover_fast);
+                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+
+                }.bind(this),
+
+                'mouseleave': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseleave_medium);
+                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+        Array.each(this.links_split.letters, function(letter) {
+
+            letter.addEvents({
+
+                'mouseenter': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseover_fast);
+                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+
+                }.bind(this),
+
+                'mouseleave': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseleave_medium);
+                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+        Array.each(this.arrow_split.letters, function(letter) {
+
+            letter.addEvents({
+
+                'mouseenter': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseover_fast);
+                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+
+                }.bind(this),
+
+                'mouseleave': function() {
+
+                    this.dighum_split.set_single_letter_tween(
+                        letter, this.dighum_split.tween_templates.mouseleave_medium);
+                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+    },
+
     fx_materialize_random: function() {
 
         this.check_state();
@@ -97,7 +181,7 @@ var Logo = new Class ({
                 this.dighum_split.shift_letter_color.delay(
                     this.options.pop_interval * logo_c,
                     this.dighum_split,
-                    [this.dighum_split.letters[i], '#2b7bff']
+                    [this.dighum_split.letters[i], this.options.blue]
                 );
             }
 
@@ -105,7 +189,7 @@ var Logo = new Class ({
                 this.links_split.shift_letter_color.delay(
                     this.options.pop_interval * logo_c,
                     this.links_split,
-                    [this.links_split.letters[i-dh_len], '#f7ba36']
+                    [this.links_split.letters[i-dh_len], this.options.orange]
                 );
             }
 
@@ -118,7 +202,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -126,6 +210,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -149,7 +234,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 this.options.pop_interval * dighum_c,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -161,7 +246,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 lk_interval * links_c,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -173,7 +258,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -181,6 +266,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -204,7 +290,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 this.options.pop_interval * dighum_c,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -216,7 +302,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 lk_interval * links_c,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -228,7 +314,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -236,6 +322,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -260,7 +347,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 this.options.pop_interval * dighum_c,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -272,7 +359,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 (lk_interval * links_c) + lk_offset,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -284,7 +371,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -292,6 +379,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -316,7 +404,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 this.options.pop_interval * dighum_c,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -328,7 +416,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 (lk_interval * links_c) + lk_offset,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -340,7 +428,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -348,6 +436,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -372,7 +461,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 (this.options.pop_interval * dighum_c) + dh_offset,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -384,7 +473,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 lk_interval * links_c,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -396,7 +485,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -404,6 +493,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -428,7 +518,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 (this.options.pop_interval * dighum_c) + dh_offset,
                 this.dighum_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             dighum_c++;
@@ -440,7 +530,7 @@ var Logo = new Class ({
             this.dighum_split.shift_letter_color.delay(
                 lk_interval * links_c,
                 this.dighum_split,
-                [letter, '#f7ba36']
+                [letter, this.options.orange]
             );
 
             links_c++;
@@ -452,7 +542,7 @@ var Logo = new Class ({
             this.arrow_split.shift_letter_color.delay(
                 ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
                 this.arrow_split,
-                [letter, '#2b7bff']
+                [letter, this.options.blue]
             );
 
             arrow_c++;
@@ -460,6 +550,7 @@ var Logo = new Class ({
         }.bind(this));
 
         this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
 
     },
 
@@ -510,5 +601,5 @@ var Logo = new Class ({
 // dev usage
 window.addEvent('domready', function() {
     this.logo = new Logo;
-    this.logo.fx_materialize_sequential_scissors();
+    this.logo.fx_materialize_sequential_circuit_bottom_up_reversed();
 });
