@@ -632,17 +632,9 @@ var Logo = new Class ({
             var delta_g = (((max - g) / 6) + (delta / 2)) / delta;
             var delta_b = (((max - b) / 6) + (delta / 2)) / delta;
 
-            if (r == max) {
-                h = delta_b - delta_g;
-            }
-
-            else if (g == max) {
-                h = (1/3) + delta_r - delta_b;
-            }
-
-            else if (b == max) {
-                h = (2/3) + delta_g - delta_r;
-            }
+            if (r == max) { h = delta_b - delta_g; }
+            else if (g == max) { h = (1/3) + delta_r - delta_b; }
+            else if (b == max) { h = (2/3) + delta_g - delta_r; }
 
             if (h < 0) { h += 1; }
             if (h > 1) { h -= 1; }
@@ -696,7 +688,7 @@ var Logo = new Class ({
 
         return [Math.round(r),Math.round(g), Math.round(b)];
 
-    },
+    }.protect(),
 
     _hex_to_hsv: function(hex) {
 
@@ -709,6 +701,17 @@ var Logo = new Class ({
         return this._rgb_to_hex(this._hsv_to_rgb(hex));
 
     }.protect(),
+
+    _calculate_intermediary: function(base, terminus, factor) {
+
+        var intermediary = [];
+        for (var i=0; i<3; i++) {
+            intermediary.append([Math.round(base[i]+((terminus[i]-base[i])*factor))]);
+        }
+
+        return intermediary;
+
+    },
 
     _shuffle_array: function(a) {
 

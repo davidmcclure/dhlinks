@@ -4,8 +4,8 @@ var Letterer = new Class ({
 
     options: {
         fade_duration: 300,
-        fate_duration_mouseover: 40,
-        fate_duration_mouseleave: 120,
+        fade_duration_mouseover: 40,
+        fade_duration_mouseleave: 60,
         fps: 100,
         transition: 'quad:out'
     },
@@ -24,12 +24,12 @@ var Letterer = new Class ({
                 transition: this.options.transition
             },
             mouseover_fast: {
-                duration: this.options.fate_duration_mouseover,
+                duration: this.options.fade_duration_mouseover,
                 fps: this.options.fps,
                 transition: this.options.transition
             },
             mouseleave_medium: {
-                duration: this.options.fate_duration_mouseover,
+                duration: this.options.fade_duration_mouseleave,
                 fps: this.options.fps,
                 transition: this.options.transition
             }
