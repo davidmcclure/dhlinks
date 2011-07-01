@@ -26,7 +26,17 @@ var Logo = new Class ({
             dighum: this.dighum.get('text'),
             links: this.links.get('text'),
             arrow: this.arrow.get('text')
-        }
+        };
+
+        this.materialize_functions = [
+            'fx_materialize_random',
+            'fx_materialize_sequential_scissors',
+            'fx_materialize_sequential_scissors_reversed',
+            'fx_materialize_sequential_circuit',
+            'fx_materialize_sequential_circuit_reversed',
+            'fx_materialize_sequential_circuit_bottom_up',
+            'fx_materialize_sequential_circuit_bottom_up_reversed'
+        ];
 
         this.disable_select = new DisableSelect(this.options.container_div);
 
@@ -155,6 +165,13 @@ var Logo = new Class ({
             });
 
         }.bind(this));
+
+    },
+
+    randomize_materialize: function() {
+
+        var number_of_functions = this.materialize_functions.length;
+        this[this.materialize_functions[Number.random(0,number_of_functions-1)]]();
 
     },
 
@@ -601,5 +618,5 @@ var Logo = new Class ({
 // dev usage
 window.addEvent('domready', function() {
     this.logo = new Logo;
-    this.logo.fx_materialize_sequential_circuit_bottom_up_reversed();
+    this.logo.randomize_materialize();
 });
