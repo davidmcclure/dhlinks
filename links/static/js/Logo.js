@@ -11,7 +11,7 @@ var Logo = new Class ({
         starting_color: '#fff',
         orange: '#f7ba36',
         blue: '#2b7bff',
-        ripple_speed: 600 // px per s
+        ripple_speed: 800 // px per s
     },
 
     initialize: function(options) {
@@ -193,73 +193,85 @@ var Logo = new Class ({
 
         Array.each(this.links_split.letters, function(letter) {
 
-            var target = letter.retrieve('center');
-            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
-            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+            if (letter != trigger_letter) {
 
-            var color = this._intensity_calculation(
-                distance,
-                this.options.orange,
-                this.options.blue
-            );
+                var target = letter.retrieve('center');
+                var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+                var delay = ((distance * 1000) / this.options.ripple_speed).round();
 
-            this.links_split.set_single_letter_tween(
-                letter,
-                this.links_split.tween_templates.shockwave
-            );
+                var color = this._intensity_calculation(
+                    distance,
+                    this.options.orange,
+                    this.options.blue
+                );
 
-            this.links_split.shockwave_ripple.delay(
-                delay,
-                this.links_split, [letter, this.options.blue, this.options.orange]
-            );
+                this.links_split.set_single_letter_tween(
+                    letter,
+                    this.links_split.tween_templates.shockwave
+                );
+
+                this.links_split.shockwave_ripple.delay(
+                    delay,
+                    this.links_split, [letter, this.options.blue, this.options.orange]
+                );
+
+            }
 
         }.bind(this));
 
         Array.each(this.dighum_split.letters, function(letter) {
 
-            var target = letter.retrieve('center');
-            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
-            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+            if (letter != trigger_letter) {
 
-            var color = this._intensity_calculation(
-                distance,
-                this.options.orange,
-                this.options.blue
-            );
+                var target = letter.retrieve('center');
+                var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+                var delay = ((distance * 1000) / this.options.ripple_speed).round();
 
-            this.dighum_split.set_single_letter_tween(
-                letter,
-                this.dighum_split.tween_templates.shockwave
-            );
+                var color = this._intensity_calculation(
+                    distance,
+                    this.options.orange,
+                    this.options.blue
+                );
 
-            this.dighum_split.shockwave_ripple.delay(
-                delay,
-                this.dighum_split, [letter, this.options.orange, this.options.blue]
-            );
+                this.dighum_split.set_single_letter_tween(
+                    letter,
+                    this.dighum_split.tween_templates.shockwave
+                );
+
+                this.dighum_split.shockwave_ripple.delay(
+                    delay,
+                    this.dighum_split, [letter, this.options.orange, this.options.blue]
+                );
+
+            }
 
         }.bind(this));
 
         Array.each(this.arrow_split.letters, function(letter) {
 
-            var target = letter.retrieve('center');
-            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
-            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+            if (letter != trigger_letter) {
 
-            var color = this._intensity_calculation(
-                distance,
-                this.options.orange,
-                this.options.blue
-            );
+                var target = letter.retrieve('center');
+                var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+                var delay = ((distance * 1000) / this.options.ripple_speed).round();
 
-            this.arrow_split.set_single_letter_tween(
-                letter,
-                this.arrow_split.tween_templates.shockwave
-            );
+                var color = this._intensity_calculation(
+                    distance,
+                    this.options.orange,
+                    this.options.blue
+                );
 
-            this.arrow_split.shockwave_ripple.delay(
-                delay,
-                this.arrow_split, [letter, this.options.orange, this.options.blue]
-            );
+                this.arrow_split.set_single_letter_tween(
+                    letter,
+                    this.arrow_split.tween_templates.shockwave
+                );
+
+                this.arrow_split.shockwave_ripple.delay(
+                    delay,
+                    this.arrow_split, [letter, this.options.orange, this.options.blue]
+                );
+
+            }
 
         }.bind(this));
 
@@ -268,13 +280,11 @@ var Logo = new Class ({
     _intensity_calculation: function(distance, base, terminus) {
 
         var intensity = (Math.E).pow(-(distance/10)/10);
-        var base_hsv = this._hex_to_hsv(base.substring(1,6));
-        var terminus_hsv = this._hex_to_hsv(terminus.substring(1,6));
-        var intermediary = this._calculate_intermediary(base_hsv, terminus_hsv, intensity);
+        var base_rgb = this._hex_to_rgb(base.substring(1,6));
+        var terminus_rgb = this._hex_to_rgb(terminus.substring(1,6));
+        var intermediary = this._calculate_intermediary(base_rgb, terminus_rgb, intensity);
 
-        console.log(intensity);
-
-        return '#' + this._hsv_to_hex(intermediary);
+        return '#' + this._rgb_to_hex(intermediary);
 
     }.protect(),
 
@@ -717,103 +727,103 @@ var Logo = new Class ({
 
     },
 
-    _rgb_to_hsv: function(rgb) {
+    // _rgb_to_hsv: function(rgb) {
 
-        var r = rgb[0]/255;
-        var g = rgb[1]/255;
-        var b = rgb[2]/255;
+    //     var r = rgb[0]/255;
+    //     var g = rgb[1]/255;
+    //     var b = rgb[2]/255;
 
-        var h = null;
-        var s = null;
-        var v = null;
+    //     var h = null;
+    //     var s = null;
+    //     var v = null;
 
-        var min = Math.min(r,g,b);
-        var max = Math.max(r,g,b);
-        var delta = max - min;
+    //     var min = Math.min(r,g,b);
+    //     var max = Math.max(r,g,b);
+    //     var delta = max - min;
 
-        v = max;
+    //     v = max;
 
-        if (delta == 0) {
-            h = 0;
-            s = 0;
-        }
+    //     if (delta == 0) {
+    //         h = 0;
+    //         s = 0;
+    //     }
 
-        else {
+    //     else {
 
-            s = delta / max;
-            var delta_r = (((max - r) / 6) + (delta / 2)) / delta;
-            var delta_g = (((max - g) / 6) + (delta / 2)) / delta;
-            var delta_b = (((max - b) / 6) + (delta / 2)) / delta;
+    //         s = delta / max;
+    //         var delta_r = (((max - r) / 6) + (delta / 2)) / delta;
+    //         var delta_g = (((max - g) / 6) + (delta / 2)) / delta;
+    //         var delta_b = (((max - b) / 6) + (delta / 2)) / delta;
 
-            if (r == max) { h = delta_b - delta_g; }
-            else if (g == max) { h = (1/3) + delta_r - delta_b; }
-            else if (b == max) { h = (2/3) + delta_g - delta_r; }
+    //         if (r == max) { h = delta_b - delta_g; }
+    //         else if (g == max) { h = (1/3) + delta_r - delta_b; }
+    //         else if (b == max) { h = (2/3) + delta_g - delta_r; }
 
-            if (h < 0) { h += 1; }
-            if (h > 1) { h -= 1; }
+    //         if (h < 0) { h += 1; }
+    //         if (h > 1) { h -= 1; }
 
-        }
+    //     }
 
-        h *= 360;
-        s *= 100;
-        v *= 100;
+    //     h *= 360;
+    //     s *= 100;
+    //     v *= 100;
 
-        return [h.round(),s.round(),v.round()];
+    //     return [h.round(),s.round(),v.round()];
 
-    }.protect(),
+    // }.protect(),
 
-    _hsv_to_rgb: function(hsv) {
+    // _hsv_to_rgb: function(hsv) {
 
-        var h = hsv[0]/360;
-        var s = hsv[1]/100;
-        var v = hsv[2]/100;
+    //     var h = hsv[0]/360;
+    //     var s = hsv[1]/100;
+    //     var v = hsv[2]/100;
 
-        var r = null;
-        var g = null;
-        var b = null;
+    //     var r = null;
+    //     var g = null;
+    //     var b = null;
 
-        if (s == 0) {
-            r = v * 255;
-            g = v * 255;
-            b = v * 255;
-        }
+    //     if (s == 0) {
+    //         r = v * 255;
+    //         g = v * 255;
+    //         b = v * 255;
+    //     }
 
-        else {
+    //     else {
 
-            var var_h = h * 6;
-            var var_i = Math.floor(var_h);
-            var var_1 = v * (1 - s);
-            var var_2 = v * (1 - s * (var_h - var_i));
-            var var_3 = v * (1 - s * (1 - (var_h - var_i)));
+    //         var var_h = h * 6;
+    //         var var_i = Math.floor(var_h);
+    //         var var_1 = v * (1 - s);
+    //         var var_2 = v * (1 - s * (var_h - var_i));
+    //         var var_3 = v * (1 - s * (1 - (var_h - var_i)));
 
-            if (var_i == 0) { r = v; g = var_3; b = var_1; }
-            else if (var_i == 1) { r = var_2; g = v; b = var_1; }
-            else if (var_i == 2) { r = var_1; g = v; b = var_3; }
-            else if (var_i == 3) { r = var_1; g = var_2; b = v; }
-            else if (var_i == 4) { r = var_3; g = var_1; b = v; }
-            else { r = v; g = var_1; b = var_2; }
+    //         if (var_i == 0) { r = v; g = var_3; b = var_1; }
+    //         else if (var_i == 1) { r = var_2; g = v; b = var_1; }
+    //         else if (var_i == 2) { r = var_1; g = v; b = var_3; }
+    //         else if (var_i == 3) { r = var_1; g = var_2; b = v; }
+    //         else if (var_i == 4) { r = var_3; g = var_1; b = v; }
+    //         else { r = v; g = var_1; b = var_2; }
 
-            r *= 255;
-            g *= 255;
-            b *= 255;
+    //         r *= 255;
+    //         g *= 255;
+    //         b *= 255;
 
-        }
+    //     }
 
-        return [r.round(),g.round(),b.round()];
+    //     return [r.round(),g.round(),b.round()];
 
-    }.protect(),
+    // }.protect(),
 
-    _hex_to_hsv: function(hex) {
+    // _hex_to_hsv: function(hex) {
 
-        return this._rgb_to_hsv(this._hex_to_rgb(hex));
+    //     return this._rgb_to_hsv(this._hex_to_rgb(hex));
 
-    }.protect(),
+    // }.protect(),
 
-    _hsv_to_hex: function(hex) {
+    // _hsv_to_hex: function(hex) {
 
-        return this._rgb_to_hex(this._hsv_to_rgb(hex));
+    //     return this._rgb_to_hex(this._hsv_to_rgb(hex));
 
-    }.protect(),
+    // }.protect(),
 
     _calculate_intermediary: function(base, terminus, factor) {
 
