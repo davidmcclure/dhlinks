@@ -33,10 +33,11 @@ var Logo = new Class ({
             'fx_materialize_random',
             'fx_materialize_sequential_scissors',
             'fx_materialize_sequential_scissors_reversed',
-            'fx_materialize_sequential_circuit',
-            'fx_materialize_sequential_circuit_reversed',
-            'fx_materialize_sequential_circuit_bottom_up',
-            'fx_materialize_sequential_circuit_bottom_up_reversed'
+            'fx_materialize_left_to_right'
+            // 'fx_materialize_sequential_circuit',
+            // 'fx_materialize_sequential_circuit_reversed',
+            // 'fx_materialize_sequential_circuit_bottom_up',
+            // 'fx_materialize_sequential_circuit_bottom_up_reversed'
         ];
 
         this.disable_select = new DisableSelect(this.options.container_div);
@@ -199,12 +200,6 @@ var Logo = new Class ({
                 var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
                 var delay = ((distance * 1000) / this.options.ripple_speed).round();
 
-                var color = this._intensity_calculation(
-                    distance,
-                    this.options.orange,
-                    this.options.blue
-                );
-
                 this.links_split.set_single_letter_tween(
                     letter,
                     this.links_split.tween_templates.shockwave
@@ -226,12 +221,6 @@ var Logo = new Class ({
                 var target = letter.retrieve('center');
                 var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
                 var delay = ((distance * 1000) / this.options.ripple_speed).round();
-
-                var color = this._intensity_calculation(
-                    distance,
-                    this.options.orange,
-                    this.options.blue
-                );
 
                 this.dighum_split.set_single_letter_tween(
                     letter,
@@ -255,12 +244,6 @@ var Logo = new Class ({
                 var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
                 var delay = ((distance * 1000) / this.options.ripple_speed).round();
 
-                var color = this._intensity_calculation(
-                    distance,
-                    this.options.orange,
-                    this.options.blue
-                );
-
                 this.arrow_split.set_single_letter_tween(
                     letter,
                     this.arrow_split.tween_templates.shockwave
@@ -277,24 +260,11 @@ var Logo = new Class ({
 
     },
 
-    _intensity_calculation: function(distance, base, terminus) {
-
-        var intensity = (Math.E).pow(-(distance/10)/10);
-        var base_rgb = this._hex_to_rgb(base.substring(1,6));
-        var terminus_rgb = this._hex_to_rgb(terminus.substring(1,6));
-        var intermediary = this._calculate_intermediary(base_rgb, terminus_rgb, intensity);
-
-        return '#' + this._rgb_to_hex(intermediary);
-
-    }.protect(),
-
     randomize_materialize: function() {
 
         var number_of_functions = this.materialize_functions.length;
         var func = this.materialize_functions[Number.random(0,number_of_functions-1)];
         this[func]();
-
-        console.log(func);
 
     },
 
@@ -438,6 +408,62 @@ var Logo = new Class ({
         }.bind(this));
 
         Array.each(this._reverse_array(this.links_split.letters), function(letter) {
+
+            this.dighum_split.shift_letter_color.delay(
+                lk_interval * links_c,
+                this.dighum_split,
+                [letter, this.options.orange]
+            );
+
+            links_c++;
+
+        }.bind(this));
+
+        Array.each(this.arrow_split.letters, function(letter) {
+
+            this.arrow_split.shift_letter_color.delay(
+                ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
+                this.arrow_split,
+                [letter, this.options.blue]
+            );
+
+            arrow_c++;
+
+        }.bind(this));
+
+        this.original_state = false;
+        this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
+
+    },
+
+    fx_materialize_left_to_right: function() {
+
+        this.check_state();
+
+        var dh_len = this.dighum_split.letter_count;
+        var lk_len = this.links_split.letter_count;
+
+        var dh_total_dur = dh_len * this.options.pop_interval;
+        var lk_interval = (dh_total_dur - this.options.pop_interval) / (lk_len - 1);
+        var arrow_offset = (dh_len + 1) * this.options.pop_interval;
+
+        var dighum_c = 0;
+        var links_c = 0;
+        var arrow_c = 0;
+
+        Array.each(this.dighum_split.letters, function(letter) {
+
+            this.dighum_split.shift_letter_color.delay(
+                this.options.pop_interval * dighum_c,
+                this.dighum_split,
+                [letter, this.options.blue]
+            );
+
+            dighum_c++;
+
+        }.bind(this));
+
+        Array.each(this.links_split.letters, function(letter) {
 
             this.dighum_split.shift_letter_color.delay(
                 lk_interval * links_c,
@@ -646,7 +672,7 @@ var Logo = new Class ({
 
         var dh_total_dur = dh_len * this.options.pop_interval;
         var lk_interval = (dh_total_dur - this.options.pop_interval) / (lk_len - 1);
-        var dh_offset = (lk_len + 1) * lk_interval;
+        var dh_offset = (lk_len) * lk_interval;
         var arrow_offset = ((dh_len + 1) * this.options.pop_interval) + ((lk_len + 1) * lk_interval);
 
         var dighum_c = 0;

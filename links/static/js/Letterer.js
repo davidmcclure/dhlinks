@@ -112,10 +112,6 @@ var Letterer = new Class ({
 
     },
 
-    pop_letter_color: function(letter, color) {
-
-    },
-
     shockwave_ripple: function(letter, color, base_color) {
 
         letter.setStyle('color', color);
