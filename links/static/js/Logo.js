@@ -578,13 +578,27 @@ var Logo = new Class ({
         var b = parseInt(hex.substring(4,6), 16);
         return [r,g,b];
 
-    },
+    }.protect(),
 
     _rgb_to_hex: function(rgb) {
 
+        var hex = '';
+        var hex_chars = '0123456789abcdef';
 
+        Array.each(rgb, function(i) {
+            var n = parseInt(i,10);
+            if (isNaN(n)) {
+                hex += '00';
+            }
+            else {
+                n = Math.max(0,Math.min(n,255));
+                hex += (hex_chars[(n-n%16)/16] + hex_chars[n%16])
+            }
+        });
 
-    }.protect(),
+        return hex;
+
+    },
 
     _rgb_to_hsv: function(hex) {
 
