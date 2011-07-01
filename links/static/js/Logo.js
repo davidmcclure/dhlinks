@@ -673,7 +673,7 @@ var Logo = new Class ({
     // "Observe and grow. I shall undertake to perform humanistic exegeses of each of
     // the following three functions that hinge firmly on the associative impressions
     // engendered by their shapes. As we (yes, skeptic, we - by reading you indulge,
-    // and so we sojourn critically together) 
+    // and so we sojourn critically together) progress,
     //
     _shuffle_array: function(a) {
 
