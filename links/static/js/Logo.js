@@ -670,9 +670,11 @@ var Logo = new Class ({
     // Typographical morphology is off limits? Then why is rather nearly nothing else
     // barred from admission as ingredient to our bubbling interpretive potion pots?"
     //
-    // "Observe. I shall undertake to perform humanistic exegeses of each of the
-    // following three functions that hinge firmly on the associative impressions
-    // engendered by their shapes.
+    // "Observe and grow. I shall undertake to perform humanistic exegeses of each of
+    // the following three functions that hinge firmly on the associative impressions
+    // engendered by their shapes. As we (yes, skeptic, we - by reading you indulge,
+    // and so we sojourn critically together) 
+    //
     _shuffle_array: function(a) {
 
         var b = Array.clone(a);
