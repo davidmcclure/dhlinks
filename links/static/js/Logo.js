@@ -571,6 +571,33 @@ var Logo = new Class ({
 
     },
 
+    _hex_to_rgb: function(hex) {
+
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+        return [r,g,b];
+
+    },
+
+    _rgb_to_hex: function(rgb) {
+
+
+
+    }.protect(),
+
+    _rgb_to_hsv: function(hex) {
+
+
+
+    }.protect(),
+
+    _hsv_to_rgb: function(hsv) {
+
+
+
+    }.protect(),
+
     _shuffle_array: function(a) {
 
         var b = Array.clone(a);
