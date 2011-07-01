@@ -10,7 +10,8 @@ var Logo = new Class ({
         pop_interval: 20,
         starting_color: '#fff',
         orange: '#f7ba36',
-        blue: '#2b7bff'
+        blue: '#2b7bff',
+        ripple_speed: 600 // px per s
     },
 
     initialize: function(options) {
@@ -112,6 +113,12 @@ var Logo = new Class ({
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.blue);
 
+                }.bind(this),
+
+                'mousedown': function() {
+
+                    this.shockwave(letter);
+
                 }.bind(this)
 
             });
@@ -135,6 +142,12 @@ var Logo = new Class ({
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.orange);
+
+                }.bind(this),
+
+                'mousedown': function() {
+
+                    this.shockwave(letter);
 
                 }.bind(this)
 
@@ -160,6 +173,12 @@ var Logo = new Class ({
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.blue);
 
+                }.bind(this),
+
+                'mousedown': function() {
+
+                    this.shockwave(letter);
+
                 }.bind(this)
 
             });
@@ -168,10 +187,104 @@ var Logo = new Class ({
 
     },
 
+    shockwave: function(trigger_letter) {
+
+        var origin = trigger_letter.retrieve('center');
+
+        Array.each(this.links_split.letters, function(letter) {
+
+            var target = letter.retrieve('center');
+            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+
+            var color = this._intensity_calculation(
+                distance,
+                this.options.orange,
+                this.options.blue
+            );
+
+            this.links_split.set_single_letter_tween(
+                letter,
+                this.links_split.tween_templates.shockwave
+            );
+
+            this.links_split.shockwave_ripple.delay(
+                delay,
+                this.links_split, [letter, this.options.blue, this.options.orange]
+            );
+
+        }.bind(this));
+
+        Array.each(this.dighum_split.letters, function(letter) {
+
+            var target = letter.retrieve('center');
+            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+
+            var color = this._intensity_calculation(
+                distance,
+                this.options.orange,
+                this.options.blue
+            );
+
+            this.dighum_split.set_single_letter_tween(
+                letter,
+                this.dighum_split.tween_templates.shockwave
+            );
+
+            this.dighum_split.shockwave_ripple.delay(
+                delay,
+                this.dighum_split, [letter, this.options.orange, this.options.blue]
+            );
+
+        }.bind(this));
+
+        Array.each(this.arrow_split.letters, function(letter) {
+
+            var target = letter.retrieve('center');
+            var distance = ((target[0]-origin[0]).pow(2) + (target[1]-origin[1]).pow(2)).sqrt();
+            var delay = ((distance * 1000) / this.options.ripple_speed).round();
+
+            var color = this._intensity_calculation(
+                distance,
+                this.options.orange,
+                this.options.blue
+            );
+
+            this.arrow_split.set_single_letter_tween(
+                letter,
+                this.arrow_split.tween_templates.shockwave
+            );
+
+            this.arrow_split.shockwave_ripple.delay(
+                delay,
+                this.arrow_split, [letter, this.options.orange, this.options.blue]
+            );
+
+        }.bind(this));
+
+    },
+
+    _intensity_calculation: function(distance, base, terminus) {
+
+        var intensity = (Math.E).pow(-(distance/10)/10);
+        var base_hsv = this._hex_to_hsv(base.substring(1,6));
+        var terminus_hsv = this._hex_to_hsv(terminus.substring(1,6));
+        var intermediary = this._calculate_intermediary(base_hsv, terminus_hsv, intensity);
+
+        console.log(intensity);
+
+        return '#' + this._hsv_to_hex(intermediary);
+
+    }.protect(),
+
     randomize_materialize: function() {
 
         var number_of_functions = this.materialize_functions.length;
-        this[this.materialize_functions[Number.random(0,number_of_functions-1)]]();
+        var func = this.materialize_functions[Number.random(0,number_of_functions-1)];
+        this[func]();
+
+        console.log(func);
 
     },
 
@@ -645,7 +758,7 @@ var Logo = new Class ({
         s *= 100;
         v *= 100;
 
-        return [Math.round(h),Math.round(s),Math.round(v)];
+        return [h.round(),s.round(),v.round()];
 
     }.protect(),
 
@@ -686,7 +799,7 @@ var Logo = new Class ({
 
         }
 
-        return [Math.round(r),Math.round(g), Math.round(b)];
+        return [r.round(),g.round(),b.round()];
 
     }.protect(),
 
@@ -706,8 +819,8 @@ var Logo = new Class ({
 
         var intermediary = [];
         for (var i=0; i<3; i++) {
-            intermediary.append(
-                [Math.round(base[i] + ((terminus[i] - base[i]) * factor))]
+            intermediary.push(
+                (base[i] + ((terminus[i] - base[i]) * factor)).round()
             );
         }
 
@@ -737,7 +850,7 @@ var Logo = new Class ({
         var b = [];
 
         while (i >= 0) {
-            b.append([a[i]]);
+            b.push(a[i]);
             i--;
         }
 
@@ -749,7 +862,7 @@ var Logo = new Class ({
 
         var r = [];
         while (a < b) {
-            r.append([a]);
+            r.push(a);
             a++
         }
 
