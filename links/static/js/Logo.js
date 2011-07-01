@@ -706,7 +706,9 @@ var Logo = new Class ({
 
         var intermediary = [];
         for (var i=0; i<3; i++) {
-            intermediary.append([Math.round(base[i]+((terminus[i]-base[i])*factor))]);
+            intermediary.append(
+                [Math.round(base[i] + ((terminus[i] - base[i]) * factor))]
+            );
         }
 
         return intermediary;
