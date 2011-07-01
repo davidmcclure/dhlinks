@@ -700,13 +700,13 @@ var Logo = new Class ({
 
     _hex_to_hsv: function(hex) {
 
-
+        return this._rgb_to_hsv(this._hex_to_rgb(hex));
 
     }.protect(),
 
     _hsv_to_hex: function(hex) {
 
-
+        return this._rgb_to_hex(this._hsv_to_rgb(hex));
 
     }.protect(),
 
