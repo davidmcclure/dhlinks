@@ -5,7 +5,8 @@ var Letterer = new Class ({
     options: {
         fade_duration: 300,
         fade_duration_mouseover: 40,
-        fade_duration_mouseleave: 60,
+        fade_duration_mouseleave: 40,
+        fade_duration_shockwave: 100,
         fps: 100,
         transition: 'quad:out'
     },
@@ -30,6 +31,11 @@ var Letterer = new Class ({
             },
             mouseleave_medium: {
                 duration: this.options.fade_duration_mouseleave,
+                fps: this.options.fps,
+                transition: this.options.transition
+            },
+            shockwave: {
+                duration: this.options.fade_duration_shockwave,
                 fps: this.options.fps,
                 transition: this.options.transition
             }
@@ -77,10 +83,18 @@ var Letterer = new Class ({
             for (var i=0; i<starting_text.length; i++) {
 
                 var letter = starting_text[i];
-                span = new Element('span', {
+                var span = new Element('span', {
                     'html': letter,
                     'id': this.id_prefix + '_' + i
                 }).inject(div);
+
+                var coords = span.getCoordinates();
+                var center_point = [
+                    (((coords.right-coords.left)/2)+coords.left).round(),
+                    (((coords.bottom-coords.top)/2)+coords.top).round()
+                ];
+
+                span.store('center', center_point);
 
                 this.letters.push(span);
 
@@ -99,6 +113,13 @@ var Letterer = new Class ({
     },
 
     pop_letter_color: function(letter, color) {
+
+    },
+
+    shockwave_ripple: function(letter, color, base_color) {
+
+        letter.setStyle('color', color);
+        letter.tween('color', base_color);
 
     }
 
