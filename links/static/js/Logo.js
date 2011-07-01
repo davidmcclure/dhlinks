@@ -653,15 +653,50 @@ var Logo = new Class ({
         s *= 100;
         v *= 100;
 
-        return [h,s,v];
+        return [Math.round(h),Math.round(s),Math.round(v)];
 
     }.protect(),
 
     _hsv_to_rgb: function(hsv) {
 
+        var h = hsv[0]/360;
+        var s = hsv[1]/100;
+        var v = hsv[2]/100;
 
+        var r = null;
+        var g = null;
+        var b = null;
 
-    }.protect(),
+        if (s == 0) {
+            r = v * 255;
+            g = v * 255;
+            b = v * 255;
+        }
+
+        else {
+
+            var var_h = h * 6;
+            var var_i = Math.floor(var_h);
+            var var_1 = v * (1 - s);
+            var var_2 = v * (1 - s * (var_h - var_i));
+            var var_3 = v * (1 - s * (1 - (var_h - var_i)));
+
+            if (var_i == 0) { r = v; g = var_3; b = var_1; }
+            else if (var_i == 1) { r = var_2; g = v; b = var_1; }
+            else if (var_i == 2) { r = var_1; g = v; b = var_3; }
+            else if (var_i == 3) { r = var_1; g = var_2; b = v; }
+            else if (var_i == 4) { r = var_3; g = var_1; b = v; }
+            else { r = v; g = var_1; b = var_2; }
+
+            r *= 255;
+            g *= 255;
+            b *= 255;
+
+        }
+
+        return [Math.round(r),Math.round(g), Math.round(b)];
+
+    },
 
     _hex_to_hsv: function(hex) {
 
