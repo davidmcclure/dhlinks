@@ -89,6 +89,7 @@ var Letterer = new Class ({
                 }).inject(div);
 
                 var coords = span.getCoordinates();
+
                 var center_point = [
                     (((coords.right-coords.left)/2)+coords.left).round(),
                     (((coords.bottom-coords.top)/2)+coords.top).round()
@@ -109,10 +110,6 @@ var Letterer = new Class ({
     shift_letter_color: function(letter, color) {
 
         letter.tween('color', color);
-
-    },
-
-    pop_letter_color: function(letter, color) {
 
     },
 
