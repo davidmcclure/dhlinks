@@ -89,6 +89,7 @@ var Letterer = new Class ({
                 }).inject(div);
 
                 var coords = span.getCoordinates();
+
                 var center_point = [
                     (((coords.right-coords.left)/2)+coords.left).round(),
                     (((coords.bottom-coords.top)/2)+coords.top).round()
