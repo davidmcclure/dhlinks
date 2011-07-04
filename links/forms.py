@@ -13,6 +13,7 @@ class SubmitForm(forms.Form):
         cleaned_data = self.cleaned_data
         url = cleaned_data.get('url')
         title = cleaned_data.get('title')
+        tags = cleaned_data.get('tags')
         comment = cleaned_data.get('comment')
 
         if url == '' and comment == '':

@@ -11,11 +11,14 @@ import datetime as dt
 
 
 def frontpage(request, page_number = 1):
+
     page_number = int(page_number)
     # Earthshatteringly slow way of doing the sort. How do do this?
     submissions = sorted(Submission.objects.all(), key = lambda a: a.score, reverse = True);
+    tags = Tag.objects.all()
     return render_to_response('links/links.html', {
-        'submissions': submissions
+        'submissions': submissions,
+        'tags': tags
     }, context_instance=RequestContext(request))
 
 
@@ -23,8 +26,10 @@ def new(request, page_number = 1):
     page_number = int(page_number)
     submissions = Submission.objects.all().order_by('-post_date')\
             [(page_number - 1) * Submission.links_per_page : page_number * Submission.links_per_page]
+    tags = Tag.objects.all()
     return render_to_response('links/links.html', {
-        'submissions': submissions
+        'submissions': submissions,
+        'tags': tags
     }, context_instance=RequestContext(request))
 
 
@@ -40,6 +45,19 @@ def submit(request):
                         post_date = dt.datetime.now()
                     )
                 submission.save()
+                if form.cleaned_data['tags'] != '':
+                    tags = form.cleaned_data['tags'].replace(' ', '').split(',')
+                    for tag in tags:
+                        if not Tag.objects.filter(tag=tag):
+                            parent_tag = Tag(tag = tag)
+                            parent_tag.save()
+                        else:
+                            parent_tag = Tag.objects.filter(tag=tag)
+                        tag_submission = TagSubmission(
+                                    submission = submission,
+                                    tag = parent_tag
+                            )
+                        tag_submission.save()
                 vote_record = SubmissionVote(
                         user = request.user,
                         submission = submission,
