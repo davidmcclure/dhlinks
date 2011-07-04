@@ -34,10 +34,6 @@ var Logo = new Class ({
             'fx_materialize_sequential_scissors',
             'fx_materialize_sequential_scissors_reversed',
             'fx_materialize_left_to_right'
-            // 'fx_materialize_sequential_circuit',
-            // 'fx_materialize_sequential_circuit_reversed',
-            // 'fx_materialize_sequential_circuit_bottom_up',
-            // 'fx_materialize_sequential_circuit_bottom_up_reversed'
         ];
 
         this.disable_select = new DisableSelect(this.options.container_div);
