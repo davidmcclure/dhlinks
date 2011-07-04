@@ -9,12 +9,16 @@
     <link href="{{ STATIC_URL }}/css/style.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Cabin:regular,regularitalic,500,500italic,600,600italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/mootools-core-1.3.2-full-nocompat.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Letterer.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Link.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
-    <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>-->
+    {% block javascript %}
+
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/mootools-core-1.3.2-full-nocompat.js"></script>-->
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>-->
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/Letterer.js"></script>-->
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/Link.js"></script>-->
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>-->
+        <!-- <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>-->
+
+    {% endblock %}
 
 </head>
 
