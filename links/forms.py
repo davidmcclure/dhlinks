@@ -5,6 +5,7 @@ class SubmitForm(forms.Form):
 
     url = forms.URLField(required=False, label='URL')
     title = forms.CharField(required=True)
+    tags = forms.CharField(required=False)
     comment = forms.CharField(widget=forms.Textarea(), required=False)
 
     def clean(self):

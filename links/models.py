@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime as dt
+import urlparse
 
 
 class UserProfile(models.Model):
@@ -33,7 +34,7 @@ class Submission(models.Model):
     number_of_comments = property(_get_number_of_comments)
 
     def _get_submission_type(self):
-        return 'Discussion' if self.url == '' else 'Link'
+        return '' if self.url == '' else '(' + self._get_base_url() + ')'
     submission_type = property(_get_submission_type)
 
     def _get_number_of_votes(self, minusone = True):
@@ -46,6 +47,10 @@ class Submission(models.Model):
         age = dt.datetime.now() - self.post_date
         return (votes) / pow(((age.seconds / 3600.00) + 2), self.gravity)
     score = property(_get_score)
+
+    def _get_base_url(self):
+        parse = urlparse.urlparse(self.url)
+        return parse.netloc[4:] if parse.netloc[0:4] == 'www.' else parse.netloc
 
 
 class Comment(models.Model):
