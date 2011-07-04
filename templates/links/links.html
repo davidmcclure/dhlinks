@@ -8,6 +8,18 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/mootools-core-1.3.2-full-nocompat.js"></script>
 {% endblock %}
 
+{% block tags %}
+
+    <ul id="tag-list">
+    {% for tag in tags %}
+
+        <li>{{ tag.tag }}</li>
+
+    {% endfor %}
+    </ul>
+
+{% endblock %}
+
 {% block content %}
 
     <ol>
@@ -18,8 +30,12 @@
             <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
 
             <li class="link">
-                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> <span class="submission-type">{{ submission.submission_type }}</span>
+
+                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+                <span class="submission-type"><a href="{{ submission.url }}" target="_blank" class="link-base-url">{{ submission.submission_type }}</a></span>
+
                 <div class="link-details">
+
                     <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
                     <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
 

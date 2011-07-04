@@ -39,14 +39,21 @@
 
         </div>
 
-    </div>
+        <div id="tags">
 
-    <div id="content">
+            {% block tags %}
+            {% endblock %}
 
-        {% block content %}{% endblock %}
+        </div>
 
-    </div>
+        </div>
 
-</body>
+        <div id="content">
 
-</html>
+            {% block content %}{% endblock %}
+
+        </div>
+
+    </body>
+
+    </html>

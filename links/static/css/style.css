@@ -49,6 +49,15 @@ body {
     margin: 0 0 0 0.2em;
 }
 
+/* Tags */
+
+ul#tag-list {
+    list-style: none;
+    text-align: right;
+    font-size: 0.7em;
+    color: #9B9B9B;
+}
+
 /* Links */
 
 ol {
@@ -79,9 +88,17 @@ a.link-title {
     font-weight: bold;
 }
 
+a.link-base-url {
+    text-decoration: none;
+    font-weight: normal;
+    color: #b1ceff;
+}
+
 span.submission-type {
-    font-size: 0.8em;
-    color: gray;
+    font-size: 0.7em;
+    position: relative;
+    top: -1px;
+    color: #9B9B9B;
 }
 
 a.comments-link {

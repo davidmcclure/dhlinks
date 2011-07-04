@@ -45,7 +45,8 @@ class Submission(models.Model):
     def _get_score(self):
         votes = self._get_number_of_votes(minusone = False)
         age = dt.datetime.now() - self.post_date
-        return (votes) / pow(((age.seconds / 3600.00) + 2), self.gravity)
+        total_seconds = (age.microseconds + (age.seconds + age.days * 24 * 3600) * 10**6) / 10**6
+        return (votes) / pow(((total_seconds / 3600.00) + 2), self.gravity)
     score = property(_get_score)
 
     def _get_base_url(self):
@@ -98,3 +99,6 @@ class TagSubmission(models.Model):
 
     submission = models.ForeignKey(Submission)
     tag = models.ForeignKey(Tag)
+
+    def __unicode__(self):
+        return self.submission.title + ' ~ ' + self.tag.tag
