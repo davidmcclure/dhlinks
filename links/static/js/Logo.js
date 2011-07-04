@@ -212,7 +212,7 @@ var Logo = new Class ({
 
                 this.links_split.shockwave_ripple.delay(
                     delay,
-                    this.links_split, [letter, this.options.blue, this.options.orange]
+                    this.links_split, [letter, color, this.options.orange]
                 );
 
             }
@@ -240,7 +240,7 @@ var Logo = new Class ({
 
                 this.dighum_split.shockwave_ripple.delay(
                     delay,
-                    this.dighum_split, [letter, this.options.orange, this.options.blue]
+                    this.dighum_split, [letter, color, this.options.blue]
                 );
 
             }
@@ -268,7 +268,7 @@ var Logo = new Class ({
 
                 this.arrow_split.shockwave_ripple.delay(
                     delay,
-                    this.arrow_split, [letter, this.options.orange, this.options.blue]
+                    this.arrow_split, [letter, color, this.options.blue]
                 );
 
             }
