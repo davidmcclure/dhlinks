@@ -94,6 +94,14 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.tag
 
+    def _get_total_submissions(self):
+        return self.tagsubmission_set.count()
+    count = property(_get_total_submissions)
+
+    def _get_url_slug(self):
+        return '-'.join(self.tag.split(' '))
+    url_slug = property(_get_url_slug)
+
 
 class TagSubmission(models.Model):
 

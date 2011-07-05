@@ -55,8 +55,30 @@ ul#tag-list {
     list-style: none;
     text-align: right;
     font-size: 0.7em;
-    color: #9B9B9B;
     margin: 0 54px 0 0;
+}
+
+.tag-container {
+    margin: 0.4em 0 0 0;
+}
+
+.tag-container a {
+    text-decoration: none;
+    color: #9B9B9B;
+}
+
+li.tag {
+    clear: left;
+}
+
+.tag-count {
+    color: #9CC1FF;
+    font-size: 0.5em;
+    position: relative;
+    float: right;
+    left: 4px;
+    top: 2px;
+    font-family: Consolas, Cabin;
 }
 
 /* Links */
@@ -93,6 +115,7 @@ a.link-base-url {
     text-decoration: none;
     font-weight: normal;
     color: #9CC1FF;
+    font-family: Consolas, Cabin;
 }
 
 span.submission-type {

@@ -46,8 +46,9 @@ def submit(request):
                     )
                 submission.save()
                 if form.cleaned_data['tags'] != '':
-                    tags = form.cleaned_data['tags'].replace(' ', '').split(',')
+                    tags = form.cleaned_data['tags'].split(',')
                     for tag in tags:
+                        tag = tag.strip().lower()
                         if not Tag.objects.filter(tag=tag):
                             parent_tag = Tag(tag = tag)
                             parent_tag.save()
