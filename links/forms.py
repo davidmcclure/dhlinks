@@ -40,9 +40,6 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(required=True)
     firstname = forms.CharField(required=True, label='First Name')
     lastname = forms.CharField(required=True, label='Last Name')
-    location = forms.CharField(required=False)
-    website = forms.URLField(required=False)
-    bio = forms.CharField(widget=forms.Textarea(), required=False)
 
     def clean(self):
 
