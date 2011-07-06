@@ -7,10 +7,15 @@ import urlparse
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
-    karma = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
-        return self.username
+        return self.user.username
+
+    def _get_karma(self):
+        comment_count = Comment.objects.filter(submission__user = self.user).count()
+        upvote_count = SubmissionVote.objects.filter(submission__user = self.user).count()
+        return comment_count + upvote_count;
+    karms = property(_get_karma)
 
 
 class Submission(models.Model):
