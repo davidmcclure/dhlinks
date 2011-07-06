@@ -15,7 +15,7 @@
 
         <div class="tag-container">
             <span class="tag-count">{{ tag.count }}</span>
-            <li class="tag"><a href="/tag/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
+            <li class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
         </div>
 
     {% endfor %}
@@ -24,6 +24,13 @@
 {% endblock %}
 
 {% block content %}
+
+    <div id="content-header">
+
+        {% block tag %}
+        {% endblock %}
+
+    </div>
 
     <ol>
     {% for submission in submissions %}

@@ -15,10 +15,18 @@ body {
 
 #content {
     float: left;
-    margin: 42px 0 0 27px;
+    margin: 0px 0 0 27px;
+}
+
+#content-header {
+    height: 42px;
 }
 
 /* Logo, left column */
+
+#logo a {
+    text-decoration: none;
+}
 
 .logospan {
     display: block;
@@ -79,6 +87,14 @@ li.tag {
     left: 4px;
     top: 2px;
     font-family: Consolas, Cabin;
+}
+
+.tag-title {
+    color: #9CC1FF;
+    font-family: Consolas, Cabin;
+    position: relative;
+    top: 10px;
+    left: 15px;
 }
 
 /* Links */
