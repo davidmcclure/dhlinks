@@ -10,26 +10,34 @@ from links.models import *
 import datetime as dt
 
 
-def frontpage(request, page_number = 1):
+def frontpage(request):
 
-    page_number = int(page_number)
     # Earthshatteringly slow way of doing the sort. How do do this?
     submissions = sorted(Submission.objects.all(), key = lambda a: a.score, reverse = True);
-    tags = Tag.objects.all()
+    tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags
     }, context_instance=RequestContext(request))
 
 
-def new(request, page_number = 1):
-    page_number = int(page_number)
-    submissions = Submission.objects.all().order_by('-post_date')\
-            [(page_number - 1) * Submission.links_per_page : page_number * Submission.links_per_page]
-    tags = Tag.objects.all()
+def new(request):
+    submissions = Submission.objects.all().order_by('-post_date')
+    tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags
+    }, context_instance=RequestContext(request))
+
+
+def tag(request, tag):
+    tag = tag.replace('-', ' ')
+    submissions = sorted(Submission.objects.filter(tagsubmission__tag__tag = tag), key = lambda a: a.score, reverse = True);
+    tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
+    return render_to_response('links/tag.html', {
+        'submissions': submissions,
+        'tags': tags,
+        'tag': tag
     }, context_instance=RequestContext(request))
 
 
@@ -48,17 +56,17 @@ def submit(request):
                 if form.cleaned_data['tags'] != '':
                     tags = form.cleaned_data['tags'].split(',')
                     for tag in tags:
-                        tag = tag.strip().lower()
-                        if not Tag.objects.filter(tag=tag):
-                            parent_tag = Tag(tag = tag)
-                            parent_tag.save()
-                        else:
-                            parent_tag = Tag.objects.filter(tag=tag)
-                        tag_submission = TagSubmission(
-                                    submission = submission,
-                                    tag = parent_tag
-                            )
-                        tag_submission.save()
+                        if len(tag) <= 30:
+                            tag = tag.strip().lower()
+                            parent_tag = Tag.objects.filter(tag = tag)
+                            if not parent_tag:
+                                parent_tag = Tag(tag = tag)
+                                parent_tag.save()
+                            tag_submission = TagSubmission(
+                                        submission = submission,
+                                        tag = parent_tag[0]
+                                )
+                            tag_submission.save()
                 vote_record = SubmissionVote(
                         user = request.user,
                         submission = submission,
