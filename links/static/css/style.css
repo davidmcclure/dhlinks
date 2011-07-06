@@ -97,6 +97,14 @@ li.tag {
     left: 15px;
 }
 
+.selected-tag a {
+    color: #9CC1FF;
+}
+
+.selected-tagcount {
+    color: #9B9B9B;
+}
+
 /* Links */
 
 ol {
