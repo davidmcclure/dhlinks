@@ -42,7 +42,12 @@
             <li class="link">
 
                 <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
-                <span class="submission-type"><a href="{{ submission.url }}" target="_blank" class="link-base-url">{{ submission.submission_type }}</a></span>
+
+                <span class="submission-details">
+                    {% if submission.submission_type == 'link' %}
+                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(<img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /></span>{{ submission.base_url }}<span class="gray-parentheses">)</span></a>
+                    {% endif %}
+                </span>
 
                 <div class="link-details">
 

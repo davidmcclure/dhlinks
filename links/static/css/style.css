@@ -142,7 +142,7 @@ a.link-base-url {
     font-family: Consolas, Cabin;
 }
 
-span.submission-type {
+span.submission-details {
     font-size: 0.7em;
     position: relative;
     top: -1px;
@@ -157,4 +157,14 @@ a.comments-link {
 .link-details {
     color: #9b9b9b;
     font-size: 0.7em;
+}
+
+span.gray-parentheses {
+    color: #9B9B9B;
+}
+
+img.submission-type-icon {
+    position: relative;
+    margin: 0 2px 0 2px;
+    top: 1px;
 }
