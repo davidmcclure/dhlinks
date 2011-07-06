@@ -8,9 +8,6 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
     karma = models.PositiveIntegerField(default=0)
-    location = models.CharField(max_length=50)
-    website = models.CharField(max_length=200)
-    bio = models.TextField()
 
     def __unicode__(self):
         return self.username
