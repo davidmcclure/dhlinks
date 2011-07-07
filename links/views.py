@@ -59,12 +59,13 @@ def submit(request):
                         if len(tag) <= 30:
                             tag = tag.strip().lower()
                             parent_tag = Tag.objects.filter(tag = tag)
-                            if not parent_tag:
+                            if parent_tag: parent_tag = parent_tag[0]
+                            else:
                                 parent_tag = Tag(tag = tag)
                                 parent_tag.save()
                             tag_submission = TagSubmission(
                                         submission = submission,
-                                        tag = parent_tag[0]
+                                        tag = parent_tag
                                 )
                             tag_submission.save()
                 vote_record = SubmissionVote(
