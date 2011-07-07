@@ -35,10 +35,6 @@ class Submission(models.Model):
         return self.comment_set.all().count()
     number_of_comments = property(_get_number_of_comments)
 
-    # def _get_submission_type(self):
-    #     return '' if self.url == '' else '(' + self._get_base_url() + ')'
-    # submission_type = property(_get_submission_type)
-
     def _get_submission_type(self):
         return 'discussion' if self.url == '' else 'link'
     submission_type = property(_get_submission_type)
@@ -59,6 +55,10 @@ class Submission(models.Model):
         parse = urlparse.urlparse(self.url)
         return parse.netloc[4:] if parse.netloc[0:4] == 'www.' else parse.netloc
     base_url = property(_get_base_url)
+
+    def _user_has_voted(self, user):
+        vote = SubmissionVote.objects.filter(user = user, submission = self)
+        return True if vote else False;
 
 
 class Comment(models.Model):
