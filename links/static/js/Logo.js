@@ -11,13 +11,19 @@ var Logo = new Class ({
         starting_color: '#fff',
         orange: '#f7ba36',
         blue: '#2b7bff',
-        ripple_speed: 800 // px per s
+        gray: '#9b9b9b',
+        light_blue: '#9cc1ff'
     },
 
     initialize: function(options) {
 
         this.setOptions(options);
         this.original_state = true;
+
+        this.container_div = document.id(this.options.container_div);
+        this.dighum_div = document.id(this.options.dighum_div);
+        this.links_div = document.id(this.options.links_div);
+        this.arrow_div = document.id(this.options.arrow_div);
 
         this.dighum = document.id(this.options.dighum_div);
         this.links = document.id(this.options.links_div);
@@ -36,7 +42,7 @@ var Logo = new Class ({
             'fx_materialize_left_to_right'
         ];
 
-        this.disable_select = new DisableSelect(this.options.container_div);
+        this.disable_select = new DisableSelect(this.container_div);
 
         this.split();
 
@@ -44,18 +50,18 @@ var Logo = new Class ({
 
     split: function() {
 
-        this.dighum_split = new Letterer(
-            [this.options.dighum_div],
+        this.dighum_split = new LetterSplitter(
+            [this.dighum_div],
             'dighum'
         );
 
-        this.links_split = new Letterer(
-            [this.options.links_div],
+        this.links_split = new LetterSplitter(
+            [this.links_div],
             'links'
         );
 
-        this.arrow_split = new Letterer(
-            [this.options.arrow_div],
+        this.arrow_split = new LetterSplitter(
+            [this.arrow_div],
             'arrow'
         );
 
