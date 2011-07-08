@@ -30,8 +30,14 @@ def frontpage(request):
 def new(request):
     submissions = Submission.objects.all().order_by('-post_date')
     tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
+    has_voted_tuples = []
+    for s in submissions:
+        if request.user.is_authenticated():
+            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+        else:
+            has_voted_tuples.append((s, False))
     return render_to_response('links/links.html', {
-        'submissions': submissions,
+        'submissions': has_voted_tuples,
         'tags': tags
     }, context_instance=RequestContext(request))
 
@@ -40,8 +46,14 @@ def tag(request, tag):
     tag = tag.replace('-', ' ')
     submissions = sorted(Submission.objects.filter(tagsubmission__tag__tag = tag), key = lambda a: a.score, reverse = True);
     tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
+    has_voted_tuples = []
+    for s in submissions:
+        if request.user.is_authenticated():
+            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+        else:
+            has_voted_tuples.append((s, False))
     return render_to_response('links/tag.html', {
-        'submissions': submissions,
+        'submissions': has_voted_tuples,
         'tags': tags,
         'tag': tag
     }, context_instance=RequestContext(request))

@@ -68,9 +68,10 @@ var LetterSplitter = new Class ({
     split_letters: function() {
 
         this.letters = [];
+        this.letter_count = 0;
 
         Array.each(this.divs, function(div) {
-            console.log(div);
+
             var starting_text = div.get('text');
             div.set('html', '');
 
@@ -86,6 +87,8 @@ var LetterSplitter = new Class ({
                 this.letters.push(letter);
 
             }
+
+            this.letter_count += starting_text.length;
 
         }.bind(this));
 
