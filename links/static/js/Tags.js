@@ -1,4 +1,4 @@
-var TagStack = new Class ({
+var Tags = new Class ({
 
     Implements: [Options, Events],
 
@@ -8,7 +8,7 @@ var TagStack = new Class ({
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
         tween_settings: {
-            duration: 70,
+            duration: 90,
             fps: 100,
             transition: 'quad:out'
         }
@@ -59,5 +59,5 @@ var TagStack = new Class ({
 
 // dev usage
 window.addEvent('domready', function() {
-    this.logo = new TagStack('tag');
+    this.tags = new Tags('tag');
 });
