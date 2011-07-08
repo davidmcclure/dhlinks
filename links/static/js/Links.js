@@ -23,17 +23,53 @@ var Links = new Class ({
 
         Array.each(this.links_dom, function(link_dom) {
 
-            var link_title = link_dom.getChildren('li.link a.link-title');
-            var link_base_url = link_dom.getChildren('li.link span.base-url-text');
+            var link_title = link_dom.getElement('li.link a.link-title');
+            var link_base_url = link_dom.getElement('li.link span.base-url-text');
 
-            this.links.push([
-                new LetterSplitter([link_title], 'linklet'),
-                new LetterSplitter([link_base_url], 'urllet')
-            ]);
+            this._set_tweens(link_title, this.options.tween_settings);
+            if (link_base_url) { this._set_tweens(link_base_url, this.options.tween_settings); }
+
+            if (link_base_url) {
+                this.links.push($$([link_title, link_base_url]));
+            }
+
+            else {
+                this.links.push($$([link_title]));
+            }
 
         }.bind(this));
 
-    }
+        Array.each(this.links, function(link) {
+
+               link.addEvents({
+
+                'mouseenter': function() {
+
+                    link.tween('color', this.options.orange);
+
+                }.bind(this),
+
+                'mouseleave': function() {
+
+                    link[0].tween('color', this.options.blue);
+
+                    if (link[1] != undefined) {
+                        link[1].tween('color', this.options.light_blue);
+                    }
+
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+    },
+
+    _set_tweens: function(dom, settings) {
+
+        dom.set('tween', settings);
+
+    }.protect()
 
 });
 
