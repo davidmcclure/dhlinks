@@ -1,5 +1,19 @@
 {% extends 'links/base.html' %}
 
+{% block css %}
+    <link href="{{ STATIC_URL }}/css/style.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/mootools-core-1.3.2-full-nocompat.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/LetterSplitter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Letter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+{% endblock %}
+
 {% block content %}
 
 	<h3>Register</h3>
