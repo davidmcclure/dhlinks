@@ -120,6 +120,11 @@ ol {
     top: -1px;
 }
 
+.has-voted {
+    color: #d4d4d4;
+    cursor: default;
+}
+
 li.link {
     margin: 0 0 0 1em;
     list-style-position: inside;

@@ -12,11 +12,17 @@ import datetime as dt
 
 def frontpage(request):
 
-    # Earthshatteringly slow way of doing the sort. How do do this?
+    # Earthshatteringly slow way of doing the sort. How to do this?
     submissions = sorted(Submission.objects.all(), key = lambda a: a.score, reverse = True);
     tags = sorted(Tag.objects.all(), key = lambda a: a.count, reverse = True)
+    has_voted_tuples = []
+    for s in submissions:
+        if request.user.is_authenticated():
+            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+        else:
+            has_voted_tuples.append((s, False))
     return render_to_response('links/links.html', {
-        'submissions': submissions,
+        'submissions': has_voted_tuples,
         'tags': tags
     }, context_instance=RequestContext(request))
 
@@ -46,7 +52,7 @@ def submit(request):
         if request.method == 'POST':
             form = SubmitForm(request.POST)
             if form.is_valid():
-                submission = Submission(
+                submission = Submission( # BREAK ALL OF THESE ADDERS OFF INTO MODEL CLASSES
                         url = form.cleaned_data['url'],
                         title = form.cleaned_data['title'],
                         user = request.user,
@@ -56,7 +62,7 @@ def submit(request):
                 if form.cleaned_data['tags'] != '':
                     tags = form.cleaned_data['tags'].split(',')
                     for tag in tags:
-                        if len(tag) <= 30:
+                        if len(tag) <= 30: # check this in the form class, bounce back if any of the tags are too long
                             tag = tag.strip().lower()
                             parent_tag = Tag.objects.filter(tag = tag)
                             if parent_tag: parent_tag = parent_tag[0]

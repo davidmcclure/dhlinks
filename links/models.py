@@ -58,7 +58,7 @@ class Submission(models.Model):
 
     def _user_has_voted(self, user):
         vote = SubmissionVote.objects.filter(user = user, submission = self)
-        return True if vote else False;
+        return True if vote else False
 
 
 class Comment(models.Model):

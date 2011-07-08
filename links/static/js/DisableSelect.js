@@ -1,8 +1,8 @@
 var DisableSelect = new Class ({
 
-    initialize: function(div_name) {
+    initialize: function(div) {
 
-        this.div = document.id(div_name);
+        this.div = div;
         this.disable_select();
 
     },
