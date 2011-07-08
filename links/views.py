@@ -105,7 +105,7 @@ def submit(request):
             form = SubmitForm()
         return render_to_response('links/submit.html', {
             'form': form
-        })
+        }, context_instance=RequestContext(request))
     else:
         request.session['login_redirect'] = 'submit'
         request.session['register_redirect'] = 'submit'
@@ -132,7 +132,7 @@ def login(request):
             form = LoginForm()
         return render_to_response('links/login.html', {
             'form': form
-        })
+        }, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/');
 
@@ -168,7 +168,7 @@ def register(request):
             form = RegisterForm()
         return render_to_response('links/register.html', {
                 'form': form
-            })
+            }, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/');
 
