@@ -39,11 +39,11 @@
     </div>
 
     <ol>
-    {% for submission, has_voted in submissions %}
+    {% for submission in submissions %}
 
         <div class="link-container">
 
-            {% if not has_voted %}
+            {% if not submission.has_voted %}
                 <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
             {% else %}
                 <span class="upvote-link has-voted">+</span>

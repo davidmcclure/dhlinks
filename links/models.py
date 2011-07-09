@@ -4,6 +4,7 @@ import datetime as dt
 import urlparse
 
 
+
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
@@ -18,12 +19,34 @@ class UserProfile(models.Model):
     karms = property(_get_karma)
 
 
+class SubmissionManager(models.Manager):
+
+    def rank(self, user):
+        result_list = []
+        for row in self.model.objects.all():
+            result_row = self.model(id = row.id, url = row.url, title = row.title, user = row.user, post_date = row.post_date)
+            submsision = self.model.objects.get(id = row.id)
+            result_row.has_voted = submsision.user_has_voted(user)
+            result_list.append(result_row)
+        return sorted(result_list, key = lambda a: a.score, reverse = True)
+
+    def tag_rank(self, user, tag):
+        result_list = []
+        for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
+            result_row = self.model(id = row.id, url = row.url, title = row.title, user = row.user, post_date = row.post_date)
+            submsision = self.model.objects.get(id = row.id)
+            result_row.has_voted = submsision.user_has_voted(user)
+            result_list.append(result_row)
+        return sorted(result_list, key = lambda a: a.score, reverse = True)
+
 class Submission(models.Model):
 
     url = models.CharField(max_length=500, null=True)
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User)
     post_date = models.DateTimeField()
+
+    objects = SubmissionManager()
 
     links_per_page = 50
     gravity = 1.5
@@ -61,6 +84,7 @@ class Submission(models.Model):
         return True if vote else False
 
 
+
 class Comment(models.Model):
 
     comment = models.TextField()
@@ -72,11 +96,14 @@ class Comment(models.Model):
         return self.comment
 
 
+
 class Vote(models.Model):
 
     user = models.ForeignKey(User)
     submit_date = models.DateTimeField()
     direction = models.BooleanField()
+
+
 
 class SubmissionVote(Vote):
 
@@ -84,6 +111,7 @@ class SubmissionVote(Vote):
 
     def __unicode__(self):
         return self.submission.title
+
 
 
 class CommentVote(Vote):
@@ -94,9 +122,16 @@ class CommentVote(Vote):
         return self.comment.comment
 
 
+class TagManager(models.Manager):
+
+    def rank(self):
+        return sorted(self.model.objects.all(), key = lambda a: a.count, reverse = True)
+
 class Tag(models.Model):
 
     tag = models.CharField(max_length=50)
+
+    objects = TagManager()
 
     def __unicode__(self):
         return self.tag
@@ -108,6 +143,7 @@ class Tag(models.Model):
     def _get_url_slug(self):
         return '-'.join(self.tag.split(' '))
     url_slug = property(_get_url_slug)
+
 
 
 class TagSubmission(models.Model):
