@@ -85,13 +85,6 @@ var LetterSplitter = new Class ({
 
         letter.tween('color', color);
 
-    },
-
-    shockwave_ripple: function(letter, color, base_color) {
-
-        letter.setStyle('color', color);
-        letter.tween('color', base_color);
-
     }
 
 });
