@@ -74,18 +74,17 @@ def submit(request):
                 if form.cleaned_data['tags'] != '':
                     tags = form.cleaned_data['tags'].split(',')
                     for tag in tags:
-                        if len(tag) <= 30: # check this in the form class, bounce back if any of the tags are too long
-                            tag = tag.strip().lower()
-                            parent_tag = Tag.objects.filter(tag = tag)
-                            if parent_tag: parent_tag = parent_tag[0]
-                            else:
-                                parent_tag = Tag(tag = tag)
-                                parent_tag.save()
-                            tag_submission = TagSubmission(
-                                        submission = submission,
-                                        tag = parent_tag
-                                )
-                            tag_submission.save()
+                        tag = tag.strip().lower()
+                        parent_tag = Tag.objects.filter(tag = tag)
+                        if parent_tag: parent_tag = parent_tag[0]
+                        else:
+                            parent_tag = Tag(tag = tag)
+                            parent_tag.save()
+                        tag_submission = TagSubmission(
+                                    submission = submission,
+                                    tag = parent_tag
+                            )
+                        tag_submission.save()
                 vote_record = SubmissionVote(
                         user = request.user,
                         submission = submission,
