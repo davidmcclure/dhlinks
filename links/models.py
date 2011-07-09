@@ -56,7 +56,7 @@ class Submission(models.Model):
         return parse.netloc[4:] if parse.netloc[0:4] == 'www.' else parse.netloc
     base_url = property(_get_base_url)
 
-    def _user_has_voted(self, user):
+    def user_has_voted(self, user):
         vote = SubmissionVote.objects.filter(user = user, submission = self)
         return True if vote else False
 
