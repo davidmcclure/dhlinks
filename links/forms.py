@@ -8,13 +8,9 @@ class SubmitForm(forms.Form):
     tags = forms.CharField(required=False)
     comment = forms.CharField(widget=forms.Textarea(), required=False)
 
-    def clean(self):
+    def clean_url(self):
 
-        cleaned_data = self.cleaned_data
-        url = cleaned_data.get('url')
-        title = cleaned_data.get('title')
-        tags = cleaned_data.get('tags')
-        comment = cleaned_data.get('comment')
+        url = self.cleaned_data.get('url')
 
         if url == '' and comment == '':
             raise forms.ValidationError('Enter a comment.')
@@ -23,13 +19,17 @@ class SubmitForm(forms.Form):
             if url == '' and comment == '':
                 raise forms.ValidationError('Enter a comment.')
 
-        tags = tags.split(',')
+        return url
+
+    def clean_tags(self):
+
+        tags = self.cleaned_data.get('tags').split(',')
         for tag in tags:
             tag = tag.strip().lower()
             if len(tag) > 30:
                 raise forms.ValidationError('Tags have to be shorter than 30 characters')
 
-        return cleaned_data
+        return tags
 
 
 class LoginForm(forms.Form):

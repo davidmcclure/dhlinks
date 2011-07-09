@@ -45,51 +45,58 @@ def tag(request, tag):
 
 
 def submit(request):
+
     if request.user.is_authenticated():
+
         if request.method == 'POST':
+
             form = SubmitForm(request.POST)
+
             if form.is_valid():
-                submission = Submission( # BREAK ALL OF THESE ADDERS OFF INTO MODEL CLASSES
-                        url = form.cleaned_data['url'],
-                        title = form.cleaned_data['title'],
-                        user = request.user,
-                        post_date = dt.datetime.now()
-                    )
+
+                url = form.cleaned_data['url'],
+                title = form.cleaned_data['title'],
+                comment = form.cleaned_data['comment'],
+                user = request.user,
+                post_date = dt.datetime.now()
+
+                submission = Submission(
+                    url = url,
+                    title = title,
+                    user = user,
+                    post_date = post_date)
                 submission.save()
-                if form.cleaned_data['tags'] != '':
-                    tags = form.cleaned_data['tags'].split(',')
-                    for tag in tags:
-                        tag = tag.strip().lower()
-                        parent_tag = Tag.objects.filter(tag = tag)
-                        if parent_tag: parent_tag = parent_tag[0]
-                        else:
-                            parent_tag = Tag(tag = tag)
-                            parent_tag.save()
-                        tag_submission = TagSubmission(
-                                    submission = submission,
-                                    tag = parent_tag
-                            )
-                        tag_submission.save()
+
+                for tag in tags:
+                    new_tag = Tag(tag = tag)
+                    parent_tag = new_tag.save()
+                    tag_submission = TagSubmission(
+                        submission = submission
+                        tag = parent_tag)
+                    tag_submission.save()
+
                 vote_record = SubmissionVote(
-                        user = request.user,
-                        submission = submission,
-                        direction = True,
-                        submit_date = dt.datetime.now()
-                    )
+                    user = user,
+                    submission = submission,
+                    direction = True,
+                    submit_date = post_date)
                 vote_record.save()
-                if form.cleaned_data['comment'] != '':
-                    firstcomment = Comment(
-                            comment = form.cleaned_data['comment'],
-                            post_date = dt.datetime.now(),
-                            submission = submission
-                        )
-                    firstcomment.save()
+
+                if comment != '':
+                    first_comment = Comment(
+                        comment = comment,
+                        post_date = post_date,
+                        submission = submission)
+                    first_comment.save()
+
                 return HttpResponseRedirect('/')
-        else:
-            form = SubmitForm()
+
+        else: form = SubmitForm()
+
         return render_to_response('links/submit.html', {
             'form': form
         }, context_instance=RequestContext(request))
+
     else:
         request.session['login_redirect'] = 'submit'
         request.session['register_redirect'] = 'submit'

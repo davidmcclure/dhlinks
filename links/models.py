@@ -133,6 +133,14 @@ class Tag(models.Model):
 
     objects = TagManager()
 
+    def save(self, *args, **kwargs):
+        duplicate_test = Tag.objects.filter(tag = self.tag)
+        if len(duplicate_test) > 0:
+            return duplicate_test[0]
+        else:
+            super(Tag, self).save(*args, **kwargs)
+            return self
+
     def __unicode__(self):
         return self.tag
 
@@ -142,8 +150,7 @@ class Tag(models.Model):
 
     def _get_url_slug(self):
         return '-'.join(self.tag.split(' '))
-    url_slug = property(_get_url_slug)
-
+    url_slug = property(_get_url_slugo
 
 
 class TagSubmission(models.Model):
