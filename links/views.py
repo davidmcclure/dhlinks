@@ -18,7 +18,7 @@ def frontpage(request):
     has_voted_tuples = []
     for s in submissions:
         if request.user.is_authenticated():
-            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+            has_voted_tuples.append((s, s.user_has_voted(request.user)))
         else:
             has_voted_tuples.append((s, False))
     return render_to_response('links/links.html', {
@@ -33,7 +33,7 @@ def new(request):
     has_voted_tuples = []
     for s in submissions:
         if request.user.is_authenticated():
-            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+            has_voted_tuples.append((s, s.user_has_voted(request.user)))
         else:
             has_voted_tuples.append((s, False))
     return render_to_response('links/links.html', {
@@ -49,7 +49,7 @@ def tag(request, tag):
     has_voted_tuples = []
     for s in submissions:
         if request.user.is_authenticated():
-            has_voted_tuples.append((s, s._user_has_voted(request.user)))
+            has_voted_tuples.append((s, s.user_has_voted(request.user)))
         else:
             has_voted_tuples.append((s, False))
     return render_to_response('links/tag.html', {
