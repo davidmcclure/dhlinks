@@ -12,7 +12,7 @@ var Links = new Class ({
             fps: 100,
             transition: 'quad:out'
         },
-        fadeout_duration: 220
+        fadeout_duration: 250
     },
 
     initialize: function(link_container_class, has_voted_class, options) {

@@ -23,6 +23,12 @@ class SubmitForm(forms.Form):
             if url == '' and comment == '':
                 raise forms.ValidationError('Enter a comment.')
 
+        tags = tags.split(',')
+        for tag in tags:
+            tag = tag.strip().lower()
+            if len(tag) > 30:
+                raise forms.ValidationError('Tags have to be shorter than 30 characters')
+
         return cleaned_data
 
 
