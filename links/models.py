@@ -92,10 +92,9 @@ class Submission(models.Model):
     base_url = property(_get_base_url)
 
     def user_has_voted(self, user):
+        vote = []
         if user.is_authenticated():
             vote = SubmissionVote.objects.filter(user = user, submission = self)
-        else:
-            vote = []
         return True if vote else False
 
 
