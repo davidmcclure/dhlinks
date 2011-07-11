@@ -11,6 +11,7 @@ class SubmitForm(forms.Form):
     def clean_url(self):
 
         url = self.cleaned_data.get('url')
+        title = self.cleaned_data.get('title')
 
         if url == '' and comment == '':
             raise forms.ValidationError('Enter a comment.')
