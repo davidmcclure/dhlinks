@@ -105,14 +105,22 @@ def submit(request):
 
 
 def login(request):
+
     if not request.user.is_authenticated():
+
         if request.method == 'POST':
+
             form = LoginForm(request.POST)
+
             if form.is_valid():
+
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+
                 user = auth.authenticate(
-                        username=form.cleaned_data['username'],
-                        password=form.cleaned_data['password']
-                    )
+                    username = username,
+                    password = password)
+
                 if user is not None and user.is_active:
                     auth.login(request, user)
                     request.session.set_expiry(0)
@@ -120,13 +128,14 @@ def login(request):
                     if 'login_redirect' in request.session:
                         redirect += request.session.get('login_redirect')
                     return HttpResponseRedirect(redirect)
-        else:
-            form = LoginForm()
+
+        else: form = LoginForm()
+
         return render_to_response('links/login.html', {
             'form': form
         }, context_instance=RequestContext(request))
-    else:
-        return HttpResponseRedirect('/');
+
+    else: return HttpResponseRedirect('/');
 
 
 def register(request):
