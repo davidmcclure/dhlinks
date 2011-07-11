@@ -106,10 +106,7 @@ def login(request):
                 if user is not None and user.is_active:
                     auth.login(request, user)
                     request.session.set_expiry(0)
-                    redirect = '/'
-                    if 'login_redirect' in request.session:
-                        redirect += request.session.get('login_redirect')
-                    return HttpResponseRedirect(redirect)
+                    return HttpResponseRedirect('/' + request.session.get('login_redirect', ''))
 
         else: form = LoginForm()
 
@@ -130,35 +127,31 @@ def register(request):
 
             if form.is_valid():
 
-                new_user = User.objects.create_user(
-                    form.cleaned_data['username'],
-                    form.cleaned_data['email'],
-                    form.cleaned_data['password'])
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                email = form.cleaned_data['email']
+                firstname = form.cleaned_data['firstname']
+                lastname = form.cleaned_data['lastname']
 
-                new_user.first_name = form.cleaned_data['firstname']
-                new_user.last_name = form.cleaned_data['lastname']
-                new_user.save()
-                new_user_profile = UserProfile(
-                        user = new_user,
-                        location = form.cleaned_data['location'],
-                        website = form.cleaned_data['website'],
-                        bio = form.cleaned_data['bio']
-                    )
-                new_user_profile.save()
+                UserProfile.objects.create_user(
+                    username, email, password, firstname, lastname)
+
                 user = auth.authenticate(
-                        username = form.cleaned_data['username'],
-                        password = form.cleaned_data['password']
-                    )
+                    username = username,
+                    password = password)
+
                 auth.login(request, user)
                 request.session.set_expiry(0)
+
                 return HttpResponseRedirect('/' + request.session.get('register_redirect', ''))
-        else:
-            form = RegisterForm()
+
+        else: form = RegisterForm()
+
         return render_to_response('links/register.html', {
                 'form': form
             }, context_instance=RequestContext(request))
-    else:
-        return HttpResponseRedirect('/');
+
+    else: return HttpResponseRedirect('/');
 
 
 def logout(request):
