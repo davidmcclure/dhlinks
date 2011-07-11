@@ -54,10 +54,11 @@ def submit(request):
 
             if form.is_valid():
 
-                url = form.cleaned_data['url'],
-                title = form.cleaned_data['title'],
-                comment = form.cleaned_data['comment'],
-                user = request.user,
+                url = form.cleaned_data['url']
+                title = form.cleaned_data['title']
+                comment = form.cleaned_data['comment']
+                tags = form.cleaned_data['tags']
+                user = request.user
                 post_date = dt.datetime.now()
 
                 submission = Submission(
