@@ -5,9 +5,22 @@ import urlparse
 
 
 
+class UserProfileManager(models.Manager):
+
+    def create_user(self, username, email, password, firstname, lastname):
+        new_user = User.objects.create_user(
+            username, email, password)
+        new_user.first_name = firstname
+        new_user.last_name = lastname
+        new_user.save()
+        new_user_profile = UserProfile(user = new_user)
+        new_user_profile.save()
+
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
+
+    objects = UserProfileManager()
 
     def __unicode__(self):
 
