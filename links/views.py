@@ -71,7 +71,7 @@ def submit(request):
                     new_tag = Tag(tag = tag)
                     parent_tag = new_tag.save()
                     tag_submission = TagSubmission(
-                        submission = submission
+                        submission = submission,
                         tag = parent_tag)
                     tag_submission.save()
 
