@@ -25,12 +25,15 @@ class SubmitForm(forms.Form):
     def clean_tags(self):
 
         tags = self.cleaned_data.get('tags').split(',')
+        cleaned_tags = []
         for tag in tags:
             tag = tag.strip().lower()
             if len(tag) > 30:
                 raise forms.ValidationError('Tags have to be shorter than 30 characters')
+            else:
+                cleaned_tags.append(tag)
 
-        return tags
+        return cleaned_tags
 
 
 class LoginForm(forms.Form):

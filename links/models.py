@@ -51,6 +51,15 @@ class SubmissionManager(models.Manager):
             result_list.append(result_row)
         return sorted(result_list, key = lambda a: a.score, reverse = True)
 
+    def create_submission(self, url, title, user, post_date):
+        submission = Submission(
+            url = url,
+            title = title,
+            user = user,
+            post_date = post_date)
+        submission.save()
+        return submission
+
 class Submission(models.Model):
 
     url = models.CharField(max_length=500, null=True)
@@ -99,12 +108,24 @@ class Submission(models.Model):
 
 
 
+class CommentManager(models.Manager):
+
+    def create_comment(self, comment, post_date, submission):
+        if comment != '':
+            first_comment = Comment(
+                comment = comment,
+                post_date = post_date,
+                submission = submission)
+            first_comment.save()
+
 class Comment(models.Model):
 
     comment = models.TextField()
     post_date = models.DateTimeField()
     submission = models.ForeignKey(Submission)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='mastercomment')
+
+    objects = CommentManager()
 
     def __unicode__(self):
         return self.comment
@@ -119,9 +140,21 @@ class Vote(models.Model):
 
 
 
+class SubmissionVoteManager(models.Manager):
+
+    def create_vote(self, user, submission, direction, post_date):
+        vote_record = SubmissionVote(
+            user = user,
+            submission = submission,
+            direction = direction,
+            submit_date = post_date)
+        vote_record.save()
+
 class SubmissionVote(Vote):
 
     submission = models.ForeignKey(Submission)
+
+    objects = SubmissionVoteManager()
 
     def __unicode__(self):
         return self.submission.title
@@ -141,6 +174,15 @@ class TagManager(models.Manager):
     def rank(self):
         return sorted(self.model.objects.all(), key = lambda a: a.count, reverse = True)
 
+    def create_tags(self, tags, submission):
+       for tag in tags:
+            new_tag = Tag(tag = tag)
+            parent_tag = new_tag.save()
+            tag_submission = TagSubmission(
+                submission = submission,
+                tag = parent_tag)
+            tag_submission.save()
+
 class Tag(models.Model):
 
     tag = models.CharField(max_length=50)
@@ -149,10 +191,10 @@ class Tag(models.Model):
 
     def save(self, *args, **kwargs):
         duplicate_test = Tag.objects.filter(tag = self.tag)
-        if len(duplicate_test) > 0:
+        if duplicate_test:
             return duplicate_test[0]
         else:
-            super(Tag, self).save(*args, **kwargs)
+            super(Tag, self).save(self, *args, **kwargs)
             return self
 
     def __unicode__(self):
