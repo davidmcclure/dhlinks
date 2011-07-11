@@ -163,6 +163,9 @@ class SubmissionVoteManager(models.Manager):
             submit_date = post_date)
         vote_record.save()
 
+    def vote_exists(self, user, submission):
+        return True if SubmissionVote.objects.filter(user = user, submission = submission).exists() else False
+
 class SubmissionVote(Vote):
 
     submission = models.ForeignKey(Submission)

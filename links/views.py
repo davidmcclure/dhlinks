@@ -161,21 +161,21 @@ def logout(request):
 
 
 def submissionvote(request, submission_id, direction):
+
     if request.user.is_authenticated():
+
         submission = Submission.objects.get(pk = submission_id)
-        if SubmissionVote.objects.filter(user = request.user, submission = submission).exists():
-            SubmissionVote.objects.get(user = request.user, submission = submission)
+        user = request.user
+        submit_date = dt.datetime.now()
+
+        if SubmissionVote.objects.vote_exists(user, submission):
             return HttpResponseRedirect('/')
+
         else:
-            vote_record = SubmissionVote(
-                    user = request.user,
-                    submission = submission,
-                    direction = direction,
-                    submit_date = dt.datetime.now()
-                )
-            vote_record.save()
-            submission.save()
+            SubmissionVote.objects.create_vote(
+                user, submission, direction, submit_date)
             return HttpResponseRedirect('/')
+
     else:
         request.session['login_redirect'] = 'submission/upvote/' + submission_id
         request.session['register_redirect'] = 'submission/upvote/' + submission_id
