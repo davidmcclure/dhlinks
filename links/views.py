@@ -61,34 +61,16 @@ def submit(request):
                 user = request.user
                 post_date = dt.datetime.now()
 
-                submission = Submission(
-                    url = url,
-                    title = title,
-                    user = user,
-                    post_date = post_date)
-                submission.save()
+                submission = Submission.objects.create_submission(
+                    url, title, user, post_date)
 
-                for tag in tags:
-                    new_tag = Tag(tag = tag)
-                    parent_tag = new_tag.save()
-                    tag_submission = TagSubmission(
-                        submission = submission,
-                        tag = parent_tag)
-                    tag_submission.save()
+                Tag.objects.create_tags(tags, submission)
 
-                vote_record = SubmissionVote(
-                    user = user,
-                    submission = submission,
-                    direction = True,
-                    submit_date = post_date)
-                vote_record.save()
+                SubmissionVote.objects.create_vote(
+                    user, submission, True, post_date)
 
-                if comment != '':
-                    first_comment = Comment(
-                        comment = comment,
-                        post_date = post_date,
-                        submission = submission)
-                    first_comment.save()
+                Comment.objects.create_comment(
+                    comment, post_date, submission)
 
                 return HttpResponseRedirect('/')
 
@@ -139,15 +121,20 @@ def login(request):
 
 
 def register(request):
+
     if not request.user.is_authenticated():
+
         if request.method == 'POST':
+
             form = RegisterForm(request.POST)
+
             if form.is_valid():
+
                 new_user = User.objects.create_user(
-                        form.cleaned_data['username'],
-                        form.cleaned_data['email'],
-                        form.cleaned_data['password']
-                    )
+                    form.cleaned_data['username'],
+                    form.cleaned_data['email'],
+                    form.cleaned_data['password'])
+
                 new_user.first_name = form.cleaned_data['firstname']
                 new_user.last_name = form.cleaned_data['lastname']
                 new_user.save()
