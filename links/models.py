@@ -10,12 +10,15 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     def __unicode__(self):
+
         return self.user.username
 
     def _get_karma(self):
+
         comment_count = Comment.objects.filter(submission__user = self.user).count()
         upvote_count = SubmissionVote.objects.filter(submission__user = self.user).count()
         return comment_count + upvote_count;
+
     karms = property(_get_karma)
 
 
@@ -24,7 +27,12 @@ class SubmissionManager(models.Manager):
     def rank(self, user):
         result_list = []
         for row in self.model.objects.all():
-            result_row = self.model(id = row.id, url = row.url, title = row.title, user = row.user, post_date = row.post_date)
+            result_row = self.model(
+                    id = row.id,
+                    url = row.url,
+                    title = row.title,
+                    user = row.user,
+                    post_date = row.post_date)
             submsision = self.model.objects.get(id = row.id)
             result_row.has_voted = submsision.user_has_voted(user)
             result_list.append(result_row)
@@ -33,7 +41,11 @@ class SubmissionManager(models.Manager):
     def tag_rank(self, user, tag):
         result_list = []
         for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
-            result_row = self.model(id = row.id, url = row.url, title = row.title, user = row.user, post_date = row.post_date)
+            result_row = self.model(id = row.id,
+                    url = row.url,
+                    title = row.title,
+                    user = row.user,
+                    post_date = row.post_date)
             submsision = self.model.objects.get(id = row.id)
             result_row.has_voted = submsision.user_has_voted(user)
             result_list.append(result_row)
@@ -150,7 +162,7 @@ class Tag(models.Model):
 
     def _get_url_slug(self):
         return '-'.join(self.tag.split(' '))
-    url_slug = property(_get_url_slugo
+    url_slug = property(_get_url_slug)
 
 
 class TagSubmission(models.Model):
