@@ -15,12 +15,11 @@ var Links = new Class ({
         fadeout_duration: 250
     },
 
-    initialize: function(link_container_class, has_voted_class, options) {
+    initialize: function(link_container_class, batch_class, options) {
 
         this.setOptions(options);
-        this.links_dom = $$('.' + link_container_class);
+        this.links_dom = $$('.' + link_container_class + '.' + batch_class);
         this.links = [];
-        this.has_voted_upvotelinks = $$('.' + has_voted_class);
 
         Array.each(this.links_dom, function(link_dom) {
 
@@ -81,5 +80,5 @@ var Links = new Class ({
 
 // dev usage
 window.addEvent('domready', function() {
-    this.links = new Links('link-container', 'has-voted');
+    this.links = new Links('link-container', 'batch1');
 });
