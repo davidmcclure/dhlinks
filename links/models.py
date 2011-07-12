@@ -190,6 +190,9 @@ class TagManager(models.Manager):
     def rank(self):
         return sorted(self.model.objects.all(), key = lambda a: a.count, reverse = True)
 
+    def get_by_url_slug(self, slug):
+        return self.model.objects.get(tag = slug.replace('-', ' '))
+
     def create_tags(self, tags, submission):
        for tag in tags:
             new_tag = Tag(tag = tag)

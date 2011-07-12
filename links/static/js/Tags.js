@@ -35,7 +35,7 @@ var Tags = new Class ({
 
                     'mouseleave': function() {
                         this._set_tweens(tag, { duration: this.options.fadeout_duration });
-                        this.fade_tag(tag, this.options.gray);
+                        this.fade_tag(tag, this.options.blue);
                     }.bind(this)
 
                 });

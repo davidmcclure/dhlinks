@@ -35,6 +35,8 @@ var Logo = new Class ({
             arrow: this.arrow.get('text')
         };
 
+        this.last_blink_id = null;
+
         this.materialize_functions = [
             'fx_materialize_random',
             'fx_materialize_sequential_scissors',
@@ -100,9 +102,13 @@ var Logo = new Class ({
 
         Array.each(this.dighum_split.letters, function(letter) {
 
+            letter.store('selection_status', false);
+
             letter.addEvents({
 
                 'mouseenter': function() {
+
+                    letter.store('selection_status', true);
 
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseover_fast);
@@ -112,15 +118,11 @@ var Logo = new Class ({
 
                 'mouseleave': function() {
 
+                    letter.store('selection_status', false);
+
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.blue);
-
-                }.bind(this),
-
-                'mousedown': function() {
-
-                    this.shockwave(letter);
 
                 }.bind(this)
 
@@ -130,9 +132,13 @@ var Logo = new Class ({
 
         Array.each(this.links_split.letters, function(letter) {
 
+            letter.store('selection_status', false);
+
             letter.addEvents({
 
                 'mouseenter': function() {
+
+                    letter.store('selection_status', true);
 
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseover_fast);
@@ -142,15 +148,11 @@ var Logo = new Class ({
 
                 'mouseleave': function() {
 
+                    letter.store('selection_status', false);
+
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.orange);
-
-                }.bind(this),
-
-                'mousedown': function() {
-
-                    this.shockwave(letter);
 
                 }.bind(this)
 
@@ -160,9 +162,13 @@ var Logo = new Class ({
 
         Array.each(this.arrow_split.letters, function(letter) {
 
+            letter.store('selection_status', false);
+
             letter.addEvents({
 
                 'mouseenter': function() {
+
+                    letter.store('selection_status', true);
 
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseover_fast);
@@ -172,21 +178,19 @@ var Logo = new Class ({
 
                 'mouseleave': function() {
 
+                    letter.store('selection_status', false);
+
                     this.dighum_split.set_single_letter_tween(
                         letter, this.dighum_split.tween_templates.mouseleave_medium);
                     this.dighum_split.shift_letter_color(letter, this.options.blue);
-
-                }.bind(this),
-
-                'mousedown': function() {
-
-                    this.shockwave(letter);
 
                 }.bind(this)
 
             });
 
         }.bind(this));
+
+
 
     },
 
@@ -419,6 +423,49 @@ var Logo = new Class ({
 
         this.original_state = false;
         this.materialize_done.delay(((this.options.pop_interval * 5) * (arrow_c + 1)) + arrow_offset, this);
+
+    },
+
+    _random_letter_blink: function() {
+
+        var id = this._get_random_letter();
+        while (id == this.last_blink_id) {
+            id = this._get_random_letter();
+        }
+
+        this.last_blink_id = id;
+
+        if (id < this.dighum_split.letters.length) {
+
+            var letter = this.dighum_split.letters[id];
+
+            if (letter.retrieve('selection_status', true)) {
+                this._random_letter_blink(); 
+            }
+
+            this.dighum_split.set_single_letter_tween(letter, this.dighum_split.tween_templates.fast_pop);
+            this.dighum_split.pop_letter(letter, this.options.orange, this.options.blue);
+
+        }
+
+        else {
+
+            var letter = this.links_split.letters[id - (this.dighum_split.letters.length + 1)];
+
+            if (letter.retrieve('selection_status', true)) {
+                this._random_letter_blink();
+            }
+
+            this.links_split.set_single_letter_tween(letter, this.links_split.tween_templates.fast_pop);
+            this.links_split.pop_letter(letter, this.options.blue, this.options.orange);
+
+        }
+
+    },
+
+    _get_random_letter: function() {
+
+        return Number.random(0, (this.dighum_split.letters.length + this.links_split.letters.length) - 1);
 
     },
 

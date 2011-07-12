@@ -6,6 +6,8 @@ var LetterSplitter = new Class ({
         fade_duration: 300,
         fade_duration_mouseover: 40,
         fade_duration_mouseleave: 40,
+        fade_duration_slow_pop: 2000,
+        fade_duration_fast_pop: 500,
         fps: 100,
         transition: 'quad:out'
     },
@@ -32,7 +34,18 @@ var LetterSplitter = new Class ({
                 duration: this.options.fade_duration_mouseleave,
                 fps: this.options.fps,
                 transition: this.options.transition
+            },
+            slow_pop: {
+                duration: this.options.fade_duration_slow_pop,
+                fps: this.options.fps,
+                transition: this.options.transition
+            },
+            fast_pop: {
+                duration: this.options.fade_duration_fast_pop,
+                fps: this.options.fps,
+                transition: this.options.transition
             }
+
         };
 
         this.set_all_letter_tweens(this.tween_templates.default);
@@ -84,6 +97,13 @@ var LetterSplitter = new Class ({
     shift_letter_color: function(letter, color) {
 
         letter.tween('color', color);
+
+    },
+
+    pop_letter: function(letter, color, base_color) {
+
+        letter.setStyle('color', color);
+        letter.tween('color', base_color);
 
     }
 

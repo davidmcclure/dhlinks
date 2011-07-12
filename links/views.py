@@ -36,6 +36,7 @@ def tag(request, tag):
 
     submissions = Submission.objects.tag_rank(request.user, tag)
     tags = Tag.objects.rank()
+    tag = Tag.objects.get_by_url_slug(tag)
 
     return render_to_response('links/tag.html', {
         'submissions': submissions,
