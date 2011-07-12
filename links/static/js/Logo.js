@@ -426,49 +426,6 @@ var Logo = new Class ({
 
     },
 
-    _random_letter_blink: function() {
-
-        var id = this._get_random_letter();
-        while (id == this.last_blink_id) {
-            id = this._get_random_letter();
-        }
-
-        this.last_blink_id = id;
-
-        if (id < this.dighum_split.letters.length) {
-
-            var letter = this.dighum_split.letters[id];
-
-            if (letter.retrieve('selection_status', true)) {
-                this._random_letter_blink(); 
-            }
-
-            this.dighum_split.set_single_letter_tween(letter, this.dighum_split.tween_templates.fast_pop);
-            this.dighum_split.pop_letter(letter, this.options.orange, this.options.blue);
-
-        }
-
-        else {
-
-            var letter = this.links_split.letters[id - (this.dighum_split.letters.length + 1)];
-
-            if (letter.retrieve('selection_status', true)) {
-                this._random_letter_blink();
-            }
-
-            this.links_split.set_single_letter_tween(letter, this.links_split.tween_templates.fast_pop);
-            this.links_split.pop_letter(letter, this.options.blue, this.options.orange);
-
-        }
-
-    },
-
-    _get_random_letter: function() {
-
-        return Number.random(0, (this.dighum_split.letters.length + this.links_split.letters.length) - 1);
-
-    },
-
     _shuffle_array: function(a) {
 
         var b = Array.clone(a);
