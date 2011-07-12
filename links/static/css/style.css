@@ -72,7 +72,7 @@ ul#tag-list {
 
 .tag-container a {
     text-decoration: none;
-    color: #9B9B9B;
+    color: #2b7bff;
 }
 
 li.tag {
@@ -98,11 +98,7 @@ li.tag {
 }
 
 .selected-tag a {
-    color: #9CC1FF;
-}
-
-.selected-tagcount {
-    color: #9B9B9B;
+    color: #f7ba36;
 }
 
 /* Links */
