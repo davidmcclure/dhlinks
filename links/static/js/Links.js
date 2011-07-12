@@ -25,7 +25,7 @@ var Links = new Class ({
 
             var link_title = link_dom.getElement('li.link a.link-title');
             var link_base_url = link_dom.getElement('li.link span.base-url-text');
-            var comments_link = link_dom.getElement('.comments-link');
+            var comments_link = link_dom.getElement('a.comments-link');
 
             this._set_tweens([link_title], this.options.tween_settings);
             if (link_base_url) { this._set_tweens([link_base_url], this.options.tween_settings); }
@@ -37,6 +37,10 @@ var Links = new Class ({
 
             else if (link_base_url && comments_link) {
                 this.links.push($$([link_title, link_base_url, comments_link]));
+            }
+
+            else if (!link_base_url && comments_link) {
+                this.links.push($$([link_title, comments_link]))
             }
 
             else {
@@ -63,7 +67,8 @@ var Links = new Class ({
                     link[0].tween('color', this.options.blue);
 
                     if (link[1] != undefined) {
-                        link[1].tween('color', this.options.light_blue);
+                        if (link[1].hasClass('base-url-text')) { link[1].tween('color', this.options.light_blue); }
+                        else if (link[1].hasClass('comments-link')) { link[1].tween('color', this.options.blue); }
                     }
 
                     if (link[2] != undefined) {
