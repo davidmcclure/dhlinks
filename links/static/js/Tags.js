@@ -11,7 +11,8 @@ var Tags = new Class ({
             duration: 90,
             fps: 100,
             transition: 'quad:out'
-        }
+        },
+        fadeout_duration: 250
     },
 
     initialize: function(tag_class, options) {
@@ -28,10 +29,12 @@ var Tags = new Class ({
                 tag.addEvents({
 
                     'mouseenter': function() {
+                        this._set_tweens(tag, { duration: this.options.tween_settings.duration });
                         this.fade_tag(tag, this.options.orange);
                     }.bind(this),
 
                     'mouseleave': function() {
+                        this._set_tweens(tag, { duration: this.options.fadeout_duration });
                         this.fade_tag(tag, this.options.gray);
                     }.bind(this)
 
@@ -53,7 +56,7 @@ var Tags = new Class ({
 
         dom.set('tween', settings);
 
-    }.protect()
+    }
 
 });
 
