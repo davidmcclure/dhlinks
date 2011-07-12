@@ -25,12 +25,18 @@ var Links = new Class ({
 
             var link_title = link_dom.getElement('li.link a.link-title');
             var link_base_url = link_dom.getElement('li.link span.base-url-text');
+            var comments_link = link_dom.getElement('.comments-link');
 
             this._set_tweens([link_title], this.options.tween_settings);
             if (link_base_url) { this._set_tweens([link_base_url], this.options.tween_settings); }
+            if (comments_link) { this._set_tweens([comments_link], this.options.tween_settings); }
 
-            if (link_base_url) {
+            if (link_base_url && !comments_link) {
                 this.links.push($$([link_title, link_base_url]));
+            }
+
+            else if (link_base_url && comments_link) {
+                this.links.push($$([link_title, link_base_url, comments_link]));
             }
 
             else {
@@ -58,6 +64,10 @@ var Links = new Class ({
 
                     if (link[1] != undefined) {
                         link[1].tween('color', this.options.light_blue);
+                    }
+
+                    if (link[2] != undefined) {
+                        link[2].tween('color', this.options.blue);
                     }
 
                 }.bind(this)
