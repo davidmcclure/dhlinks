@@ -17,7 +17,8 @@ def frontpage(request):
 
     return render_to_response('links/links.html', {
         'submissions': submissions,
-        'tags': tags
+        'tags': tags,
+        'sort': 'rank'
     }, context_instance=RequestContext(request))
 
 
@@ -28,7 +29,9 @@ def new(request):
 
     return render_to_response('links/links.html', {
         'submissions': submissions,
-        'tags': tags
+        'tags': tags,
+        'sort': 'age'
+
     }, context_instance=RequestContext(request))
 
 
@@ -41,7 +44,8 @@ def tag(request, tag):
     return render_to_response('links/tag.html', {
         'submissions': submissions,
         'tags': tags,
-        'tag': tag
+        'tag': tag,
+        'sort': None
     }, context_instance=RequestContext(request))
 
 

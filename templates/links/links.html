@@ -33,6 +33,13 @@
     <div id="content-header">
 
         {% block tag %}
+
+        <div id="sort-menu">
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+            <a href="/new" class="sort-menu-item{% if sort == 'age' %} selected{% endif %}">age</a>
+            <a href="/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+        </div>
+
         {% endblock %}
 
     </div>
