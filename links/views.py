@@ -34,9 +34,9 @@ def new(request):
     }, context_instance = RequestContext(request))
 
 
-def tag(request, tag):
+def tag(request, tag, sort):
 
-    submissions = Submission.objects.tag_rank(request.user, tag)
+    submissions = Submission.objects.tag_rank(request.user, tag, sort)
     tags = Tag.objects.rank()
     tag = Tag.objects.get_by_url_slug(tag)
 
@@ -44,7 +44,7 @@ def tag(request, tag):
         'submissions': submissions,
         'tags': tags,
         'tag': tag,
-        'sort': None
+        'sort': sort
     }, context_instance = RequestContext(request))
 
 

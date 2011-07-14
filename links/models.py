@@ -3,6 +3,7 @@ from django.db.models import Min
 from django.contrib.auth.models import User
 import datetime as dt
 import urlparse
+import operator
 
 
 
@@ -38,21 +39,29 @@ class UserProfile(models.Model):
 
 class SubmissionManager(models.Manager):
 
+    SORT_FUNCS = {
+        'rank': operator.attrgetter('score'),
+        'comments': operator.attrgetter('date_of_last_comment'),
+        'new': operator.attrgetter('post_date')
+    }
+
     def rank(self, user):
         result_list = []
         for row in self.model.objects.all():
             submsision = self.model.objects.get(id = row.id)
             row.has_voted = submsision.user_has_voted(user)
             result_list.append(row)
-        return sorted(result_list, key = lambda a: a.score, reverse = True)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS['rank'], reverse = True)
 
-    def tag_rank(self, user, tag):
+    def tag_rank(self, user, tag, sort):
         result_list = []
         for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
             submsision = self.model.objects.get(id = row.id)
             row.has_voted = submsision.user_has_voted(user)
-            result_list.append(row)
-        return sorted(result_list, key = lambda a: a.score, reverse = True)
+            if sort == 'comments' and row.comment_set.count() == 0:
+                pass
+            else: result_list.append(row)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = (sort != 'new'))
 
     def comment_rank(self, user):
         result_list = []
@@ -61,7 +70,7 @@ class SubmissionManager(models.Manager):
             row.has_voted = submsision.user_has_voted(user)
             if row.comment_set.count() > 0:
                 result_list.append(row)
-        return sorted(result_list, key = lambda a: a.date_of_last_comment, reverse = True)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS['comments'], reverse = True)
 
     def create_submission(self, url, title, user, post_date):
         submission = Submission(
