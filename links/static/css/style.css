@@ -101,6 +101,27 @@ li.tag {
     color: #f7ba36;
 }
 
+/* Sort Menu */
+
+#sort-menu {
+    margin: 0 0 0 2px;
+}
+
+.sort-menu-item {
+    color: #9CC1FF;
+    font-family: Consolas, Cabin;
+    position: relative;
+    top: 10px;
+    left: 15px;
+    margin: 0 1em 0 0;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.sort-menu-item.selected {
+    color: #f7ba36;
+}
+
 /* Links */
 
 ol {

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Min
 from django.contrib.auth.models import User
 import datetime as dt
 import urlparse
@@ -64,6 +65,19 @@ class SubmissionManager(models.Manager):
             result_list.append(result_row)
         return sorted(result_list, key = lambda a: a.score, reverse = True)
 
+    def comment_rank(self, user):
+        result_list = []
+        for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
+            result_row = self.model(id = row.id,
+                    url = row.url,
+                    title = row.title,
+                    user = row.user,
+                    post_date = row.post_date)
+            submsision = self.model.objects.get(id = row.id)
+            result_row.has_voted = submsision.user_has_voted(user)
+            result_list.append(result_row)
+        return sorted(result_list, key = lambda a: a.date_of_last_comment)
+
     def create_submission(self, url, title, user, post_date):
         submission = Submission(
             url = url,
@@ -112,6 +126,10 @@ class Submission(models.Model):
         parse = urlparse.urlparse(self.url)
         return parse.netloc[4:] if parse.netloc[0:4] == 'www.' else parse.netloc
     base_url = property(_get_base_url)
+
+    def _get_date_of_last_comment(self):
+        return self.comment_set.aggregate(Min('post_date'))
+    date_of_last_comment = property(_get_date_of_last_comment)
 
     def user_has_voted(self, user):
         vote = []
