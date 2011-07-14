@@ -56,11 +56,12 @@ class SubmissionManager(models.Manager):
 
     def comment_rank(self, user):
         result_list = []
-        for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
+        for row in self.model.objects.all():
             submsision = self.model.objects.get(id = row.id)
             row.has_voted = submsision.user_has_voted(user)
-            result_list.append(row)
-        return sorted(result_list, key = lambda a: a.date_of_last_comment)
+            if row.comment_set.count() > 0:
+                result_list.append(row)
+        return sorted(result_list, key = lambda a: a.date_of_last_comment, reverse = True)
 
     def create_submission(self, url, title, user, post_date):
         submission = Submission(
