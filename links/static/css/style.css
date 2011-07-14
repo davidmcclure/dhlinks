@@ -105,20 +105,21 @@ li.tag {
 
 #sort-menu {
     margin: 0 0 0 2px;
+    font-family: Consolas, Cabin;
+    position: relative;
+    font-size: 0.9em;
+    color: #9B9B9B;
+    top: 10px;
+    left: 15px;
 }
 
 .sort-menu-item {
     color: #9CC1FF;
-    font-family: Consolas, Cabin;
-    position: relative;
-    top: 10px;
-    left: 15px;
     margin: 0 1em 0 0;
-    font-size: 0.9em;
     text-decoration: none;
 }
 
-.sort-menu-item.selected {
+.sort-menu-item.selected, .sort-menu-tag {
     color: #f7ba36;
 }
 

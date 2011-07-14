@@ -1,7 +1,17 @@
 {% extends 'links/links.html' %}
 
 {% block tag %}
-    <span class="tag-title">{{ tag.url_slug }}:</span>
+
+    <div id="sort-menu">
+
+        <span class="sort-menu-tag" class="selected">{{ tag.url_slug }}</span><span class=""> // </span>
+
+        <a href="/{{ tag.url_slug }}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+        <a href="/{{ tag.url_slug }}/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
+        <a href="/{{ tag.url_slug }}/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+
+    </div>
+
 {% endblock %}
 
 {% block tags %}
