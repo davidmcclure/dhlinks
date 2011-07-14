@@ -6,10 +6,11 @@ urlpatterns = patterns('links.views',
     (r'^new$', 'new'),
     (r'^submit$', 'submit'),
     (r'^login$', 'login'),
-    (r'^logout', 'logout'),
-    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
+    (r'^logout$', 'logout'),
     (r'^submission/upvote/(?P<submission_id>\d+)$', 'submissionvote', { 'direction': True }),
     (r'^register$', 'register'),
-    (r'^(?P<tag>[-\w]+)$', 'tag')
+    (r'^(?P<tag>[-\w]+)$', 'tag'),
+    (r'^comments$', 'comments'),
+    (r'^comments/(?P<submission_id>\d+)$', 'comments')
 
 )

@@ -19,7 +19,7 @@ def frontpage(request):
         'submissions': submissions,
         'tags': tags,
         'sort': 'rank'
-    }, context_instance=RequestContext(request))
+    }, context_instance = RequestContext(request))
 
 
 def new(request):
@@ -31,8 +31,7 @@ def new(request):
         'submissions': submissions,
         'tags': tags,
         'sort': 'age'
-
-    }, context_instance=RequestContext(request))
+    }, context_instance = RequestContext(request))
 
 
 def tag(request, tag):
@@ -46,7 +45,19 @@ def tag(request, tag):
         'tags': tags,
         'tag': tag,
         'sort': None
-    }, context_instance=RequestContext(request))
+    }, context_instance = RequestContext(request))
+
+
+def comments(request):
+
+    submissions = Submission.objects.comment_rank(request.user)
+    tags = Tag.objects.rank()
+
+    return render_to_response('links/links.html', {
+        'submissions': submissions,
+        'tags': tags,
+        'sort': 'comments'
+    }, context_instance = RequestContext(request))
 
 
 def submit(request):

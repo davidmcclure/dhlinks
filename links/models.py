@@ -41,41 +41,25 @@ class SubmissionManager(models.Manager):
     def rank(self, user):
         result_list = []
         for row in self.model.objects.all():
-            result_row = self.model(
-                    id = row.id,
-                    url = row.url,
-                    title = row.title,
-                    user = row.user,
-                    post_date = row.post_date)
             submsision = self.model.objects.get(id = row.id)
-            result_row.has_voted = submsision.user_has_voted(user)
-            result_list.append(result_row)
+            row.has_voted = submsision.user_has_voted(user)
+            result_list.append(row)
         return sorted(result_list, key = lambda a: a.score, reverse = True)
 
     def tag_rank(self, user, tag):
         result_list = []
         for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
-            result_row = self.model(id = row.id,
-                    url = row.url,
-                    title = row.title,
-                    user = row.user,
-                    post_date = row.post_date)
             submsision = self.model.objects.get(id = row.id)
-            result_row.has_voted = submsision.user_has_voted(user)
-            result_list.append(result_row)
+            row.has_voted = submsision.user_has_voted(user)
+            result_list.append(row)
         return sorted(result_list, key = lambda a: a.score, reverse = True)
 
     def comment_rank(self, user):
         result_list = []
         for row in self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' ')):
-            result_row = self.model(id = row.id,
-                    url = row.url,
-                    title = row.title,
-                    user = row.user,
-                    post_date = row.post_date)
             submsision = self.model.objects.get(id = row.id)
-            result_row.has_voted = submsision.user_has_voted(user)
-            result_list.append(result_row)
+            row.has_voted = submsision.user_has_voted(user)
+            result_list.append(row)
         return sorted(result_list, key = lambda a: a.date_of_last_comment)
 
     def create_submission(self, url, title, user, post_date):
