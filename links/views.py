@@ -15,7 +15,7 @@ def frontpage(request):
     '''
     Get submissions and tags for the default, algorithmically ranked front page
     view. Makes use of the custom model managers Submission.objects.rank() and
-    Tag.objects.rank(), get run the queries and intercept the results sets to
+    Tag.objects.rank(), which run the queries and intercept the results sets to
     add custom attributes (notably the per-submission information about whether
     or not the current user has upvoted the submission) and runs ranking
     algorithms on the results. The submissions get run through the core ranking
