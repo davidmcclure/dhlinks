@@ -27,9 +27,11 @@ def frontpage(request):
     submissions, tags, and selected sorting order.
     '''
 
+    # Get the links and tags.
     submissions = Submission.objects.rank(request.user);
     tags = Tag.objects.rank()
 
+    # Push the content into the template and return the result.
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
@@ -39,9 +41,11 @@ def frontpage(request):
 
 def new(request):
 
+    # Get the links and tags.
     submissions = Submission.objects.all().order_by('-post_date')
     tags = Tag.objects.rank()
 
+    # Push the content into the template and return the result.
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
@@ -51,10 +55,12 @@ def new(request):
 
 def tag(request, tag, sort):
 
+    # Get the submissions, tags, and the tag object for the selected tag.
     submissions = Submission.objects.tag_rank(request.user, tag, sort)
     tags = Tag.objects.rank()
     tag = Tag.objects.get_by_url_slug(tag)
 
+    # Push the content into the template and return the result.
     return render_to_response('links/tag.html', {
         'submissions': submissions,
         'tags': tags,
