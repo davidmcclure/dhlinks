@@ -42,8 +42,3 @@ var Tags = new Class ({
     }
 
 });
-
-// dev usage
-window.addEvent('domready', function() {
-    this.tags = new Tags('tag');
-});

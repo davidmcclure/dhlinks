@@ -3,11 +3,6 @@ var Logo = new Class ({
     Implements: [Options, Events],
 
     options: {
-        container_div: 'logo',
-        dighum_div: 'logospan_dighum',
-        links_div: 'logospan_links',
-        arrow_div: 'logospan_arrow',
-        pop_interval: 20,
         starting_color: '#fff',
         orange: '#f7ba36',
         blue: '#2b7bff',
@@ -15,15 +10,15 @@ var Logo = new Class ({
         light_blue: '#9cc1ff'
     },
 
-    initialize: function(options) {
+    initialize: function(container, dighum, links, arrow, options) {
 
         this.setOptions(options);
         this.original_state = true;
 
-        this.container_div = document.id(this.options.container_div);
-        this.dighum_div = document.id(this.options.dighum_div);
-        this.links_div = document.id(this.options.links_div);
-        this.arrow_div = document.id(this.options.arrow_div);
+        this.container_div = document.id(container);
+        this.dighum_div = document.id(dighum);
+        this.links_div = document.id(links);
+        this.arrow_div = document.id(arrow);
 
         this.disable_select = new DisableSelect(this.container_div);
 
@@ -118,9 +113,4 @@ var Logo = new Class ({
 
     }
 
-});
-
-// dev usage
-window.addEvent('domready', function() {
-    this.logo = new Logo;
 });

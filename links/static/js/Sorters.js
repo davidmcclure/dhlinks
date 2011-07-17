@@ -42,8 +42,3 @@ var Sorters = new Class ({
     }
 
 });
-
-// dev usage
-window.addEvent('domready', function() {
-    this.sorters = new Sorters('sort-menu-item');
-});
