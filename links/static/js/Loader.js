@@ -48,7 +48,7 @@ var Loader = new Class ({
                 }
 
                 else {
-                    this.counter--;
+                    this.counter -= 2;
                     this.split.pop_letter(this.split.letters[this.counter], this.options.blue, this.options.orange);
                     this.direction = 'left';
                     this.counter--;
