@@ -23,6 +23,10 @@ var LinkFader = new Class ({
             transition: this.options.transition
         });
 
+        Array.each(this.splitter.letters, function(letter) {
+            letter.store('selected', false);
+        }.bind(this))
+
     },
 
     fade_up: function() {
@@ -31,6 +35,7 @@ var LinkFader = new Class ({
 
             this.splitter.set_single_letter_tween(letter, { duration: this.options.fadein_base_duration });
             this.splitter.shift_letter_color(letter, this.target_color);
+            letter.store('selected', true);
 
         }.bind(this));
 
@@ -40,11 +45,21 @@ var LinkFader = new Class ({
 
         Array.each(this.splitter.letters, function(letter) {
 
+            letter.store('selected', false);
             var delay = Number.random(0, this.options.fadeout_variance_interval);
             this.splitter.set_single_letter_tween(letter, { duration: this.options.fadeout_base_duration });
-            this.splitter.shift_letter_color.delay(delay, this.splitter, [letter, this.starting_color]);
+            this._do_fade_down.delay(delay, this, [letter]);
 
         }.bind(this));
+
+    },
+
+    _do_fade_down: function(letter) {
+
+        if (letter.retrieve('selected') == false) {
+            this.splitter.shift_letter_color(letter, this.starting_color);
+            letter.set('selected', false);
+        }
 
     }
 
