@@ -12,16 +12,17 @@ var Links = new Class ({
     initialize: function(link_container_class, options) {
 
         this.setOptions(options);
-        this.links_dom = $$('.' + link_container_class);
-        this.links = [];
-        this.comment_links = [];
-        this.upvote_links = [];
-
+        this.link_container_class = link_container_class;
         this.gloss_links();
 
     },
 
     gloss_links: function() {
+
+        this.links_dom = $$('.' + this.link_container_class);
+        this.links = [];
+        this.comment_links = [];
+        this.upvote_links = [];
 
         Array.each(this.links_dom, function(link_dom) {
 
@@ -111,7 +112,7 @@ var Links = new Class ({
 
         }.bind(this));
 
-        this.starting_state = false;
+        this.loader = new Loader(document.id('loader-text'));
 
     }
 

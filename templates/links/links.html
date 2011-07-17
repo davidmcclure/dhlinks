@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Sorters.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Loader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}/js/_deployment.js"></script>
@@ -89,6 +90,12 @@
         </div>
 
     {% endfor %}
-    </ul>
+    </ol>
+
+    <div id="loader-region">
+
+        <span id="loader-text">loading</span>
+
+    </div>
 
 {% endblock %}

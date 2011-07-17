@@ -18,7 +18,7 @@ body {
     margin: 0px 0 0 27px;
 }
 
-#content-header {
+#content-header, #loader-region {
     height: 42px;
 }
 
@@ -190,4 +190,17 @@ img.submission-type-icon {
     position: relative;
     margin: 0 4px 0 3px;
     top: 1px;
+}
+
+/* Loader */
+
+#loader-text {
+    margin: 0 0 0 2px;
+    font-family: Consolas, Cabin;
+    position: relative;
+    font-size: 0.9em;
+    color: #f7ba36;
+    top: 4px;
+    left: 15px;
+    display: none;
 }
