@@ -6,13 +6,7 @@ var Links = new Class ({
         orange: '#f7ba36',
         blue: '#2b7bff',
         gray: '#9b9b9b',
-        light_blue: '#9cc1ff',
-        tween_settings: {
-            duration: 90,
-            fps: 100,
-            transition: 'quad:out'
-        },
-        fadeout_duration: 250
+        light_blue: '#9cc1ff'
     },
 
     initialize: function(link_container_class, options) {
