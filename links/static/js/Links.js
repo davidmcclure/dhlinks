@@ -116,8 +116,3 @@ var Links = new Class ({
     }
 
 });
-
-// dev usage
-window.addEvent('domready', function() {
-    this.links = new Links('link-container');
-});
