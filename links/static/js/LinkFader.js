@@ -4,11 +4,10 @@ var LinkFader = new Class ({
 
     options: {
         fps: 100,
-        fadein_base_duration: 30,
+        fadein_base_duration: 20,
         fadeout_base_duration: 250,
         transition: 'quad:out',
-        fadein_variance_interval: 50,
-        fadeout_variance_interval: 200
+        fadeout_variance_interval: 100
     },
 
     initialize: function(div, starting_color, target_color, options) {
@@ -30,9 +29,8 @@ var LinkFader = new Class ({
 
         Array.each(this.splitter.letters, function(letter) {
 
-            var delay = Number.random(0, this.options.fadein_variance_interval);
             this.splitter.set_single_letter_tween(letter, { duration: this.options.fadein_base_duration });
-            this.splitter.shift_letter_color.delay(delay, this.splitter, [letter, this.target_color]);
+            this.splitter.shift_letter_color(letter, this.target_color);
 
         }.bind(this));
 
