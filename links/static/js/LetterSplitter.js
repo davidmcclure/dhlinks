@@ -80,8 +80,7 @@ var LetterSplitter = new Class ({
 
                 var char = starting_text[i];
                 var span = new Element('span', {
-                    'html': char,
-                    'id': this.id_prefix + '_' + i
+                    'html': char
                 }).inject(div);
 
                 this.letters.push(span);

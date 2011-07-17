@@ -20,6 +20,13 @@ var Links = new Class ({
         this.setOptions(options);
         this.links_dom = $$('.' + link_container_class);
         this.links = [];
+        this.comment_links = [];
+
+        this.gloss_links();
+
+    },
+
+    gloss_links: function() {
 
         Array.each(this.links_dom, function(link_dom) {
 
@@ -27,53 +34,45 @@ var Links = new Class ({
             var link_base_url = link_dom.getElement('li.link span.base-url-text');
             var comments_link = link_dom.getElement('a.comments-link');
 
-            this._set_tweens([link_title], this.options.tween_settings);
-            if (link_base_url) { this._set_tweens([link_base_url], this.options.tween_settings); }
-            if (comments_link) { this._set_tweens([comments_link], this.options.tween_settings); }
+            var link_pusher = [];
 
-            if (link_base_url && !comments_link) {
-                this.links.push($$([link_title, link_base_url]));
+            if (link_title != null) {
+                link_pusher.push(new LinkFader(link_title, this.options.blue, this.options.orange));
+            }
+            if (link_base_url != null) {
+                link_pusher.push(new LinkFader(link_base_url, this.options.light_blue, this.options.orange));
+            }
+            if (comments_link != null) {
+                this.comment_links.push(new LinkFader(comments_link, this.options.light_blue, this.options.orange));
             }
 
-            else if (link_base_url && comments_link) {
-                this.links.push($$([link_title, link_base_url, comments_link]));
-            }
-
-            else if (!link_base_url && comments_link) {
-                this.links.push($$([link_title, comments_link]))
-            }
-
-            else {
-                this.links.push($$([link_title]));
-            }
+            this.links.push(link_pusher);
 
         }.bind(this));
 
         Array.each(this.links, function(link) {
 
-               link.addEvents({
+            var link_dom = [];
+
+            Array.each(link, function(link_part) {
+                link_dom.push(link_part.div);
+            }.bind(this));
+
+            $$(link_dom).addEvents({
 
                 'mouseenter': function() {
 
-                    this._set_tweens(link, { duration: this.options.tween_settings.duration });
-                    link.tween('color', this.options.orange);
+                    Array.each(link, function(l) {
+                        l.fade_up();
+                    }.bind(this));
 
                 }.bind(this),
 
                 'mouseleave': function() {
 
-                    this._set_tweens(link, { duration: this.options.fadeout_duration });
-
-                    link[0].tween('color', this.options.blue);
-
-                    if (link[1] != undefined) {
-                        if (link[1].hasClass('base-url-text')) { link[1].tween('color', this.options.light_blue); }
-                        else if (link[1].hasClass('comments-link')) { link[1].tween('color', this.options.blue); }
-                    }
-
-                    if (link[2] != undefined) {
-                        link[2].tween('color', this.options.blue);
-                    }
+                    Array.each(link, function(l) {
+                        l.fade_down();
+                    }.bind(this));
 
                 }.bind(this)
 
@@ -81,13 +80,23 @@ var Links = new Class ({
 
         }.bind(this));
 
-    },
+        Array.each(this.comment_links, function(link) {
 
-    _set_tweens: function(dom, settings) {
+            link.div.addEvents({
 
-        Array.each(dom, function(d) {
-            d.set('tween', settings);
-        });
+                'mouseenter': function() {
+                    link.fade_up();
+                }.bind(this),
+
+                'mouseleave': function() {
+                    link.fade_down();
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+        this.starting_state = false;
 
     }
 
