@@ -17,8 +17,7 @@ var LinkFader = new Class ({
         this.starting_color = starting_color;
         this.target_color = target_color;
 
-        this.splitter = new LetterSplitter([div]);
-        this.splitter.set_all_letter_tweens({
+        this._set_tween({
             fps: this.options.fps,
             transition: this.options.transition
         });
@@ -27,24 +26,21 @@ var LinkFader = new Class ({
 
     fade_up: function() {
 
-        Array.each(this.splitter.letters, function(letter) {
-
-            this.splitter.set_single_letter_tween(letter, { duration: this.options.fadein_base_duration });
-            this.splitter.shift_letter_color(letter, this.target_color);
-
-        }.bind(this));
+        this._set_tween({ duration: this.options.fadein_base_duration });
+        this.div.tween('color', this.target_color);
 
     },
 
     fade_down: function() {
 
-        Array.each(this.splitter.letters, function(letter) {
+        this._set_tween({ duration: this.options.fadeout_base_duration });
+        this.div.tween('color', this.starting_color);
 
-            var delay = Number.random(0, this.options.fadeout_variance_interval);
-            this.splitter.set_single_letter_tween(letter, { duration: this.options.fadeout_base_duration });
-            this.splitter.shift_letter_color.delay(delay, this.splitter, [letter, this.starting_color]);
+    },
 
-        }.bind(this));
+    _set_tween: function(properties) {
+
+        this.div.set('tween', properties);
 
     }
 
