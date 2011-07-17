@@ -26,7 +26,6 @@ var Sorters = new Class ({
                 sorter.div.addEvents({
 
                     'mouseenter': function() {
-                        console.log('test');
                         sorter.fade_up();
                     }.bind(this),
 
