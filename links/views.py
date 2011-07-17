@@ -12,26 +12,9 @@ import datetime as dt
 
 def frontpage(request):
 
-    '''
-    Get submissions and tags for the default, algorithmically ranked front page
-    view. Makes use of the custom model managers Submission.objects.rank() and
-    Tag.objects.rank(), which run the queries and intercept the results sets to
-    add custom attributes (notably the per-submission information about whether
-    or not the current user has upvoted the submission) and runs ranking
-    algorithms on the results. The submissions get run through the core ranking
-    algorithm, and the tags are sorted according to the number times they have
-    been assigned to a submission.
-
-    @param request - The default request object dispatched by the URL router.
-    @return render_to_response - The rendered template, populated by the
-    submissions, tags, and selected sorting order.
-    '''
-
-    # Get the links and tags.
     submissions = Submission.objects.rank(request.user);
     tags = Tag.objects.rank()
 
-    # Push the content into the template and return the result.
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
@@ -41,11 +24,9 @@ def frontpage(request):
 
 def new(request):
 
-    # Get the links and tags.
     submissions = Submission.objects.all().order_by('-post_date')
     tags = Tag.objects.rank()
 
-    # Push the content into the template and return the result.
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
@@ -55,12 +36,10 @@ def new(request):
 
 def tag(request, tag, sort):
 
-    # Get the submissions, tags, and the tag object for the selected tag.
     submissions = Submission.objects.tag_rank(request.user, tag, sort)
     tags = Tag.objects.rank()
     tag = Tag.objects.get_by_url_slug(tag)
 
-    # Push the content into the template and return the result.
     return render_to_response('links/tag.html', {
         'submissions': submissions,
         'tags': tags,
