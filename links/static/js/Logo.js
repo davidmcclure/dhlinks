@@ -53,18 +53,15 @@ var Logo = new Class ({
     split: function() {
 
         this.dighum_split = new LetterSplitter(
-            [this.dighum_div],
-            'dighum'
+            [this.dighum_div]
         );
 
         this.links_split = new LetterSplitter(
-            [this.links_div],
-            'links'
+            [this.links_div]
         );
 
         this.arrow_split = new LetterSplitter(
-            [this.arrow_div],
-            'arrow'
+            [this.arrow_div]
         );
 
     },
