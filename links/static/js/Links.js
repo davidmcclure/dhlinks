@@ -15,6 +15,7 @@ var Links = new Class ({
         this.links_dom = $$('.' + link_container_class);
         this.links = [];
         this.comment_links = [];
+        this.upvote_links = [];
 
         this.gloss_links();
 
@@ -27,6 +28,7 @@ var Links = new Class ({
             var link_title = link_dom.getElement('li.link a.link-title');
             var link_base_url = link_dom.getElement('li.link span.base-url-text');
             var comments_link = link_dom.getElement('a.comments-link');
+            var upvote_link = link_dom.getElement('a.upvote-link');
 
             var link_pusher = [];
 
@@ -38,6 +40,9 @@ var Links = new Class ({
             }
             if (comments_link != null) {
                 this.comment_links.push(new LinkFader(comments_link, this.options.light_blue, this.options.orange));
+            }
+            if (upvote_link != null) {
+                this.upvote_links.push(new LinkFader(upvote_link, this.options.blue, this.options.orange));
             }
 
             this.links.push(link_pusher);
@@ -75,6 +80,22 @@ var Links = new Class ({
         }.bind(this));
 
         Array.each(this.comment_links, function(link) {
+
+            link.div.addEvents({
+
+                'mouseenter': function() {
+                    link.fade_up();
+                }.bind(this),
+
+                'mouseleave': function() {
+                    link.fade_down();
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+        Array.each(this.upvote_links, function(link) {
 
             link.div.addEvents({
 
