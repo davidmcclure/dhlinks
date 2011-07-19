@@ -5,7 +5,7 @@ var LinkFader = new Class ({
     options: {
         fps: 100,
         fadein_base_duration: 20,
-        fadeout_base_duration: 250,
+        fadeout_base_duration: 100,
         transition: 'quad:out',
         fadeout_variance_interval: 100
     },
@@ -48,7 +48,7 @@ var LinkFader = new Class ({
             letter.store('selected', false);
             var delay = Number.random(0, this.options.fadeout_variance_interval);
             this.splitter.set_single_letter_tween(letter, { duration: this.options.fadeout_base_duration });
-            this._do_fade_down.delay(delay, this, [letter]);
+            this._do_fade_down(letter);
 
         }.bind(this));
 
