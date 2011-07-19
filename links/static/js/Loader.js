@@ -7,7 +7,7 @@ var Loader = new Class ({
         blue: '#2b7bff',
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
-        pop_interval: 50
+        pop_interval: 40
     },
 
     initialize: function(div, options) {
