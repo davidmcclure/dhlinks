@@ -4,10 +4,10 @@ var LetterSplitter = new Class ({
 
     options: {
         fade_duration: 300,
-        fade_duration_mouseover: 40,
-        fade_duration_mouseleave: 40,
+        fade_duration_mouseover: 440,
+        fade_duration_mouseleave: 440,
         fade_duration_slow_pop: 2000,
-        fade_duration_fast_pop: 500,
+        fade_duration_fast_pop: 2500,
         fps: 100,
         transition: 'quad:out'
     },
