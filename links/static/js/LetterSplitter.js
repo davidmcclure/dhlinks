@@ -12,10 +12,9 @@ var LetterSplitter = new Class ({
         transition: 'quad:out'
     },
 
-    initialize: function(divs, id_prefix, options) {
+    initialize: function(divs, options) {
 
         this.setOptions(options);
-        this.id_prefix = id_prefix;
         this.divs = divs;
         this.split_letters();
 
