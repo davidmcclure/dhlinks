@@ -4721,10 +4721,6 @@ Fx.CSS = new Class({
 
 	Extends: Fx,
 
-    initialize: function(options) {
-        console.log(this.options.colorSpace);
-    },
-
 	//prepares the base from/to object
 
 	prepare: function(element, property, values){
@@ -4742,11 +4738,14 @@ Fx.CSS = new Class({
 	parse: function(value){
 		value = Function.from(value)();
 		value = (typeof value == 'string') ? value.split(' ') : Array.from(value);
-		return value.map(function(val){
-			val = String(val);
-			var found = false;
+        console.log(this.options.colorSpace);
 
-            if (this.options.colorSpace != 'hsv') {
+        if (this.options.colorSpace != 'hsv') {
+
+            return value.map(function(val){
+
+                val = String(val);
+                var found = false;
 
                 Object.each(Fx.CSS.Parsers, function(parser, key){
                     if (found) return;
@@ -4754,19 +4753,32 @@ Fx.CSS = new Class({
                     if (parsed || parsed === 0) found = {value: parsed, parser: parser};
                 });
 
-            }
+                found = found || {value: val, parser: Fx.CSS.Parsers.String};
+                return found;
 
-            else {
+            });
+
+        }
+
+        else {
+
+            return value.map(function(val){
+
+                val = String(val);
+                var found = false;
 
                 var parser = Fx.CSS.ColorSpaceParser;
                 var parsed = parser.parse(val);
                 found = { value: parsed, parser: parser };
-            }
 
-			found = found || {value: val, parser: Fx.CSS.Parsers.String};
-			return found;
+                found = found || {value: val, parser: Fx.CSS.Parsers.String};
+                return found;
 
-		}.bind(this));
+            });
+
+        }
+
+
 	},
 
 	//computes by a from and to prepared objects, using their parsers.
