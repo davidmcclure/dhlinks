@@ -90,12 +90,7 @@ def comments(request):
 def submit(request):
 
     '''
-    Process the submission flow. First check for an authenticated user,
-    then check for a form and try to validate posted data and create the new
-    submission. If no form, then no submission has been made, and the form
-    should be displayed. If no authenticated user, bounce to the login page
-    and store the origin of the login flow, so that login knows where to
-    redirect the user after a successful login.
+    Process the submission flow.
     '''
 
     # Is the user logged in?
@@ -154,10 +149,7 @@ def submit(request):
 def login(request):
 
     '''
-    Process the login flow. First, bounce out if the user is already logged
-    in. Then, check for a posted form. If there is a form, validate the data
-    and either authenticate or reject the login. If there is no posted form,
-    display the form.
+    Process the login flow.
     '''
 
     # Is the user logged in?
@@ -204,10 +196,7 @@ def login(request):
 def register(request):
 
     '''
-    Process the registration flow. First, bounce out if the use is already
-    logged in. Then, check for a posted form. If there is a form, validate the
-    data, create the new user, log her in, and redirect to wherever the user
-    was trying to go when she hit the login/registration prompt.
+    Process the registration flow.
     '''
 
     # Is the user logged in?
@@ -270,8 +259,7 @@ def logout(request):
 def submissionvote(request, submission_id, direction):
 
     '''
-    Process an upvote. If the user is not logged in, bounce to login. If there
-    is a logged in user, create the new SubmissionVote record.
+    Process an upvote.
     '''
 
     # Is the user logged in?
