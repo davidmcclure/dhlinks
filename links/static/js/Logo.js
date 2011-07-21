@@ -41,23 +41,17 @@ var Logo = new Class ({
 
         Array.each(this.dighum_split.letters, function(letter) {
 
-            letter.addEvents({
+            letter.div.addEvents({
 
                 'mouseenter': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseover_fast);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+                    letter.shift_color(this.options.orange, letter.tween_templates.mouseover_fase);
 
                 }.bind(this),
 
                 'mouseleave': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseleave_medium);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+                    letter.shift_color(this.options.blue, letter.tween_templates.mouseleave_medium);
 
                 }.bind(this)
 
@@ -67,23 +61,17 @@ var Logo = new Class ({
 
         Array.each(this.links_split.letters, function(letter) {
 
-            letter.addEvents({
+            letter.div.addEvents({
 
                 'mouseenter': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseover_fast);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+                    letter.shift_color(this.options.blue, letter.tween_templates.mouseover_fast);
 
                 }.bind(this),
 
                 'mouseleave': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseleave_medium);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+                    letter.shift_color(this.options.orange, letter.tween_templates.mouseleave_medium);
 
                 }.bind(this)
 
@@ -93,23 +81,17 @@ var Logo = new Class ({
 
         Array.each(this.arrow_split.letters, function(letter) {
 
-            letter.addEvents({
+            letter.div.addEvents({
 
                 'mouseenter': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseover_fast);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.orange);
+                    letter.shift_color(this.options.orange, letter.tween_templates.mouseover_fast);
 
                 }.bind(this),
 
                 'mouseleave': function() {
 
-                    this.dighum_split.set_single_letter_tween(
-                        letter, this.dighum_split.tween_templates.mouseleave_medium);
-
-                    this.dighum_split.shift_letter_color(letter, this.options.blue);
+                    letter.shift_color(this.options.blue, letter.tween_templates.mouseleave_medium);
 
                 }.bind(this)
 
@@ -140,14 +122,9 @@ var Logo = new Class ({
 
                 var letter = this.dighum_split.letters[i];
 
-                this.dighum_split.set_single_letter_tween(
-                    letter, this.dighum_split.tween_templates.fast_pop);
-
-                this.dighum_split.pop_letter.delay(
-                    this.options.pop_interval * logo_c,
-                    this.dighum_split,
-                    [letter, this.options.orange, this.options.blue]
-                );
+                letter.shift_color.delay(
+                    this.options.pop_interval * logo_c, letter,
+                    [this.options.blue, letter.tween_templates.fast_pop]);
 
             }
 
@@ -155,14 +132,9 @@ var Logo = new Class ({
 
                 var letter = this.links_split.letters[i-dh_len];
 
-                this.links_split.set_single_letter_tween(
-                    letter, this.links_split.tween_templates.fast_pop);
-
-                this.links_split.pop_letter.delay(
-                    this.options.pop_interval * logo_c,
-                    this.links_split,
-                    [letter, this.options.blue, this.options.orange]
-                );
+                letter.shift_color.delay(
+                    this.options.pop_interval * logo_c, letter,
+                    [this.options.orange, letter.tween_templates.fast_pop]);
 
             }
 
@@ -172,14 +144,9 @@ var Logo = new Class ({
 
         Array.each(this.arrow_split.letters, function(letter) {
 
-            this.arrow_split.set_single_letter_tween(
-                letter, this.arrow_split.tween_templates.fast_pop);
-
-            this.arrow_split.pop_letter.delay(
-                ((this.options.pop_interval * 5) * arrow_c) + arrow_offset,
-                this.arrow_split,
-                [letter, this.options.orange, this.options.blue]
-            );
+            letter.shift_color.delay(
+                ((this.options.pop_interval * 5) * arrow_c) + arrow_offset, letter,
+                [this.options.blue, letter.tween_templates.fast_pop]);
 
             arrow_c++;
 

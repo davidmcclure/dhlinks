@@ -4,8 +4,8 @@ var LinkFader = new Class ({
 
     options: {
         fps: 100,
-        fadein_base_duration: 10,
-        fadeout_base_duration: 300,
+        fadein_duration: 40,
+        fadeout_duration: 500,
         transition: Fx.Transitions.Quad.easeOut,
         fadeout_variance_interval: 100
     },
@@ -26,13 +26,15 @@ var LinkFader = new Class ({
 
     fade_up: function() {
 
-        this.div.setStyle('color', this.target_color);
+        this.div.set('tween', { duration: this.options.fadein_duration });
+        this.div.tween('color', this.target_color);
 
     },
 
     fade_down: function() {
 
-        this.div.setStyle('color', this.starting_color);
+        this.div.set('tween', { duration: this.options.fadeout_duration });
+        this.div.tween('color', this.starting_color);
 
     }
 
