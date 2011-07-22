@@ -240,5 +240,14 @@ img.submission-type-icon {
 
 /* Comments */
 
-#comments {
+#full-stack {
+    float: left;
+    width: 50%;
+    background: orange;
+}
+
+#summary-stack {
+    float: right;
+    width: 50%;
+    background: green;
 }
