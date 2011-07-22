@@ -3,6 +3,7 @@
 body {
     font-family: Cabin;
     color: #484848;
+    margin: 0;
 }
 
 /* Layout */
@@ -14,8 +15,7 @@ body {
 }
 
 #content {
-    float: left;
-    margin: 0px 0 0 27px;
+    margin: 0px 0 0 257px;
 }
 
 #content-header, #loader-region {
@@ -115,6 +115,7 @@ span.tags-double-slash {
     color: #9B9B9B;
     top: 10px;
     left: 15px;
+    float: left;
 }
 
 .sort-menu-item {
