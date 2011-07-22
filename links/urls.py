@@ -10,6 +10,7 @@ urlpatterns = patterns('links.views',
     (r'^submission/upvote/(?P<submission_id>\d+)$', 'submissionvote', { 'direction': True }),
     (r'^register$', 'register'),
     (r'^comments$', 'comments'),
+    (r'^my-links$', 'mylinks'),
     (r'^(?P<tag>[-\w]+)$', 'tag', { 'sort': 'rank' }),
     (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'tag')
 

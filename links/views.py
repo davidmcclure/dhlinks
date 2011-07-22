@@ -87,6 +87,24 @@ def comments(request):
     }, context_instance = RequestContext(request))
 
 
+def mylinks(request):
+
+    '''
+    Show links and discussions submitted by the current user.
+    '''
+
+    # Get submissions and tags.
+    submissions = Submission.objects.mylinks_rank(request.user);
+    tags = Tag.objects.mylinks_rank(request.user)
+
+    # Push to template.
+    return render_to_response('links/mylinks.html', {
+        'submissions': submissions,
+        'tags': tags,
+        'sort': 'rank'
+    }, context_instance = RequestContext(request))
+
+
 def submit(request):
 
     '''
