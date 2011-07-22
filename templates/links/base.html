@@ -34,7 +34,9 @@
 
             <ul>
                 <li class="navigation-link"><a href="/submit"><span class="navigation-main-word">submit</span> <span class="navigation-arrow">-></span></a></li>
-                <li class="navigation-link"><a href="/my-links"><span class="navigation-main-word">my links</span> <span class="navigation-arrow">-></span></a></li>
+                {% if not anon %}
+                    <li class="navigation-link"><a href="/my-links"><span class="navigation-main-word">my links</span> <span class="navigation-arrow">-></span></a></li>
+                {% endif %}
             </ul>
 
             {% endblock %}
