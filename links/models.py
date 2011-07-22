@@ -73,6 +73,16 @@ class SubmissionManager(models.Manager):
             else: result_list.append(row)
         return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
 
+    def mylinks_tag_rank(self, user, sort, tag):
+        result_list = []
+        for row in self.model.objects.filter(user = user, tagsubmission__tag__tag = tag.replace('-', ' ')):
+            submsision = self.model.objects.get(id = row.id)
+            row.has_voted = submsision.user_has_voted(user)
+            if sort == 'comments' and row.comment_set.count() == 0:
+                pass
+            else: result_list.append(row)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
+
     def comment_rank(self, user):
         result_list = []
         for row in self.model.objects.all():

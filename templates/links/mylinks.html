@@ -15,6 +15,10 @@
 
         <span class="sort-menu-tag" class="selected">my-links</span><span class="tags-double-slash"> // </span>
 
+        {% if tag != None %}
+            <span class="sort-menu-tag" class="selected">{{ tag.url_slug }}</span><span class="tags-double-slash"> // </span>
+        {% endif %}
+
         <a href="/my-links" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
         <a href="/my-links/new" class="sort-menu-item{% if sort == 'age' %} selected{% endif %}">age</a>
         <a href="/my-links/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>

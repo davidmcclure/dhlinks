@@ -102,6 +102,27 @@ def mylinks(request, sort):
     return render_to_response('links/mylinks.html', {
         'submissions': submissions,
         'tags': tags,
+        'sort': sort,
+        'tag': None
+    }, context_instance = RequestContext(request))
+
+
+def mylinks_tag(request, tag, sort):
+
+    '''
+    Show links and discussions submitted by the current user, filtered by tag.
+    '''
+
+    # Get submissions and tags.
+    submissions = Submission.objects.mylinks_tag_rank(request.user, sort, tag);
+    tags = Tag.objects.mylinks_rank(request.user)
+    tag = Tag.objects.get_by_url_slug(tag)
+
+    # Push to template.
+    return render_to_response('links/mylinks.html', {
+        'submissions': submissions,
+        'tags': tags,
+        'tag': tag,
         'sort': sort
     }, context_instance = RequestContext(request))
 
