@@ -24,7 +24,8 @@ def frontpage(request):
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
-        'sort': 'rank'
+        'sort': 'rank',
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
@@ -42,7 +43,8 @@ def new(request):
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
-        'sort': 'age'
+        'sort': 'age',
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
@@ -65,7 +67,8 @@ def tag(request, tag, sort):
         'submissions': submissions,
         'tags': tags,
         'tag': tag,
-        'sort': sort
+        'sort': sort,
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
@@ -83,7 +86,8 @@ def comments(request):
     return render_to_response('links/links.html', {
         'submissions': submissions,
         'tags': tags,
-        'sort': 'comments'
+        'sort': 'comments',
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
@@ -103,7 +107,8 @@ def mylinks(request, sort):
         'submissions': submissions,
         'tags': tags,
         'sort': sort,
-        'tag': None
+        'tag': None,
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
@@ -123,7 +128,8 @@ def mylinks_tag(request, tag, sort):
         'submissions': submissions,
         'tags': tags,
         'tag': tag,
-        'sort': sort
+        'sort': sort,
+        'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
 
