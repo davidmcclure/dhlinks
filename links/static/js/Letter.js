@@ -59,7 +59,7 @@ var Letter = new Class ({
         fade_duration_mouseover: 30,
         fade_duration_mouseleave: 30,
         fade_duration_slow_pop: 2000,
-        fade_duration_fast_pop: 800,
+        fade_duration_fast_pop: 600,
         fps: 100
 
     }
