@@ -242,11 +242,26 @@ img.submission-type-icon {
 #full-stack {
     float: left;
     width: 50%;
-    background: orange;
 }
 
-#summary-stack {
+#teasers{
+    overflow-x: hidden;
     float: right;
     width: 50%;
-    background: green;
+    margin: 42px 0 0 0;
+}
+
+.teaser-container {
+    color: #7c7c7c;
+    margin: 0.8em 0 0.8em 0;
+    font-size: 0.8em;
+}
+
+#teasers li.link {
+    list-style: none;
+    margin: 0;
+}
+
+#teasers-stack {
+    white-space: nowrap;
 }

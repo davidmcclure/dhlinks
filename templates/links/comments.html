@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Navigation.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/LinkFader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}/js/_comments_deployment.js"></script>
 
@@ -36,10 +37,42 @@
 
 {% block content %}
 
-    <div id="full-stack">t
+    <div id="full-stack">
     </div>
 
-    <div id="summary-stack">t
+    <div id="teasers">
+
+        <li class="link">
+
+            <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+
+            <span class="submission-details">
+                {% if submission.submission_type == 'link' %}
+                    <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
+                {% else %}
+                    <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                {% endif %}
+            </span>
+
+            <div class="link-details">
+
+                <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
+
+            </div>
+
+        </li>
+
+        <div id="teasers-stack">
+
+            {% for teaser in teasers %}
+
+                <div class="teaser-container">{{ teaser.comment }}</div>
+
+            {% endfor %}
+
+        </div>
+
     </div>
 
 {% endblock %}
