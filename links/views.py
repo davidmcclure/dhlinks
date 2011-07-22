@@ -140,11 +140,15 @@ def comments(request, submission_id):
     own app?
     '''
 
-    # Get submissions and tags.
+    # Get comments and tags.
+    submission = Submission.objects.get(pk = submission_id)
+    teasers = Comment.objects.teasers(submission_id)
     tags = Tag.objects.rank()
 
     # Push to template.
     return render_to_response('links/comments.html', {
+        'submission': submission,
+        'teasers': teasers,
         'tags': tags,
         'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))

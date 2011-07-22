@@ -4,4 +4,6 @@ window.addEvent('domready', function() {
 
     this.navigation = new Navigation('navigation-link');
 
+    this.tags = new Tags('tag');
+
 });

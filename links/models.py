@@ -26,7 +26,7 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
 
-        return self.user.username
+        return self.user.first_name + self.user.last_name
 
     def _get_karma(self):
 
@@ -154,6 +154,24 @@ class Submission(models.Model):
 
 
 class CommentManager(models.Manager):
+
+    def teasers(self, submission_id):
+        ordered_comments = []
+        self.order = []
+        self.all_comments = Comment.objects.filter(submission = Submission.objects.get(pk=submission_id)).order_by('post_date')
+        for comment in self.all_comments:
+            self.add_children(comment)
+        for order in self.order:
+            ordered_comments.append([comment for comment in self.all_comments if comment.id == order][0])
+        return ordered_comments
+
+    def add_children(self, comment):
+        if comment.id not in self.order:
+            self.order.append(comment.id)
+        children = [child for child in self.all_comments if child.parent_id == comment.id]
+        for child_comment in children:
+            self.add_children(child_comment)
+        return
 
     def create_comment(self, comment, post_date, submission):
         if comment != '':
