@@ -15,9 +15,9 @@
 
         <span class="sort-menu-tag" class="selected">my-links</span><span class="tags-double-slash"> // </span>
 
-        <a href="/{{ tag.url_slug }}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
-        <a href="/{{ tag.url_slug }}/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
-        <a href="/{{ tag.url_slug }}/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+        <a href="/my-links" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+        <a href="/my-links/new" class="sort-menu-item{% if sort == 'age' %} selected{% endif %}">age</a>
+        <a href="/my-links/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
 
     </div>
 
@@ -29,8 +29,8 @@
     {% for sidetag in tags %}
 
         <div class="tag-container">
-            <span class="tag-count {% if sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.count }}</span>
-            <li class="tag {% if sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></li>
+            <span class="tag-count {% if sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.user_count }}</span>
+            <li class="tag {% if sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></li>
         </div>
 
     {% endfor %}
