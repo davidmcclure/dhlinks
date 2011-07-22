@@ -155,22 +155,28 @@ class Submission(models.Model):
 
 class CommentManager(models.Manager):
 
-    def teasers(self, submission_id):
+    indent_multiplier = 20
+
+    def comments(self, submission_id):
         ordered_comments = []
         self.order = []
+        self.indentation_depth = 0
         self.all_comments = Comment.objects.filter(submission = Submission.objects.get(pk=submission_id)).order_by('post_date')
         for comment in self.all_comments:
             self.add_children(comment)
+        print self.order
         for order in self.order:
-            ordered_comments.append([comment for comment in self.all_comments if comment.id == order][0])
+            ordered_comments.append(([comment for comment in self.all_comments if comment.id == order[0]][0], order[1] * self.indent_multiplier))
         return ordered_comments
 
     def add_children(self, comment):
-        if comment.id not in self.order:
-            self.order.append(comment.id)
+        if comment.id not in [order[0] for order in self.order]:
+            self.order.append((comment.id, self.indentation_depth))
         children = [child for child in self.all_comments if child.parent_id == comment.id]
+        self.indentation_depth += 1
         for child_comment in children:
             self.add_children(child_comment)
+        self.indentation_depth -= 1
         return
 
     def create_comment(self, comment, post_date, submission):

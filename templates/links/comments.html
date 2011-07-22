@@ -38,6 +38,17 @@
 {% block content %}
 
     <div id="full-stack">
+
+        {% for comment, indent in comments %}
+
+            <div class="comment-container" style="margin-left: {{ indent }}px">
+
+                {{ comment.comment }}
+
+            </div>
+
+        {% endfor %}
+
     </div>
 
     <div id="teasers">
@@ -65,9 +76,9 @@
 
         <div id="teasers-stack">
 
-            {% for teaser in teasers %}
+            {% for comment, indent in comments %}
 
-                <div class="teaser-container">{{ teaser.comment }}</div>
+                <div class="teaser-container" style="margin-left: {{ indent }}px">{{ comment.comment }}</div>
 
             {% endfor %}
 
