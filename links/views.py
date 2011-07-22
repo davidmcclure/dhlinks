@@ -29,7 +29,7 @@ def frontpage(request):
     }, context_instance = RequestContext(request))
 
 
-def new(request):
+def new_sort(request):
 
     '''
     Show submissions sorted by when they were posted, most recent at the top.
@@ -48,7 +48,7 @@ def new(request):
     }, context_instance = RequestContext(request))
 
 
-def tag(request, tag, sort):
+def tag_sort(request, tag, sort):
 
     '''
     Show submissions with a certain tag.
@@ -72,7 +72,7 @@ def tag(request, tag, sort):
     }, context_instance = RequestContext(request))
 
 
-def comments(request):
+def comments_sort(request):
 
     '''
     Show submissions sorted by most recent comment.
@@ -91,7 +91,7 @@ def comments(request):
     }, context_instance = RequestContext(request))
 
 
-def mylinks(request, sort):
+def mylinks_sort(request, sort):
 
     '''
     Show links and discussions submitted by the current user.
@@ -112,7 +112,7 @@ def mylinks(request, sort):
     }, context_instance = RequestContext(request))
 
 
-def mylinks_tag(request, tag, sort):
+def mylinks_tag_sort(request, tag, sort):
 
     '''
     Show links and discussions submitted by the current user, filtered by tag.

@@ -1,0 +1,99 @@
+{% extends 'links/base.html' %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}/css/style.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/_mootools.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/LetterSplitter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Letter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Navigation.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/LinkFader.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/_deployment.js"></script>
+
+{% endblock %}
+
+{% block tags %}
+
+    <ul id="tag-list">
+    {% for tag in tags %}
+
+        <div class="tag-container">
+            <span class="tag-count">{{ tag.count }}</span>
+            <li class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
+        </div>
+
+    {% endfor %}
+    </ul>
+
+{% endblock %}
+
+{% block content %}
+
+    <div id="content-header">
+
+        {% block tag %}
+
+        <div id="sort-menu">
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+            <a href="/new" class="sort-menu-item{% if sort == 'age' %} selected{% endif %}">age</a>
+            <a href="/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+        </div>
+
+        {% endblock %}
+
+    </div>
+
+    <ol>
+    {% for submission in submissions %}
+
+        <div class="link-container">
+
+            {% if not submission.has_voted %}
+                <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
+            {% else %}
+                <span class="upvote-link has-voted">+</span>
+            {% endif %}
+
+            <li class="link">
+
+                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+
+                <span class="submission-details">
+                    {% if submission.submission_type == 'link' %}
+                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
+                    {% else %}
+                        <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                    {% endif %}
+                </span>
+
+                <div class="link-details">
+
+                    <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                    <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
+
+                    {% if submission.number_of_comments > 0 %}
+                        | <span><a href="/comments/{{ submission.id }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
+                    {% endif %}
+
+                </div>
+            </li>
+
+        </div>
+
+    {% endfor %}
+    </ol>
+
+    <div id="loader-region">
+
+        <span id="loader-text">loading</span>
+
+    </div>
+
+{% endblock %}
