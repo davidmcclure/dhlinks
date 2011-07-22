@@ -4,8 +4,8 @@ var LinkFader = new Class ({
 
     options: {
         fps: 100,
-        fadein_duration: 40,
-        fadeout_duration: 500,
+        fadein_duration: 10,
+        fadeout_duration: 200,
         transition: Fx.Transitions.Quad.easeOut,
         fadeout_variance_interval: 100
     },

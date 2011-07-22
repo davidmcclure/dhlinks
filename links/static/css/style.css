@@ -232,3 +232,7 @@ img.submission-type-icon {
 #navigation .navigation-main-word {
     font-weight: bold;
 }
+
+#navigation li.selected .navigation-main-word {
+    color: #F7BA36;
+}

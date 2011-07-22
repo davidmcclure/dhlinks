@@ -63,6 +63,14 @@ class SubmissionManager(models.Manager):
             else: result_list.append(row)
         return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = (sort != 'new'))
 
+    def mylinks_rank(self, user):
+        result_list = []
+        for row in self.model.objects.filter(user = user):
+            submsision = self.model.objects.get(id = row.id)
+            row.has_voted = submsision.user_has_voted(user)
+            result_list.append(row)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS['rank'], reverse = True)
+
     def comment_rank(self, user):
         result_list = []
         for row in self.model.objects.all():
@@ -202,6 +210,15 @@ class TagManager(models.Manager):
     def rank(self):
         return sorted(self.model.objects.all(), key = lambda a: a.count, reverse = True)
 
+    def mylinks_rank(self, user):
+        result_list = []
+        for row in self.model.objects.all():
+            tag = self.model.objects.get(id = row.id)
+            if TagSubmission.objects.filter(submission__user = user, tag = tag).exists():
+                row.user_count = tag._get_total_user_submissions(user)
+                result_list.append(row)
+        return sorted(result_list, key = lambda a: a.count, reverse = True)
+
     def get_by_url_slug(self, slug):
         return self.model.objects.get(tag = slug.replace('-', ' '))
 
@@ -234,6 +251,9 @@ class Tag(models.Model):
     def _get_total_submissions(self):
         return self.tagsubmission_set.count()
     count = property(_get_total_submissions)
+
+    def _get_total_user_submissions(self, user):
+        return TagSubmission.objects.filter(tag = self, submission__user = user).count()
 
     def _get_url_slug(self):
         return '-'.join(self.tag.split(' '))

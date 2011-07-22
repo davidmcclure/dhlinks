@@ -1,0 +1,39 @@
+{% extends 'links/links.html' %}
+
+{% block navigation %}
+
+    <ul>
+        <li class="navigation-link"><a href="/submit"><span class="navigation-main-word">submit</span> <span class="navigation-arrow">-></span></a></li>
+        <li class="navigation-link selected"><a href="/my-links"><span class="navigation-main-word">my links</span> <span class="navigation-arrow">-></span></a></li>
+    </ul>
+
+{% endblock %}
+
+{% block tag %}
+
+    <div id="sort-menu">
+
+        <span class="sort-menu-tag" class="selected">my-links</span><span class="tags-double-slash"> // </span>
+
+        <a href="/{{ tag.url_slug }}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+        <a href="/{{ tag.url_slug }}/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
+        <a href="/{{ tag.url_slug }}/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+
+    </div>
+
+{% endblock %}
+
+{% block tags %}
+
+    <ul id="tag-list">
+    {% for sidetag in tags %}
+
+        <div class="tag-container">
+            <span class="tag-count {% if sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.count }}</span>
+            <li class="tag {% if sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></li>
+        </div>
+
+    {% endfor %}
+    </ul>
+
+{% endblock %}
