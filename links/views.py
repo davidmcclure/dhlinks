@@ -133,6 +133,23 @@ def mylinks_tag_sort(request, tag, sort):
     }, context_instance = RequestContext(request))
 
 
+def comments(request, submission_id):
+
+    '''
+    Main comments view. It may be best to eventually split this off into its
+    own app?
+    '''
+
+    # Get submissions and tags.
+    tags = Tag.objects.rank()
+
+    # Push to template.
+    return render_to_response('links/comments.html', {
+        'tags': tags,
+        'anon': request.user.is_anonymous()
+    }, context_instance = RequestContext(request))
+
+
 def submit(request):
 
     '''
