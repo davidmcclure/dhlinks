@@ -241,28 +241,53 @@ img.submission-type-icon {
 
 #full-stack {
     float: left;
-    width: 50%;
+    width: 47%;
+    margin: 42px 0 0 0;
 }
 
 #teasers{
     overflow-x: hidden;
     float: right;
-    width: 50%;
-    margin: 42px 0 0 0;
+    width: 48%;
+    margin: 40px 0 0 0;
 }
 
 .teaser-container {
     color: #7c7c7c;
     margin: 0.8em 0 0.8em 0;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
-#teasers li.link {
+#full-stack li.link {
     list-style: none;
-    margin: 0;
+}
+
+#full-stack li.link .link-title {
+    /* font-size: 1.2em;*/
 }
 
 #teasers-stack {
-    margin: 1em 0 0 0;
     white-space: nowrap;
+}
+
+.comment-container {
+    margin: 1em 0 1em 0;
+    font-size: 0.9em;
+}
+
+.comment-author {
+    font-size: 1.05em;
+    color: #2B7BFF;
+}
+
+.comment-text {
+    line-height: 1.4em;
+}
+
+.comment-text p {
+    margin: 0 0 1em 0;
+}
+
+#comments {
+    margin: 0 0 0 1em;
 }

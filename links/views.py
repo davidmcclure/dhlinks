@@ -36,7 +36,7 @@ def new_sort(request):
     '''
 
     # Get submissions and tags.
-    submissions = Submission.objects.all().order_by('-post_date')
+    submissions = Submission.objects.age_rank(request.user)
     tags = Tag.objects.rank()
 
     # Push to template.
@@ -142,13 +142,15 @@ def comments(request, submission_id):
 
     # Get comments and tags.
     submission = Submission.objects.get(pk = submission_id)
-    comments = Comment.objects.comments(submission_id)
+    comments = Comment.objects.comments(submission_id, 'comments')
+    teasers = Comment.objects.comments(submission_id, 'teasers')
     tags = Tag.objects.rank()
 
     # Push to template.
     return render_to_response('links/comments.html', {
         'submission': submission,
         'comments': comments,
+        'teasers': teasers,
         'tags': tags,
         'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))

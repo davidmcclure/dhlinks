@@ -34,7 +34,7 @@ class UserProfile(models.Model):
         upvote_count = SubmissionVote.objects.filter(submission__user = self.user).count()
         return comment_count + upvote_count;
 
-    karms = property(_get_karma)
+    karma = property(_get_karma)
 
 
 class SubmissionManager(models.Manager):
@@ -52,6 +52,14 @@ class SubmissionManager(models.Manager):
             row.has_voted = submsision.user_has_voted(user)
             result_list.append(row)
         return sorted(result_list, key = SubmissionManager.SORT_FUNCS['rank'], reverse = True)
+
+    def age_rank(self, user):
+        result_list = []
+        for row in self.model.objects.all():
+            submsision = self.model.objects.get(id = row.id)
+            row.has_voted = submsision.user_has_voted(user)
+            result_list.append(row)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS['new'], reverse = True)
 
     def tag_rank(self, user, tag, sort):
         result_list = []
@@ -155,9 +163,12 @@ class Submission(models.Model):
 
 class CommentManager(models.Manager):
 
-    indent_multiplier = 20
+    indent_multipliers = {
+        'comments': 40,
+        'teasers': 20
+    }
 
-    def comments(self, submission_id):
+    def comments(self, submission_id, indent_format):
         ordered_comments = []
         self.order = []
         self.indentation_depth = 0
@@ -166,7 +177,7 @@ class CommentManager(models.Manager):
             self.add_children(comment)
         print self.order
         for order in self.order:
-            ordered_comments.append(([comment for comment in self.all_comments if comment.id == order[0]][0], order[1] * self.indent_multiplier))
+            ordered_comments.append(([comment for comment in self.all_comments if comment.id == order[0]][0], order[1] * self.indent_multipliers[indent_format]))
         return ordered_comments
 
     def add_children(self, comment):
@@ -189,6 +200,7 @@ class CommentManager(models.Manager):
 
 class Comment(models.Model):
 
+    user = models.ForeignKey(User)
     comment = models.TextField()
     post_date = models.DateTimeField()
     submission = models.ForeignKey(Submission)
