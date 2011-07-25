@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Navigation.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/LinkFader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}/js/_comments_deployment.js"></script>
@@ -41,7 +42,7 @@
 
         <div class="link-container">
 
-            {% if not submission.has_voted %}
+            {% if not hasvoted %}
                 <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
             {% else %}
                 <span class="upvote-link has-voted">+</span>
