@@ -1,7 +1,6 @@
 {% extends 'links/base_comments.html' %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}/css/comments_style.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
@@ -22,55 +21,44 @@
 
 {% endblock %}
 
-{% block tags %}
+{% block comment-link %}
 
-    <ul id="tag-list">
-    {% for tag in tags %}
+    <div class="link-container">
 
-        <div class="tag-container">
-            <span class="tag-count">{{ tag.count }}</span>
-            <li class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
-        </div>
+        {% if not hasvoted %}
+            <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
+        {% else %}
+            <span class="upvote-link has-voted">+</span>
+        {% endif %}
 
-    {% endfor %}
-    </ul>
+        <li class="link">
+
+            <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+
+            <span class="submission-details">
+                {% if submission.submission_type == 'link' %}
+                    <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
+                {% else %}
+                    <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                {% endif %}
+            </span>
+
+            <div class="link-details">
+
+                <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
+
+            </div>
+
+        </li>
+
+    </div>
 
 {% endblock %}
 
 {% block content %}
 
     <div id="full-stack">
-
-        <div class="link-container">
-
-            {% if not hasvoted %}
-                <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
-            {% else %}
-                <span class="upvote-link has-voted">+</span>
-            {% endif %}
-
-            <li class="link">
-
-                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
-
-                <span class="submission-details">
-                    {% if submission.submission_type == 'link' %}
-                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
-                    {% else %}
-                        <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
-                    {% endif %}
-                </span>
-
-                <div class="link-details">
-
-                    <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
-                    <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
-
-                </div>
-
-            </li>
-
-        </div>
 
         <div id="comments">
 
