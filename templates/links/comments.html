@@ -39,46 +39,61 @@
 
     <div id="full-stack">
 
-        {% for comment, indent in comments %}
+        <div class="link-container">
 
-            <div class="comment-container" style="margin-left: {{ indent }}px">
+            {% if not submission.has_voted %}
+                <a href="/submission/upvote/{{ submission.id }}" class="upvote-link">+</a>
+            {% else %}
+                <span class="upvote-link has-voted">+</span>
+            {% endif %}
 
-                {{ comment.comment }}
+            <li class="link">
 
-            </div>
+                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
 
-        {% endfor %}
+                <span class="submission-details">
+                    {% if submission.submission_type == 'link' %}
+                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
+                    {% else %}
+                        <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                    {% endif %}
+                </span>
+
+                <div class="link-details">
+
+                    <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                    <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
+
+                </div>
+
+            </li>
+
+        </div>
+
+        <div id="comments">
+
+            {% for comment, indent in comments %}
+
+                <div class="comment-container" style="margin-left: {{ indent }}px">
+
+                    <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                    <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
 
     </div>
 
     <div id="teasers">
 
-        <li class="link">
-
-            <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
-
-            <span class="submission-details">
-                {% if submission.submission_type == 'link' %}
-                    <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
-                {% else %}
-                    <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
-                {% endif %}
-            </span>
-
-            <div class="link-details">
-
-                <span>{{ submission.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
-                <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
-
-            </div>
-
-        </li>
-
         <div id="teasers-stack">
 
-            {% for comment, indent in comments %}
+            {% for teaser, indent in teasers %}
 
-                <div class="teaser-container" style="margin-left: {{ indent }}px">{{ comment.comment }}</div>
+                <div class="teaser-container" style="margin-left: {{ indent }}px">{{ teaser.comment }}</div>
 
             {% endfor %}
 
