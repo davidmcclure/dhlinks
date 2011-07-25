@@ -147,7 +147,7 @@ def comments(request, submission_id):
     tags = Tag.objects.rank()
 
     # Push to template.
-    return render_to_response('links/comments.html', {
+    return render_to_response('links/comments-quickread.html', {
         'submission': submission,
         'hasvoted': submission.user_has_voted(request.user),
         'comments': comments,
