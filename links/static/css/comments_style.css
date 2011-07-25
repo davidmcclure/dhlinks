@@ -2,17 +2,18 @@
 
 #main-content {
     float: left;
-    width: 47%;
+    width: 53%;
+    margin: 8px;
 }
 
 #full-stack {
     margin: 42px 0 0 0;
 }
 
-#teasers{
+#teasers {
     overflow-x: hidden;
     float: right;
-    width: 48%;
+    width: 42%;
     margin: 40px 0 0 0;
 }
 
@@ -32,6 +33,7 @@
 
 #teasers-stack {
     white-space: nowrap;
+    padding: 0 5px 0 0;
 }
 
 .comment-container {
@@ -54,4 +56,31 @@
 
 #comments {
     margin: 0 0 0 1em;
+}
+
+#fader {
+    position: fixed;
+    width: 75px;
+    top: 0px;
+    right: 5px;
+    height: 3000px;
+    float: right;
+    background-image: -webkit-gradient(
+      linear, left top, right top, from(rgba(255,255,255,0.0)),
+      to(rgba(255,255,255,1.0))
+    );
+}
+
+#fader-margin {
+    position: fixed;
+    width: 5px;
+    top: 0px;
+    right: 0px;
+    height: 3000px;
+    float: right;
+    background: #ffffff;
+}
+
+body {
+    margin: 0;
 }
