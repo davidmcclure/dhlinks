@@ -14,13 +14,14 @@
     overflow-x: hidden;
     float: right;
     width: 42%;
-    margin: 40px 0 0 0;
+    position: relative;
+    top: 89px;
 }
 
 .teaser-container {
     color: #7c7c7c;
     margin: 0.8em 0 0.8em 0;
-    font-size: 0.8em;
+    font-size: 0.75em;
 }
 
 #full-stack li.link {
