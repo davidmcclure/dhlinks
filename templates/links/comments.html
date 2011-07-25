@@ -78,6 +78,12 @@
                 <div class="comment-container" style="margin-left: {{ indent }}px">
 
                     <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+
+                    <div class="comment-details">
+                        <span>{{ comment.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
+                        <span>Posted </span>
+                    </div>
+
                     <div class="comment-text">{{ comment.comment|linebreaks }}</div>
 
                 </div>

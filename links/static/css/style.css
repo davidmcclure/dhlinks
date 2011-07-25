@@ -181,7 +181,7 @@ a.comments-link {
     color: #9CC1FF;
 }
 
-.link-details {
+.link-details, .comment-details {
     color: #9b9b9b;
     font-size: 0.7em;
 }
@@ -255,7 +255,7 @@ img.submission-type-icon {
 .teaser-container {
     color: #7c7c7c;
     margin: 0.8em 0 0.8em 0;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 #full-stack li.link {
@@ -272,16 +272,16 @@ img.submission-type-icon {
 
 .comment-container {
     margin: 1em 0 1em 0;
-    font-size: 0.9em;
 }
 
 .comment-author {
-    font-size: 1.05em;
     color: #2B7BFF;
 }
 
 .comment-text {
     line-height: 1.5em;
+    font-size: 0.9em;
+    margin: 0.3em 0 0 0;
 }
 
 .comment-text p {

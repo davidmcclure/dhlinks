@@ -211,6 +211,10 @@ class Comment(models.Model):
     def __unicode__(self):
         return self.comment
 
+    def _get_number_of_votes(self):
+        return self.commentvote_set.filter(direction=True).count()
+    number_of_votes = property(_get_number_of_votes)
+
 
 
 class Vote(models.Model):
