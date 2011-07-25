@@ -1,4 +1,4 @@
-{% extends 'links/base_comments.html' %}
+{% extends 'links/links.html' %}
 
 {% block css %}
     <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
@@ -38,6 +38,19 @@
 {% endblock %}
 
 {% block content %}
+
+    <div id="content-header">
+
+        {% block tag %}
+
+        <div id="sort-menu">
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">quick-read</a>
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">full-text</a>
+        </div>
+
+        {% endblock %}
+
+    </div>
 
     <div id="full-stack">
 
@@ -95,18 +108,7 @@
 
     </div>
 
-{% endblock %}
-
-{% block right-content %}
-
-    <div id="teasers-stack">
-
-        {% for teaser, indent in teasers %}
-
-            <div class="teaser-container" style="margin-left: {{ indent }}px">{{ teaser.comment }}</div>
-
-        {% endfor %}
-
-    </div>
+    <div id="fader"></div>
+    <div id="fader-margin"></div>
 
 {% endblock %}

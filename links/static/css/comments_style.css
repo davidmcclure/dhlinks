@@ -7,7 +7,7 @@
 }
 
 #full-stack {
-    margin: 42px 0 0 0;
+    /* margin: 42px 0 0 0;*/
 }
 
 #teasers {
@@ -88,7 +88,6 @@
 }
 
 body {
-    margin: 0;
     overflow-x: hidden;
 }
 
