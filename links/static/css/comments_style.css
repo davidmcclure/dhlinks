@@ -1,0 +1,57 @@
+/* Comments */
+
+#main-content {
+    float: left;
+    width: 47%;
+}
+
+#full-stack {
+    margin: 42px 0 0 0;
+}
+
+#teasers{
+    overflow-x: hidden;
+    float: right;
+    width: 48%;
+    margin: 40px 0 0 0;
+}
+
+.teaser-container {
+    color: #7c7c7c;
+    margin: 0.8em 0 0.8em 0;
+    font-size: 0.8em;
+}
+
+#full-stack li.link {
+    list-style: none;
+}
+
+#full-stack li.link .link-title {
+    /* font-size: 1.2em;*/
+}
+
+#teasers-stack {
+    white-space: nowrap;
+}
+
+.comment-container {
+    margin: 1em 0 1em 0;
+}
+
+.comment-author {
+    color: #2B7BFF;
+}
+
+.comment-text {
+    line-height: 1.5em;
+    font-size: 0.9em;
+    margin: 0.3em 0 0 0;
+}
+
+.comment-text p {
+    margin: 0 0 1em 0;
+}
+
+#comments {
+    margin: 0 0 0 1em;
+}

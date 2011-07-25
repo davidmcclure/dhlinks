@@ -215,6 +215,19 @@ class Comment(models.Model):
         return self.commentvote_set.filter(direction=True).count()
     number_of_votes = property(_get_number_of_votes)
 
+    def _get_posted_on(self):
+        age = dt.datetime.now() - self.post_date
+        total_seconds = (age.microseconds + (age.seconds + age.days * 24 * 3600) * 10**6) / 10**6
+        if total_seconds > 86400:
+            string = 'on ' + self.post_date.strftime('%A, %B %d, %Y at %I:%M %p').replace(' 0', ' ')
+        elif total_seconds > 3600:
+            string = round((total_seconds / 3600), 0) + ' hours ago'
+        elif total_seconds > 60:
+            string = round((total_seconds / 60), 0) + ' minutes ago'
+        else:
+            string = total_seconds + ' seconds ago'
+        return string
+    posted_on = property(_get_posted_on)
 
 
 class Vote(models.Model):

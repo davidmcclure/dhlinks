@@ -1,7 +1,8 @@
-{% extends 'links/base.html' %}
+{% extends 'links/base_comments.html' %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}/css/comments_style.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascript %}
@@ -81,7 +82,7 @@
 
                     <div class="comment-details">
                         <span>{{ comment.number_of_votes }} vote{{ submission.number_of_votes|pluralize }}</span> |
-                        <span>Posted </span>
+                        <span>Posted {{ comment.posted_on }}</span>
                     </div>
 
                     <div class="comment-text">{{ comment.comment|linebreaks }}</div>
@@ -94,17 +95,17 @@
 
     </div>
 
-    <div id="teasers">
+{% endblock %}
 
-        <div id="teasers-stack">
+{% block right-content %}
 
-            {% for teaser, indent in teasers %}
+    <div id="teasers-stack">
 
-                <div class="teaser-container" style="margin-left: {{ indent }}px">{{ teaser.comment }}</div>
+        {% for teaser, indent in teasers %}
 
-            {% endfor %}
+            <div class="teaser-container" style="margin-left: {{ indent }}px">{{ teaser.comment }}</div>
 
-        </div>
+        {% endfor %}
 
     </div>
 
