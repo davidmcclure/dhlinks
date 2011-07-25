@@ -149,6 +149,7 @@ def comments(request, submission_id):
     # Push to template.
     return render_to_response('links/comments.html', {
         'submission': submission,
+        'hasvoted': submission.user_has_voted(request.user),
         'comments': comments,
         'teasers': teasers,
         'tags': tags,
