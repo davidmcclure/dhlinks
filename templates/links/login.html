@@ -1,19 +1,22 @@
-{% extends 'links/base.html' %}
+{% extends 'links/links.html' %}
 
 {% block content %}
-	
-	<h3>Login</h3>
 
-	<form action="/login" method="post">
-		
-		<table>
-			{{ form.as_table }}
-		</table>
-		
-		<input type="submit" value="Sign In">
-	
-	</form>
-	
+    <form action="/login" method="post">
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <label for="id_subject">// username</label>
+            {{ form.username }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.password.errors }}
+            <label for="id_message">// password</label>
+            {{ form.password }}
+        </div>
+        <p><input type="submit" value="LOGIN" /></p>
+    </form>
+
 	<p>Not a member? <a href="/register">Sign up!</a></p>
 
 {% endblock %}
