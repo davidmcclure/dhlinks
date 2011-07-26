@@ -1,14 +1,5 @@
 {% extends 'links/links.html' %}
 
-{% block navigation %}
-
-    <ul>
-        <li class="navigation-link"><a href="/submit"><span class="navigation-main-word">submit</span> <span class="navigation-arrow">-></span></a></li>
-        <li class="navigation-link selected"><a href="/my-links"><span class="navigation-main-word">my links</span> <span class="navigation-arrow">-></span></a></li>
-    </ul>
-
-{% endblock %}
-
 {% block tag %}
 
     <div id="sort-menu">
@@ -20,7 +11,7 @@
         {% endif %}
 
         <a href="/my-links" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
-        <a href="/my-links/new" class="sort-menu-item{% if sort == 'age' %} selected{% endif %}">age</a>
+        <a href="/my-links/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
         <a href="/my-links/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
 
     </div>

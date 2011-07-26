@@ -18,8 +18,7 @@ var Navigation = new Class ({
         Array.each(this.links, function(link) {
 
             var link_word = new LinkFader(link.getElement('span.navigation-main-word'), this.options.blue, this.options.orange);
-            var arrow = new LinkFader(link.getElement('span.navigation-arrow'), this.options.blue, this.options.blue);
-            this.nav_items.push([link_word, arrow]);
+            this.nav_items.push([link_word]);
 
         }.bind(this));
 

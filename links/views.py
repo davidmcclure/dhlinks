@@ -108,7 +108,8 @@ def mylinks_sort(request, sort):
         'tags': tags,
         'sort': sort,
         'tag': None,
-        'anon': request.user.is_anonymous()
+        'anon': request.user.is_anonymous(),
+        'navigation': 'mylinks'
     }, context_instance = RequestContext(request))
 
 
@@ -129,7 +130,8 @@ def mylinks_tag_sort(request, tag, sort):
         'tags': tags,
         'tag': tag,
         'sort': sort,
-        'anon': request.user.is_anonymous()
+        'anon': request.user.is_anonymous(),
+        'navigation': 'mylinks'
     }, context_instance = RequestContext(request))
 
 
@@ -205,7 +207,8 @@ def submit(request):
 
         # Push the form into the template.
         return render_to_response('links/submit.html', {
-            'form': form
+            'form': form,
+            'navigation': 'submit'
         }, context_instance=RequestContext(request))
 
     # If the user is not logged in, set a session variable that
