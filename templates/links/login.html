@@ -1,22 +1,26 @@
 {% extends 'links/links.html' %}
 
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block content %}
 
-    <form action="/login" method="post">
+    <form action="/login" method="post" id="login-form">
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
             {{ form.username.errors }}
-            <label for="id_subject">// username</label>
-            {{ form.username }}
+            <input type="text" name="username" id="id_username" value="username">
         </div>
         <div class="fieldWrapper">
             {{ form.password.errors }}
-            <label for="id_message">// password</label>
-            {{ form.password }}
+<input type="text" name="password" id="id_password" value="password">
         </div>
-        <p><input type="submit" value="LOGIN" /></p>
+        <!-- <p class="form-submit"><a href="">LOGIN</a></p>-->
+        <!-- <p><input type="submit" value="LOGIN" /></p>-->
     </form>
 
-	<p>Not a member? <a href="/register">Sign up!</a></p>
+	<!-- <p>Not a member? <a href="/register">Sign up!</a></p>-->
 
 {% endblock %}
