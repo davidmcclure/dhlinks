@@ -1,0 +1,41 @@
+/* Login */
+
+label {
+    font-family: Consolas, Cabin;
+    color: #9CC1FF;
+}
+
+input[type=password], input[type=text] {
+    border: 6px solid #f2f2f2;
+    font-size: 1.3em;
+    font-family: Consolas;
+    padding: 7px;
+    outline: none;
+    color: #dbdbdb;
+    margin: 0;
+    -webkit-box-shadow:
+            0 0 6px rgba(,0,0,0.1);
+    -moz-box-shadow:
+            0 0 6px rgba(0,0,0,0.1);
+    box-shadow:
+            0 0 6px rgba(0,0,0,0.1);
+}
+
+input#id_username {
+    margin: 0 0 0.8em 0;
+}
+
+form#login-form {
+    padding: 26px 0 0 0;
+
+}
+
+.form-submit a {
+    font-weight: bold;
+    color: #9CC1FF;
+    text-decoration: none;
+}
+
+.form-submit {
+    margin: 0.7em 0 0 1px;
+}

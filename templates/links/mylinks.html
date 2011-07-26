@@ -17,18 +17,3 @@
     </div>
 
 {% endblock %}
-
-{% block tags %}
-
-    <ul id="tag-list">
-    {% for sidetag in tags %}
-
-        <div class="tag-container">
-            <span class="tag-count {% if sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.user_count }}</span>
-            <li class="tag {% if sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></li>
-        </div>
-
-    {% endfor %}
-    </ul>
-
-{% endblock %}

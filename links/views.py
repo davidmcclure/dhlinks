@@ -257,9 +257,12 @@ def login(request):
         # If no form is posted, show the form.
         else: form = LoginForm()
 
-        # Push the form into the template.
+        # Get tags, push the form into the template.
+        tags = Tag.objects.rank()
         return render_to_response('links/login.html', {
-            'form': form
+            'form': form,
+            'tags': tags,
+            'anon': request.user.is_anonymous()
         }, context_instance=RequestContext(request))
 
     # If the use is already logged in, bounce her out to the front page.
