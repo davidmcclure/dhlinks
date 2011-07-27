@@ -44,8 +44,8 @@
         {% block tag %}
 
         <div id="sort-menu">
-            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">collapsed</a>
-            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">expanded</a>
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">collapse</a>
+            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">expand</a>
         </div>
 
         {% endblock %}
@@ -91,14 +91,24 @@
 
                 <div class="comment-container" style="margin-left: {{ indent }}px">
 
-                    <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+                    {% if not comment.has_voted %}
+                        <a href="/comment/upvote/{{ comment.id }}" class="upvote-link comments-upvote">+</a>
+                    {% else %}
+                        <span class="upvote-link has-voted comments-has-voted">+</span>
+                    {% endif %}
 
-                    <div class="comment-details">
-                        <span>| {{ comment.number_of_votes }} vote{{ comment.number_of_votes|pluralize }}</span> |
-                        <span>Posted {{ comment.posted_on }}</span>
+                    <div class="comment">
+
+                        <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
+
+                        <div class="comment-details">
+                            <span>| {{ comment.number_of_votes }} vote{{ comment.number_of_votes|pluralize }}</span> |
+                            <span>Posted {{ comment.posted_on }}</span>
+                        </div>
+
+                        <div class="comment-text">{{ comment.comment|linebreaks }}</div>
+
                     </div>
-
-                    <div class="comment-text">{{ comment.comment|linebreaks }}</div>
 
                 </div>
 

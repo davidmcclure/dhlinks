@@ -168,16 +168,18 @@ class CommentManager(models.Manager):
         'teasers': 20
     }
 
-    def comments(self, submission_id, indent_format):
+    def comments(self, submission_id, user):
         ordered_comments = []
         self.order = []
         self.indentation_depth = 0
         self.all_comments = Comment.objects.filter(submission = Submission.objects.get(pk=submission_id)).order_by('post_date')
         for comment in self.all_comments:
+            comment_record = self.model.objects.get(id = comment.id)
+            comment.has_voted = comment_record.user_has_voted(user)
             self.add_children(comment)
-        print self.order
         for order in self.order:
-            ordered_comments.append(([comment for comment in self.all_comments if comment.id == order[0]][0], order[1] * self.indent_multipliers[indent_format]))
+            ordered_comments.append(([comment for comment in self.all_comments
+                if comment.id == order[0]][0], order[1] * self.indent_multipliers['comments']))
         return ordered_comments
 
     def add_children(self, comment):
@@ -229,6 +231,12 @@ class Comment(models.Model):
         return string
     posted_on = property(_get_posted_on)
 
+    def user_has_voted(self, user):
+        vote = []
+        if user.is_authenticated():
+            vote = CommentVote.objects.filter(user = user, comment = self)
+        return True if vote else False
+
 
 class Vote(models.Model):
 
@@ -262,9 +270,24 @@ class SubmissionVote(Vote):
 
 
 
+class CommentVoteManager(models.Manager):
+
+    def create_vote(self, user, comment, direction, post_date):
+        vote_record = CommentVote(
+            user = user,
+            comment = comment,
+            direction = direction,
+            submit_date = post_date)
+        vote_record.save()
+
+    def vote_exists(self, user, comment):
+        return True if CommentVote.objects.filter(user = user, comment = comment).exists() else False
+
 class CommentVote(Vote):
 
     comment = models.ForeignKey(Comment)
+
+    objects = CommentVoteManager()
 
     def __unicode__(self):
         return self.comment.comment
