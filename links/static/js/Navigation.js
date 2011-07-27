@@ -30,26 +30,30 @@ var Navigation = new Class ({
                 aggregate_dom.push(part.div);
             }.bind(this))
 
-            $$(aggregate_dom).addEvents({
+            if (!item[0].div.getParent('li').hasClass('selected')) {
 
-                'mouseenter': function() {
+                $$(aggregate_dom).addEvents({
 
-                    Array.each(item, function(part) {
-                        part.fade_up();
-                    }.bind(this))
+                    'mouseenter': function() {
 
-                }.bind(this),
+                        Array.each(item, function(part) {
+                            part.fade_up();
+                        }.bind(this))
 
-                'mouseleave': function() {
+                    }.bind(this),
 
-                    Array.each(item, function(part) {
-                        part.fade_down();
-                    }.bind(this))
+                    'mouseleave': function() {
+
+                        Array.each(item, function(part) {
+                            part.fade_down();
+                        }.bind(this))
 
 
-                }.bind(this)
+                    }.bind(this)
 
-            });
+                });
+
+            }
 
         });
 
