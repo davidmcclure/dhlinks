@@ -144,8 +144,7 @@ def comments(request, submission_id):
 
     # Get comments and tags.
     submission = Submission.objects.get(pk = submission_id)
-    comments = Comment.objects.comments(submission_id, 'comments')
-    teasers = Comment.objects.comments(submission_id, 'teasers')
+    comments = Comment.objects.comments(submission_id, request.user)
     tags = Tag.objects.rank()
 
     # Push to template.
@@ -153,7 +152,6 @@ def comments(request, submission_id):
         'submission': submission,
         'hasvoted': submission.user_has_voted(request.user),
         'comments': comments,
-        'teasers': teasers,
         'tags': tags,
         'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
@@ -364,6 +362,42 @@ def submissionvote(request, submission_id, direction):
     else:
         request.session['login_redirect'] = 'submission/upvote/' + submission_id
         request.session['register_redirect'] = 'submission/upvote/' + submission_id
+        return HttpResponseRedirect('/login')
+
+
+def commentvote(request, comment_id, direction):
+
+    '''
+    Process an upvote.
+    '''
+
+    # Is the user logged in?
+    if request.user.is_authenticated():
+
+        # Fetch the submission object, get the current time.
+        comment = Comment.objects.get(pk = comment_id)
+        user = request.user
+        submit_date = dt.datetime.now()
+
+        # If the user has already upvoted the link, redirect to the front page.
+        # Theoretically, this should never be the case, since the view code
+        # only displays the upvote link if the user has not already upvoted a
+        # given submission. This safeguard prevents cheating by manually
+        # hitting the /submission/upvote route.
+        if CommentVote.objects.vote_exists(user, comment):
+            return HttpResponseRedirect('/')
+
+        # Otherwise, create the new vote record and redirect back to the
+        # comments thread.
+        else:
+            CommentVote.objects.create_vote(
+                user, comment, direction, submit_date)
+            return HttpResponseRedirect('/comments/' + str(int(comment.submission.id)))
+
+    # If the user is not logged in, prompt login and store flow origin.
+    else:
+        request.session['login_redirect'] = 'comment/upvote/' + comment_id
+        request.session['register_redirect'] = 'comment/upvote/' + comment_id
         return HttpResponseRedirect('/login')
 
 

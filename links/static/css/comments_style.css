@@ -39,6 +39,7 @@
 
 .comment-container {
     margin: 0em 0 0.3em 0;
+    cursor: default;
 }
 
 .comment-author {
@@ -94,4 +95,17 @@ body {
 .comment-details {
     display: inline;
     opacity: 0.6;
+}
+
+.comment {
+    margin: 0 0 0 1em;
+}
+
+.comments-upvote, .comments-has-voted {
+    opacity: 0.4;
+    top: 17px;
+}
+
+.comments-upvote {
+    color: #2B7BFF;
 }
