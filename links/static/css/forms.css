@@ -2,7 +2,7 @@
 
 label {
     font-family: Consolas, Cabin;
-    color: #9CC1FF;
+    color: #DBDBDB;
 }
 
 input[type=password], input[type=text] {
@@ -21,7 +21,35 @@ input[type=password], input[type=text] {
             0 0 5px rgba(0,0,0,0.1);
 }
 
+input[type=submit] {
+    background-color: #2B7BFF;
+    font-size: 1.3em;
+    font-family: Consolas;
+    font-weight: bold;
+    width: 100px;
+    height: 40px;
+    border: 0;
+    color: #fff;
+    border-radius: 0px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow:
+        0 30px 30px -18px rgba(220,255,255,0.65) inset, /* Inner gradient */
+        1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
+    ;
+
+    -webkit-border-radius: 0px;
+    -webkit-text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
+    -webkit-box-shadow:
+        0 30px 30px -18px rgba(220,255,255,0.65) inset, /* Inner gradient */
+        1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
+    ;
+}
+
 input#id_username {
+    margin: 0 0 0.3em 0;
+}
+
+.fieldWrapper {
     margin: 0 0 0.8em 0;
 }
 

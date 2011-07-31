@@ -7,7 +7,8 @@ var LinkFader = new Class ({
         fadein_duration: 10,
         fadeout_duration: 70,
         transition: Fx.Transitions.Quad.easeOut,
-        fadeout_variance_interval: 100
+        fadeout_variance_interval: 100,
+        property: 'color'
     },
 
     initialize: function(div, starting_color, target_color, options) {
@@ -28,14 +29,14 @@ var LinkFader = new Class ({
 
         // this.div.set('tween', { duration: this.options.fadein_duration });
         // this.div.tween('color', this.target_color);
-        this.div.setStyle('color', this.target_color);
+        this.div.setStyle(this.options.property, this.target_color);
 
     },
 
     fade_down: function() {
 
         this.div.set('tween', { duration: this.options.fadeout_duration });
-        this.div.tween('color', this.starting_color);
+        this.div.tween(this.options.property, this.starting_color);
 
     }
 
