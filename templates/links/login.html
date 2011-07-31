@@ -15,10 +15,13 @@
         </div>
         <div class="fieldWrapper">
             {{ form.password.errors }}
-<input type="text" name="password" id="id_password" value="password">
+            <input type="text" name="password" id="id_password" value="password">
         </div>
-        <!-- <p class="form-submit"><a href="">LOGIN</a></p>-->
-        <p><input type="submit" value="LOGIN" /></p>
+        <div class="fieldWrapper">
+            {{ form.remember_me }}
+            <label for="remember_me">{{ form.remember_me.label }}</label>
+        </div>
+        <p><input type="submit" value="login" /></p>
     </form>
 
 	<!-- <p>Not a member? <a href="/register">Sign up!</a></p>-->
