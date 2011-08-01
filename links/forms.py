@@ -38,9 +38,28 @@ class SubmitForm(forms.Form):
 
 class LoginForm(forms.Form):
 
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True, widget=forms.PasswordInput)
+    username = forms.CharField(required=True, initial='username')
+    password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password')
     remember_me = forms.BooleanField(required=False, label='remember me', initial=True)
+
+    def clean(self):
+
+        cleaned_data = self.cleaned_data
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        if User.objects.filter(username=cleaned_data.get('username')).exists():
+            user = User.objects.get(username=cleaned_data.get('username'))
+            if not user.check_password(password):
+                msg = u'// wrong password'
+                self._errors['password'] = self.error_class([msg])
+
+        else:
+            msg = u'// nonexistent user name'
+            self._errors['username'] = self.error_class([msg])
+
+
+        return cleaned_data
 
 
 class RegisterForm(forms.Form):
