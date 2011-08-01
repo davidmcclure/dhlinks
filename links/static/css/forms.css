@@ -76,4 +76,11 @@ ul.errorlist {
     font-family: Consolas, Cabin;
     color: #ff0000;
     list-style: none;
+    margin: 0 0 0 1em;
+    padding: 0;
+    display: inline;
+}
+
+ul.errorlist li {
+    display: inline;
 }
