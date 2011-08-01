@@ -237,6 +237,7 @@ def login(request):
                 # Get the usename and password out of the cleaned data.
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
+                remember_me = form.cleaned_data['remember_me']
 
                 # Throw the combo at the auth system, which checks to
                 # see if the user exists and, if so, returns her User object.
@@ -249,7 +250,8 @@ def login(request):
                 # trying to go when she was prompted to log in.
                 if user is not None and user.is_active:
                     auth.login(request, user)
-                    request.session.set_expiry(0)
+                    if remember_me: request.session.set_expiry(0)
+                    else: request.session.set_expiry(600)
                     return HttpResponseRedirect('/' + request.session.get('login_redirect', ''))
 
         # If no form is posted, show the form.
