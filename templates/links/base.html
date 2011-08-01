@@ -36,6 +36,9 @@
                 <li class="navigation-link{% if navigation = 'submit' %} selected{% endif %}"><a href="/submit"><span class="navigation-main-word">submit</span></a></li>
                 {% if not anon %}
                 <li class="navigation-link{% if navigation = 'mylinks' %} selected{% endif %}"><a href="/my-links"><span class="navigation-main-word">my links</span></a></li>
+                <li class="navigation-link"><a href="/logout"><span class="navigation-main-word">logout</span></a></li>
+                {% else %}
+                <li class="navigation-link{% if navigation = 'login' %} selected{% endif %}"><a href="/login"><span class="navigation-main-word">login</span></a></li>
                 {% endif %}
             </ul>
 

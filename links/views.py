@@ -262,7 +262,8 @@ def login(request):
         return render_to_response('links/login.html', {
             'form': form,
             'tags': tags,
-            'anon': request.user.is_anonymous()
+            'anon': request.user.is_anonymous(),
+            'navigation': 'login'
         }, context_instance=RequestContext(request))
 
     # If the use is already logged in, bounce her out to the front page.
