@@ -5,6 +5,11 @@
     <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
+{% endblock %}
+
 {% block content %}
 
     <form action="/login" method="post" id="login-form">
@@ -19,7 +24,7 @@
         </div>
         <div class="fieldWrapper">
             {{ form.remember_me }}
-            <label for="remember_me">{{ form.remember_me.label }}</label>
+            <label for="remember_me"{% if form.remember_me.initial == True %} class="selected"{% endif %}>{{ form.remember_me.label }}</label>
         </div>
         <p><input type="submit" value="login" /></p>
     </form>

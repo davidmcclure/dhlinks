@@ -40,7 +40,7 @@ class LoginForm(forms.Form):
 
     username = forms.CharField(required=True)
     password = forms.CharField(required=True, widget=forms.PasswordInput)
-    remember_me = forms.BooleanField(required=False, label='remember me')
+    remember_me = forms.BooleanField(required=False, label='remember me', initial=True)
 
 
 class RegisterForm(forms.Form):
