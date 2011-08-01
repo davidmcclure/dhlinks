@@ -192,7 +192,7 @@ class CommentManager(models.Manager):
         self.indentation_depth -= 1
         return
 
-    def create_comment(self, comment, post_date, submission):
+    def create_comment(self, comment, post_date, submission, user):
         if comment != '':
             first_comment = Comment(
                 comment = comment,

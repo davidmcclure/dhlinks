@@ -1,17 +1,37 @@
-{% extends 'links/base.html' %}
+{% extends 'links/links.html' %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/deployments/_submit_form_deployment.js"></script>
+{% endblock %}
 
 {% block content %}
 
-	<h3>Submit</h3>
-	
-	<form action="/submit" method="post">
-		
-		<table>
-			{{ form.as_table }}
-		</table>
-		
-		<input type="submit" value="Submit">
-	
-	</form>
+    <form action="/submit" method="post" id="submit-form">
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            <input type="text" name="title" id="id_title" value="{{ form.title.value }}">
+            {{ form.title.errors }}
+        </div>
+        <div class="fieldWrapper">
+            <input type="text" name="url" id="id_url" value="{{ form.url.value }}">
+            {{ form.url.errors }}
+        </div>
+        <div class="fieldWrapper">
+            <input type="text" name="tags" id="id_tags" value="{{ form.tags.value }}">
+            {{ form.tags.errors }}
+        </div>
+        <div class="fieldWrapper">
+            <textarea id="id_comment" rows="10" cols="41" name="comment">{{ form.comment.value }}</textarea>
+            {{ form.comment.errors }}
+        </div>
+        <p><input type="submit" value="submit" /></p>
+    </form>
 
 {% endblock %}
