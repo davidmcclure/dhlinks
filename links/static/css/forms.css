@@ -33,14 +33,14 @@ input[type=submit] {
     border-radius: 0px;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
     box-shadow:
-        0 30px 30px -18px rgba(220,255,255,0.65) inset, /* Inner gradient */
+        0 30px 30px -18px rgba(255,255,255,0.65) inset, /* Inner gradient */
         1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
     ;
 
     -webkit-border-radius: 0px;
     -webkit-text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
     -webkit-box-shadow:
-        0 30px 30px -18px rgba(220,255,255,0.65) inset, /* Inner gradient */
+        0 30px 30px -18px rgba(255,255,255,0.65) inset, /* Inner gradient */
         1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
     ;
 }
@@ -66,4 +66,8 @@ form#login-form {
 
 .form-submit {
     margin: 0.7em 0 0 1px;
+}
+
+label.selected {
+    color: #2b7bff;
 }
