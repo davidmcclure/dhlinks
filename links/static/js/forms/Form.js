@@ -43,6 +43,17 @@ var Form = new Class ({
             input.store('focus_status', false);
             input.store('has_typed', false);
 
+            // does the field have an error output, meaning that the field
+            // should be glossed on by default?
+            var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
+
+            // if so, set focus_status and has_typed to true
+            if (error_messages.length != 0) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', this.options.blue);
+            }
+
             input.addEvents({
 
                 'focus': function() {
@@ -61,7 +72,7 @@ var Form = new Class ({
 
                     if (!input.retrieve('has_typed') || input.get('value') == '') {
                         input.setStyle('color', this.options.form_gray);
-                        input.set('value', input.getAttribute('value'));
+                        input.set('value', input.getAttribute('name'));
                         input.store('has_typed', false);
                     }
 
@@ -114,6 +125,19 @@ var Form = new Class ({
         this.password_inputs = $$('input[name=' + this.options.password_input_name + ']');
 
         Array.each(this.password_inputs, function(input) {
+
+            // does the field have an error output, meaning that the field
+            // should be glossed on by default?
+            var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
+
+            // if so, set focus_status and has_typed to true
+            if (error_messages.length != 0) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', this.options.blue);
+                input.set('type', 'password');
+                input.set('value', '');
+            }
 
             input.addEvents({
 

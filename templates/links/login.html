@@ -16,12 +16,12 @@
     <form action="/login" method="post" id="login-form">
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
+            <input type="text" name="username" id="id_username" value="{{ form.username.value }}">
             {{ form.username.errors }}
-            <input type="text" name="username" id="id_username" value="username">
         </div>
         <div class="fieldWrapper">
-            {{ form.password.errors }}
             <input type="text" name="password" id="id_password" value="password">
+            {{ form.password.errors }}
         </div>
         <div class="fieldWrapper">
             {{ form.remember_me }}

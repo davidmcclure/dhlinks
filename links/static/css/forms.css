@@ -71,3 +71,9 @@ form#login-form {
 label.selected {
     color: #2b7bff;
 }
+
+ul.errorlist {
+    font-family: Consolas, Cabin;
+    color: #ff0000;
+    list-style: none;
+}
