@@ -195,7 +195,7 @@ def submit(request):
 
                 # Create the first comment, if it exists.
                 Comment.objects.create_comment(
-                    comment, post_date, submission)
+                    comment, post_date, submission, user)
 
                 # Redirect to the front page.
                 return HttpResponseRedirect('/')
@@ -204,9 +204,12 @@ def submit(request):
         else: form = SubmitForm()
 
         # Push the form into the template.
+        tags = Tag.objects.rank()
         return render_to_response('links/submit.html', {
             'form': form,
-            'navigation': 'submit'
+            'tags': tags,
+            'anon': request.user.is_anonymous(),
+            'navigation': 'login'
         }, context_instance=RequestContext(request))
 
     # If the user is not logged in, set a session variable that

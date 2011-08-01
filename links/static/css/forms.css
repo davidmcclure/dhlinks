@@ -1,11 +1,11 @@
-/* Login */
+/* General, Login */
 
 label {
     font-family: Consolas, Cabin;
     color: #DBDBDB;
 }
 
-input[type=password], input[type=text] {
+input[type=password], input[type=text], textarea {
     border: 6px solid #f2f2f2;
     font-size: 1.3em;
     font-family: Consolas;
@@ -45,7 +45,7 @@ input[type=submit] {
     ;
 }
 
-input#id_username {
+input#id_username, input#id_title, input#id_url, input#id_tags {
     margin: 0 0 0.3em 0;
 }
 
@@ -53,7 +53,7 @@ input#id_username {
     margin: 0 0 0.8em 0;
 }
 
-form#login-form {
+form {
     padding: 26px 0 0 0;
 
 }
@@ -83,4 +83,10 @@ ul.errorlist {
 
 ul.errorlist li {
     display: inline;
+}
+
+/* Submit */
+
+#submit-form input[type=text] {
+    width: 506px;
 }

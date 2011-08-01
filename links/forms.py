@@ -3,10 +3,10 @@ from links.models import *
 
 class SubmitForm(forms.Form):
 
-    url = forms.URLField(required=False, label='URL')
-    title = forms.CharField(required=True)
-    tags = forms.CharField(required=False)
-    comment = forms.CharField(widget=forms.Textarea(), required=False)
+    url = forms.URLField(required=False, initial='url')
+    title = forms.CharField(required=True, initial='title')
+    tags = forms.CharField(required=False, initial='tags')
+    comment = forms.CharField(widget=forms.Textarea(), required=False, initial='comment')
 
     def clean_url(self):
 
@@ -34,6 +34,15 @@ class SubmitForm(forms.Form):
                 cleaned_tags.append(tag)
 
         return cleaned_tags
+
+    def clean_comment(self):
+
+        dummy_form = SubmitForm()
+        cleaned_comment = self.cleaned_data.get('comment')
+        if cleaned_comment == 'comment':
+            cleaned_comment = ''
+
+        return cleaned_comment
 
 
 class LoginForm(forms.Form):
