@@ -47,8 +47,9 @@ var Form = new Class ({
             // should be glossed on by default?
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
-            // if so, set focus_status and has_typed to true
-            if (error_messages.length != 0) {
+            // if so, or if the name of the input is different from the value,
+            // set focus_status and has_typed to true
+            if (error_messages.length != 0 || input.getAttribute('name') != input.getAttribute('value')) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
                 input.setStyle('color', this.options.blue);
