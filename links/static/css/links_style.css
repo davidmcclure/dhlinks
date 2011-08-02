@@ -185,6 +185,11 @@ a.comments-link {
     color: #F7BA36;
 }
 
+a.start-comments-link {
+    text-decoration: none;
+    color: #9CC1FF;
+}
+
 .link-details, .comment-details {
     color: #9b9b9b;
     font-size: 0.7em;

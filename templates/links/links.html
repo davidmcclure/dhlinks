@@ -76,7 +76,7 @@
                     {% if submission.submission_type == 'link' %}
                         <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
                     {% else %}
-                        <a href="/comments/{{ submission.id }}" target="_blank" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                        <a href="/comments/{{ submission.id }}" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
                     {% endif %}
                 </span>
 
@@ -87,6 +87,8 @@
 
                     {% if submission.number_of_comments > 0 %}
                         | <span><a href="/comments/{{ submission.id }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
+                    {% else %}
+                        | <span><a href="/comments/{{ submission.id }}" class="start-comments-link">declaim</a></span>
                     {% endif %}
 
                 </div>
