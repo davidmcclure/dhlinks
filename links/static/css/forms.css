@@ -1,33 +1,24 @@
 /* General, Login */
 
 label {
-    font-family: Consolas, Cabin;
     color: #DBDBDB;
 }
 
 input[type=password], input[type=text], textarea {
-    border: 6px solid #f2f2f2;
-    font-size: 1.3em;
-    font-family: Consolas;
+    border: 1px solid #CCC;
+    font-size: 1.1em;
     padding: 7px;
     outline: none;
     color: #dbdbdb;
     margin: 0;
-    -webkit-box-shadow:
-            0 0 5px rgba(,0,0,0.1);
-    -moz-box-shadow:
-            0 0 5px rgba(0,0,0,0.1);
-    box-shadow:
-            0 0 5px rgba(0,0,0,0.1);
 }
 
 input[type=submit] {
     background-color: #2B7BFF;
-    font-size: 1.3em;
-    font-family: Consolas;
+    font-size: 1.1em;
     font-weight: bold;
-    width: 100px;
-    height: 40px;
+    width: 80px;
+    height: 35px;
     border: 0;
     color: #fff;
     border-radius: 0px;
@@ -54,7 +45,7 @@ input#id_username, input#id_title, input#id_url, input#id_tags {
 }
 
 form {
-    padding: 26px 0 0 0;
+    padding: 32px 0 0 0;
 
 }
 
@@ -74,6 +65,7 @@ label.selected {
 
 ul.errorlist {
     font-family: Consolas, Cabin;
+    font-size: 0.8em;
     color: #ff0000;
     list-style: none;
     margin: 0 0 0 1em;
@@ -87,6 +79,7 @@ ul.errorlist li {
 
 /* Submit */
 
-#submit-form input[type=text] {
-    width: 506px;
+
+#submit-form input[type=text], #submit-form textarea {
+    width: 500px;
 }
