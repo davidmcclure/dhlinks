@@ -12,4 +12,6 @@ window.addEvent('domready', function() {
 
     this.scroller = new ScrollMonitor();
 
+    this.loader = new Loader(document.id('loader-text'));
+
 });

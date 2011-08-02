@@ -7,7 +7,7 @@ var Loader = new Class ({
         blue: '#2b7bff',
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
-        pop_interval: 40
+        pop_interval: 80
     },
 
     initialize: function(div, options) {
@@ -43,13 +43,13 @@ var Loader = new Class ({
             case 'right':
 
                 if (this.counter + 1 <= this.letter_count) {
-                    this.split.pop_letter(this.split.letters[this.counter], this.options.blue, this.options.orange);
+                    this.split.letters[this.counter].pop(this.options.blue, this.options.orange, this.split.letters[this.counter].loader_pop)
                     this.counter++;
                 }
 
                 else {
                     this.counter -= 2;
-                    this.split.pop_letter(this.split.letters[this.counter], this.options.blue, this.options.orange);
+                    this.split.letters[this.counter].pop(this.options.blue, this.options.orange, this.split.letters[this.counter].loader_pop)
                     this.direction = 'left';
                     this.counter--;
                 }
@@ -59,12 +59,12 @@ var Loader = new Class ({
             case 'left':
 
                 if (this.counter != 0) {
-                    this.split.pop_letter(this.split.letters[this.counter], this.options.blue, this.options.orange);
+                    this.split.letters[this.counter].pop(this.options.blue, this.options.orange, this.split.letters[this.counter].loader_pop)
                     this.counter--;
                 }
 
                 else {
-                    this.split.pop_letter(this.split.letters[this.counter], this.options.blue, this.options.orange);
+                    this.split.letters[this.counter].pop(this.options.blue, this.options.orange, this.split.letters[this.counter].loader_pop)
                     this.direction = 'right';
                     this.counter++;
                 }
