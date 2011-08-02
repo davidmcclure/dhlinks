@@ -209,7 +209,7 @@ def submit(request):
             'form': form,
             'tags': tags,
             'anon': request.user.is_anonymous(),
-            'navigation': 'login'
+            'navigation': 'submit'
         }, context_instance=RequestContext(request))
 
     # If the user is not logged in, set a session variable that

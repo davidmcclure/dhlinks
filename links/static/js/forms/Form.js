@@ -24,6 +24,7 @@ var Form = new Class ({
         this.gloss_submits();
         this.gloss_password_input();
         this.gloss_checkboxes();
+        this.gloss_textareas();
 
     },
 
@@ -257,6 +258,98 @@ var Form = new Class ({
 
         }.bind(this));
 
-    }
+    },
+
+    gloss_textareas: function() {
+
+        this.textareas = $$('textarea');
+
+        this.textareas.set('tween', {
+            transition: this.options.transition,
+            fps: this.options.fps
+        });
+
+        Array.each(this.textareas, function(input) {
+
+            input.store('focus_status', false);
+            input.store('has_typed', false);
+
+            // does the field have an error output, meaning that the field
+            // should be glossed on by default?
+            var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
+
+            // if so, or if the name of the input is different from the value,
+            // set focus_status and has_typed to true
+            if (error_messages.length != 0 || input.getAttribute('name') != input.get('text')) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', this.options.blue);
+            }
+
+            input.addEvents({
+
+                'focus': function() {
+
+                    if (!input.retrieve('has_typed')) {
+                        input.set('value', '');
+                    }
+
+                    input.store('focus_status', true);
+                    input.set('tween', { duration: this.options.fadein_duration });
+                    input.tween('color', this.options.blue);
+
+                }.bind(this),
+
+                'blur': function() {
+
+                    if (!input.retrieve('has_typed') || input.get('value') == '') {
+                        input.setStyle('color', this.options.form_gray);
+                        input.set('value', input.getAttribute('name'));
+                        input.store('has_typed', false);
+                    }
+
+                    else {
+                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.tween('color', this.options.blue);
+                    }
+
+                    input.store('focus_status', false);
+
+                }.bind(this),
+
+                'keydown': function() {
+
+                    input.store('has_typed', true);
+
+                }.bind(this),
+
+                'mouseenter': function() {
+
+                    if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
+                        input.set('tween', { duration: this.options.fadein_duration });
+                        input.tween('color', this.options.light_blue);
+                    }
+
+                }.bind(this),
+
+                'mouseleave': function() {
+
+                    if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
+                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.tween('color', this.options.input_gray);
+                    }
+
+                    else if (!input.retrieve('focus_status') && input.retrieve('has_typed')) {
+                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.tween('color', this.options.blue);
+                    }
+
+                }.bind(this)
+
+            });
+
+        }.bind(this));
+
+    },
 
 });

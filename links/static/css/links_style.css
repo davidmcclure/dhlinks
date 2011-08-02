@@ -58,6 +58,10 @@ body {
 
 /* Tags */
 
+#tags {
+    opacity: 0.75;
+}
+
 ul#tag-list {
     list-style: none;
     text-align: right;
@@ -218,7 +222,7 @@ img.submission-type-icon {
 #navigation ul {
     text-align: right;
     list-style: none;
-    font-size: 0.9em;
+    font-size: 0.9;
     margin: 0 54px 0 0;
 }
 
@@ -227,6 +231,7 @@ img.submission-type-icon {
     font-weight: normal;
     color: #2b7bff;
     font-family: Consolas, Cabin;
+    font-size: 0.9em;
 }
 
 #navigation .navigation-main-word {
