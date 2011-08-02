@@ -116,8 +116,6 @@ var Links = new Class ({
 
         }.bind(this));
 
-        // this.loader = new Loader(document.id('loader-text'));
-
     }
 
 });

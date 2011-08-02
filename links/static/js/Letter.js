@@ -34,6 +34,11 @@ var Letter = new Class ({
                 duration: this.durations.fade_duration_fast_pop,
                 fps: this.durations.fps,
                 transition: this.durations.transition
+            },
+            loader_pop: {
+                duration: this.durations.fade_duration_loader_pop,
+                fps: this.durations.fps,
+                transition: this.durations.transition
             }
 
         }
@@ -44,6 +49,14 @@ var Letter = new Class ({
 
         this._set_tween(tween_settings);
         this.div.tween('color', color);
+
+    },
+
+    pop: function(target_color, base_color, tween_settings) {
+
+        this._set_tween(tween_settings);
+        this.div.setStyle('color', target_color);
+        this.div.tween('color', base_color);
 
     },
 
@@ -60,6 +73,8 @@ var Letter = new Class ({
         fade_duration_mouseleave: 30,
         fade_duration_slow_pop: 2000,
         fade_duration_fast_pop: 500,
+        fade_duration_loader_pop: 5,
+        transition: 'quad:in',
         fps: 100
 
     }
