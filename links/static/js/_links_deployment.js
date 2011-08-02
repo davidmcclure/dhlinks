@@ -10,8 +10,21 @@ window.addEvent('domready', function() {
 
     this.tags = new Tags('tag');
 
-    this.scroller = new ScrollMonitor();
+    this.scroller = new ScrollMonitor({
 
-    this.loader = new Loader(document.id('loader-text'));
+        onEnter: function() {
+
+            // fire get new links method
+            // start loader
+
+            this.loader.start();
+
+        }.bind(this)
+
+    });
+
+    if (document.id('loader-text') != null) {
+        this.loader = new Loader(document.id('loader-text'));
+    }
 
 });
