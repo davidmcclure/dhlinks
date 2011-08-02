@@ -40,7 +40,7 @@ var Links = new Class ({
                 link_pusher.push(new LinkFader(link_base_url, this.options.light_blue, this.options.orange));
             }
             if (comments_link != null) {
-                this.comment_links.push(new LinkFader(comments_link, this.options.light_blue, this.options.orange));
+                this.comment_links.push(new LinkFader(comments_link, this.options.orange, this.options.blue));
             }
             if (upvote_link != null) {
                 this.upvote_links.push(new LinkFader(upvote_link, this.options.blue, this.options.orange));
