@@ -3,7 +3,7 @@ var ScrollMonitor = new Class ({
     Implements: [Options, Events],
 
     options: {
-        bottom_region_percentage: 3
+        bottom_region_percentage: 1
     },
 
     initialize: function(options) {

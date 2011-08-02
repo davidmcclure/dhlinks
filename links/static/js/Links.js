@@ -13,6 +13,9 @@ var Links = new Class ({
 
         this.setOptions(options);
         this.link_container_class = link_container_class;
+
+        this.link_batch = 1;
+
         this.gloss_links();
 
     },
