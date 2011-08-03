@@ -6,7 +6,6 @@ import urlparse
 import operator
 
 
-
 class UserProfileManager(models.Manager):
 
     def create_user(self, username, email, password, firstname, lastname):
@@ -17,6 +16,7 @@ class UserProfileManager(models.Manager):
         new_user.save()
         new_user_profile = UserProfile(user = new_user)
         new_user_profile.save()
+
 
 class UserProfile(models.Model):
 
@@ -109,6 +109,7 @@ class SubmissionManager(models.Manager):
         submission.save()
         return submission
 
+
 class Submission(models.Model):
 
     url = models.CharField(max_length=500, null=True)
@@ -160,7 +161,6 @@ class Submission(models.Model):
         return True if vote else False
 
 
-
 class CommentManager(models.Manager):
 
     indent_multipliers = {
@@ -199,6 +199,7 @@ class CommentManager(models.Manager):
                 post_date = post_date,
                 submission = submission)
             first_comment.save()
+
 
 class Comment(models.Model):
 
@@ -245,7 +246,6 @@ class Vote(models.Model):
     direction = models.BooleanField()
 
 
-
 class SubmissionVoteManager(models.Manager):
 
     def create_vote(self, user, submission, direction, post_date):
@@ -259,6 +259,7 @@ class SubmissionVoteManager(models.Manager):
     def vote_exists(self, user, submission):
         return True if SubmissionVote.objects.filter(user = user, submission = submission).exists() else False
 
+
 class SubmissionVote(Vote):
 
     submission = models.ForeignKey(Submission)
@@ -267,7 +268,6 @@ class SubmissionVote(Vote):
 
     def __unicode__(self):
         return self.submission.title
-
 
 
 class CommentVoteManager(models.Manager):
@@ -282,6 +282,7 @@ class CommentVoteManager(models.Manager):
 
     def vote_exists(self, user, comment):
         return True if CommentVote.objects.filter(user = user, comment = comment).exists() else False
+
 
 class CommentVote(Vote):
 
@@ -318,6 +319,7 @@ class TagManager(models.Manager):
                 submission = submission,
                 tag = parent_tag)
             tag_submission.save()
+
 
 class Tag(models.Model):
 

@@ -138,8 +138,7 @@ def mylinks_tag_sort(request, tag, sort):
 def comments(request, submission_id):
 
     '''
-    Main comments view. It may be best to eventually split this off into its
-    own app?
+    Show comments for a given submission.
     '''
 
     # Get comments and tags.
@@ -242,20 +241,20 @@ def login(request):
                 password = form.cleaned_data['password']
                 remember_me = form.cleaned_data['remember_me']
 
-                # Throw the combo at the auth system, which checks to
-                # see if the user exists and, if so, returns her User object.
+                # Throw the combo at the auth system
                 user = auth.authenticate(
                     username = username,
                     password = password)
 
-                # If the user exists and is active (Django taxonomy),
-                # log the use in and redirect to wherever the user was
-                # trying to go when she was prompted to log in.
+                # If the user exists and is active, log the use in
+                # and redirect to wherever the user was trying to go
+                # when she was prompted to log in.
                 if user is not None and user.is_active:
                     auth.login(request, user)
                     if remember_me: request.session.set_expiry(0)
                     else: request.session.set_expiry(600)
-                    return HttpResponseRedirect('/' + request.session.get('login_redirect', ''))
+                    return HttpResponseRedirect('/' + \
+                            request.session.get('login_redirect', ''))
 
         # If no form is posted, show the form.
         else: form = LoginForm()
@@ -312,7 +311,8 @@ def register(request):
 
                 # Redirect to wherever the user was when she was prompted to
                 # login/register.
-                return HttpResponseRedirect('/' + request.session.get('register_redirect', ''))
+                return HttpResponseRedirect('/' + \
+                        request.session.get('register_redirect', ''))
 
         # If no form is posted, show the form.
         else: form = RegisterForm()
@@ -374,7 +374,7 @@ def submissionvote(request, submission_id, direction):
 def commentvote(request, comment_id, direction):
 
     '''
-    Process an upvote.
+    Process a comment upvote.
     '''
 
     # Is the user logged in?
