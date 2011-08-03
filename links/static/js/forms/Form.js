@@ -6,8 +6,9 @@ var Form = new Class ({
         orange: '#f7ba36',
         blue: '#2b7bff',
         gray: '#9b9b9b',
-        light_blue: '#9cc1ff',
+        light_blue: '#2b7bff',
         input_gray: '#dbdbdb',
+        off_black: '#191919',
         fps: 100,
         fadein_duration: 10,
         fadeout_duration: 70,
@@ -292,6 +293,7 @@ var Form = new Class ({
 
                     if (!input.retrieve('has_typed')) {
                         input.set('value', '');
+                        input.setStyle('color', this.options.off_black);
                     }
 
                     input.store('focus_status', true);

@@ -11,6 +11,11 @@ input[type=password], input[type=text], textarea {
     outline: none;
     color: #dbdbdb;
     margin: 0;
+    background-color: #f7faff;
+}
+
+textarea {
+    font-size: 0.9em;
 }
 
 input[type=submit] {
@@ -82,4 +87,9 @@ ul.errorlist li {
 
 #submit-form input[type=text], #submit-form textarea {
     width: 500px;
+}
+
+#submit-form textarea {
+    width: 90%;
+    height: 100px;
 }

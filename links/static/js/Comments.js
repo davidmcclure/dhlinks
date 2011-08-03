@@ -34,8 +34,6 @@ var Comments = new Class ({
             var upvote_link = comment.getElement('.upvote-link');
             var opaque_content = $$([comment_author, comment_details, upvote_link]);
             var comment_text = comment.getElement('.comment-text');
-            var comment_paragraphs = comment_text.getElements('p');
-            var last_comment_paragraph = comment_text.getElement('p:last-child');
 
             var link_text_fader = new LinkFader(comment_text, this.options.base_text_color, this.options.blue);
             var link_details_fader = new LinkFader(opaque_content, 0.6, 1.0, { property: 'opacity' });
@@ -64,51 +62,6 @@ var Comments = new Class ({
                         comment.store('on_upvote', false);
                     }
 
-
-                }.bind(this),
-
-                'mousedown': function() {
-
-                    switch (comment.retrieve('status')) {
-
-                        case 'collapsed':
-
-                            if (!comment.retrieve('on_upvote')) {
-
-                                comment_text.setStyles({
-                                    'white-space': 'normal',
-                                    'margin-right': '5em'
-                                });
-
-                                comment_paragraphs.setStyle('display', 'block');
-                                last_comment_paragraph.setStyle('margin', 0);
-
-                                comment.store('status', 'expanded');
-
-                            }
-
-                        break;
-
-                        case 'expanded':
-
-                            if (!comment.retrieve('on_upvote')) {
-
-                                comment_text.setStyles({
-                                    'white-space': 'nowrap',
-                                    'margin-right': '0'
-                                });
-
-                                comment_paragraphs.setStyles({
-                                    'display': 'inline'
-                                });
-
-                                comment.store('status', 'collapsed');
-
-                            }
-
-                        break;
-
-                    }
 
                 }.bind(this)
 
