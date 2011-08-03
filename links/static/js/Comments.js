@@ -7,10 +7,7 @@ var Comments = new Class ({
         blue: '#2b7bff',
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
-        base_text_color: '#484848',
-        fps: 100,
-        transition: Fx.Transitions.Quad.easeOut,
-        duration: 100
+        base_text_color: '#484848'
     },
 
     initialize: function(comment_block_container_id, comment_container_class, options) {
@@ -18,14 +15,6 @@ var Comments = new Class ({
         this.setOptions(options);
         this.comments_container = document.id('comment_block_container_id');
         this.comments = $$('.' + comment_container_class);
-
-        this.get_window_size_and_link_overflows()
-
-        window.addEvent('resize', function() {
-            this.get_window_size_and_link_overflows()
-        }.bind(this))
-
-        this.current_preview = null;
 
         this.gloss_comments();
 
@@ -60,10 +49,6 @@ var Comments = new Class ({
                     link_details_fader.fade_up();
                     author_fader.fade_up();
 
-                    if (comment.retrieve('overflowing')) {
-                        this.do_preview(comment_author, comment_text);
-                    }
-
                 }.bind(this),
 
                 'mouseleave': function() {
@@ -79,7 +64,6 @@ var Comments = new Class ({
                         comment.store('on_upvote', false);
                     }
 
-                    this.destroy_preview();
 
                 }.bind(this),
 
@@ -151,73 +135,6 @@ var Comments = new Class ({
                 }.bind(this)
 
             });
-
-        }.bind(this));
-
-    },
-
-    do_preview: function(comment_author, comment_text) {
-
-        this.is_preview = true;
-
-        var new_preview = new Element('div', {
-            html: comment_text.get('html'),
-            'class': 'comment-preview',
-            styles: {
-                height: this.window_size.y + this.window_scroll.y,
-                opacity: 0
-            }
-        }).inject(document.body);
-
-        new_preview.set('tween', {
-            fps: this.options.fps,
-            duration: this.options.duration,
-            transition: this.options.transition
-        });
-
-        new_preview.get('tween').start('opacity', 1).chain(function() {
-
-            if (this.current_preview != null) {
-                this.current_preview.destroy()
-            }
-
-            this.current_preview = new_preview;
-
-        }.bind(this));
-
-    },
-
-    destroy_preview: function() {
-
-        this.current_preview.get('tween').start('opacity', 0).chain(function() {
-
-            if (!this.is_preview) {
-                this.current_preview.destroy();
-            }
-
-            this.is_preview = false;
-
-        }.bind(this));
-
-    },
-
-    get_window_size_and_link_overflows: function() {
-
-        this.window_size = window.getSize();
-        this.window_coordinates = window.getCoordinates();
-        this.window_scroll = window.getScroll();
-
-        Array.each(this.comments, function(comment) {
-
-            var last_paragraph_coordinates = comment.getElement('p:last-child').getCoordinates();
-
-            if ((last_paragraph_coordinates.right + 30) > this.window_coordinates.right) {
-                comment.store('overflowing', true);
-            }
-
-            else {
-                comment.store('overflowing', false);
-            }
 
         }.bind(this));
 
