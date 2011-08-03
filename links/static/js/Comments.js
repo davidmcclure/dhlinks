@@ -17,6 +17,12 @@ var Comments = new Class ({
         this.comments_container = document.id('comment_block_container_id');
         this.comments = $$('.' + comment_container_class);
 
+        this.get_window_size_and_link_overflows()
+
+        window.addEvent('resize', function() {
+            this.get_window_size_and_link_overflows()
+        }.bind(this))
+
         this.gloss_comments();
 
     },
@@ -50,7 +56,9 @@ var Comments = new Class ({
                     link_details_fader.fade_up();
                     author_fader.fade_up();
 
-                    this.do_preview(comment_author, comment_text);
+                    if (comment.retrieve('overflowing')) {
+                        this.do_preview(comment_author, comment_text);
+                    }
 
                 }.bind(this),
 
@@ -148,6 +156,27 @@ var Comments = new Class ({
             html: comment_text.get('html'),
             'class': 'comment-preview'
         }).inject(document.body);
+
+    },
+
+    get_window_size_and_link_overflows: function() {
+
+        this.window_size = window.getSize();
+        this.window_coordinates = window.getCoordinates();
+
+        Array.each(this.comments, function(comment) {
+
+            var last_paragraph_coordinates = comment.getElement('p:last-child').getCoordinates();
+
+            if ((last_paragraph_coordinates.right + 30) > this.window_coordinates.right) {
+                comment.store('overflowing', true);
+            }
+
+            else {
+                comment.store('overflowing', false);
+            }
+
+        }.bind(this));
 
     }
 
