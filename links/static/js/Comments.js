@@ -50,7 +50,7 @@ var Comments = new Class ({
                     link_details_fader.fade_up();
                     author_fader.fade_up();
 
-                    this.do_preview(comment);
+                    this.do_preview(comment_author, comment_text);
 
                 }.bind(this),
 
@@ -142,9 +142,12 @@ var Comments = new Class ({
 
     },
 
-    do_preview: function() {
+    do_preview: function(comment_author, comment_text) {
 
-
+        new Element('div', {
+            html: comment_text.get('html'),
+            'class': 'comment-preview'
+        }).inject(document.body);
 
     }
 
