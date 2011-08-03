@@ -18,6 +18,8 @@ var LinkFader = new Class ({
         this.starting_color = starting_color;
         this.target_color = target_color;
 
+        this.up = true;
+
         this.div.set('tween', {
             transition: this.options.transition,
             fps: this.options.fps
@@ -30,6 +32,7 @@ var LinkFader = new Class ({
         // this.div.set('tween', { duration: this.options.fadein_duration });
         // this.div.tween('color', this.target_color);
         this.div.setStyle(this.options.property, this.target_color);
+        this.up = true;
 
     },
 
@@ -37,6 +40,7 @@ var LinkFader = new Class ({
 
         this.div.set('tween', { duration: this.options.fadeout_duration });
         this.div.tween(this.options.property, this.starting_color);
+        this.up = false;
 
     }
 
