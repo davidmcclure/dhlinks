@@ -111,10 +111,12 @@ body {
 }
 
 .comment-preview {
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
-    width: 254px;
-    height: 2000px;
+    width: 220px;
     background-color: white;
+    font-size: 0.8em;
+    line-height: 19px;
+    padding: 2em 0 0 2em;
 }

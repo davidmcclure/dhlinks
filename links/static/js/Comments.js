@@ -8,7 +8,9 @@ var Comments = new Class ({
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
         base_text_color: '#484848',
-        preview_height: 2000
+        fps: 100,
+        transition: Fx.Transitions.Quad.easeOut,
+        duration: 100
     },
 
     initialize: function(comment_block_container_id, comment_container_class, options) {
@@ -22,6 +24,8 @@ var Comments = new Class ({
         window.addEvent('resize', function() {
             this.get_window_size_and_link_overflows()
         }.bind(this))
+
+        this.current_preview = null;
 
         this.gloss_comments();
 
@@ -74,6 +78,8 @@ var Comments = new Class ({
                         upvote_link.setStyle('color', this.options.blue);
                         comment.store('on_upvote', false);
                     }
+
+                    this.destroy_preview();
 
                 }.bind(this),
 
@@ -152,10 +158,46 @@ var Comments = new Class ({
 
     do_preview: function(comment_author, comment_text) {
 
-        new Element('div', {
+        this.is_preview = true;
+
+        var new_preview = new Element('div', {
             html: comment_text.get('html'),
-            'class': 'comment-preview'
+            'class': 'comment-preview',
+            styles: {
+                height: this.window_size.y + this.window_scroll.y,
+                opacity: 0
+            }
         }).inject(document.body);
+
+        new_preview.set('tween', {
+            fps: this.options.fps,
+            duration: this.options.duration,
+            transition: this.options.transition
+        });
+
+        new_preview.get('tween').start('opacity', 1).chain(function() {
+
+            if (this.current_preview != null) {
+                this.current_preview.destroy()
+            }
+
+            this.current_preview = new_preview;
+
+        }.bind(this));
+
+    },
+
+    destroy_preview: function() {
+
+        this.current_preview.get('tween').start('opacity', 0).chain(function() {
+
+            if (!this.is_preview) {
+                this.current_preview.destroy();
+            }
+
+            this.is_preview = false;
+
+        }.bind(this));
 
     },
 
@@ -163,6 +205,7 @@ var Comments = new Class ({
 
         this.window_size = window.getSize();
         this.window_coordinates = window.getCoordinates();
+        this.window_scroll = window.getScroll();
 
         Array.each(this.comments, function(comment) {
 
