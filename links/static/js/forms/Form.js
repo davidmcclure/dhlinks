@@ -25,6 +25,7 @@ var Form = new Class ({
         this.gloss_password_input();
         this.gloss_checkboxes();
         this.gloss_textareas();
+        this.gloss_form_links();
 
     },
 
@@ -97,7 +98,7 @@ var Form = new Class ({
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
                         input.set('tween', { duration: this.options.fadein_duration });
-                        input.tween('color', this.options.light_blue);
+                        input.tween('color', this.options.blue);
                     }
 
                 }.bind(this),
@@ -327,7 +328,7 @@ var Form = new Class ({
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
                         input.set('tween', { duration: this.options.fadein_duration });
-                        input.tween('color', this.options.light_blue);
+                        input.tween('color', this.options.blue);
                     }
 
                 }.bind(this),
@@ -351,5 +352,21 @@ var Form = new Class ({
         }.bind(this));
 
     },
+
+    gloss_form_links: function() {
+
+        this.form_links = $$('.form-link');
+
+        Array.each(this.form_links, function(link) {
+            var fader = new LinkFader(link, this.options.blue, this.options.orange);
+
+            link.addEvents({
+                'mouseenter': function() { fader.fade_up(); },
+                'mouseleave': function() { fader.fade_down(); }
+            });
+
+        }.bind(this));
+
+    }
 
 });

@@ -80,6 +80,22 @@ ul.errorlist li {
 /* Submit */
 
 
-#submit-form input[type=text], #submit-form textarea {
+#submit-form input[type=text] {
     width: 500px;
+}
+
+#submit-form textarea {
+    width: 90%;
+    height: 100px;
+}
+
+.sign-up-link {
+    margin: 1em 0 0 0;
+    color: #9B9B9B;
+    font-size: 0.8em;
+}
+
+.sign-up-link a {
+    color: #2B7BFF;
+    text-decoration: none;
 }
