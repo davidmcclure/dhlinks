@@ -99,3 +99,9 @@ ul.errorlist li {
     color: #2B7BFF;
     text-decoration: none;
 }
+
+/* Register */
+
+#register-form input[type=submit] {
+    width: 100px;
+}

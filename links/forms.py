@@ -73,12 +73,12 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.Form):
 
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True, widget=forms.PasswordInput)
-    password_confirm = forms.CharField(required=True, widget=forms.PasswordInput, label='Password (confirm)')
-    email = forms.EmailField(required=True)
-    firstname = forms.CharField(required=True, label='First Name')
-    lastname = forms.CharField(required=True, label='Last Name')
+    username = forms.CharField(required=True, initial='username')
+    password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password')
+    password_confirm = forms.CharField(required=True, widget=forms.PasswordInput, initial='confirm')
+    email = forms.EmailField(required=True, initial='email')
+    firstname = forms.CharField(required=True, initial='first name')
+    lastname = forms.CharField(required=True, initial='last name')
 
     def clean(self):
 
