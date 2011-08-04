@@ -12,7 +12,7 @@ var Tags = new Class ({
     initialize: function(tag_class, options) {
 
         this.setOptions(options);
-        this.tags = $$('li.' + tag_class + ' a');
+        this.tags = $$('td.' + tag_class + ' a');
         this.tag_faders = [];
 
         Array.each(this.tags, function(tag) {
@@ -21,7 +21,7 @@ var Tags = new Class ({
 
         Array.each(this.tag_faders, function(fader) {
 
-            if (!fader.div.getParent('li').hasClass('selected-tag')) {
+            if (!fader.div.getParent('tr').hasClass('selected-tag')) {
 
                 fader.div.addEvents({
 

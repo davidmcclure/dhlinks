@@ -28,16 +28,16 @@
 
 {% block tags %}
 
-    <ul id="tag-list">
+    <table id="tag-list">
     {% for tag in tags %}
 
-        <div class="tag-container">
-            <span class="tag-count">{{ tag.count }}</span>
-            <li class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
-        </div>
+        <tr class="tag-container">
+            <td class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></td>
+            <td class="tag-count">{{ tag.count }}</td>
+        </tr>
 
     {% endfor %}
-    </ul>
+    </table>
 
 {% endblock %}
 
