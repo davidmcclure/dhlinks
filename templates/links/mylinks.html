@@ -20,15 +20,15 @@
 
 {% block tags %}
 
-    <ul id="tag-list">
+    <table id="tag-list">
     {% for sidetag in tags %}
 
-        <div class="tag-container">
-            <span class="tag-count {% if tag and sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.count }}</span>
-            <li class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></li>
-        </div>
+        <tr class="tag-container">
+            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
+            <td class="tag-count {% if tag and sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.count }}</td>
+        </tr>
 
     {% endfor %}
-    </ul>
+    </table>
 
 {% endblock %}
