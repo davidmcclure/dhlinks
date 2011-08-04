@@ -16,7 +16,7 @@
     <form action="/login" method="post" id="login-form">
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
-            <input type="text" name="username" id="id_username" value="{{ form.username.value }}">
+            {{ form.username }}
             {{ form.username.errors }}
         </div>
         <div class="fieldWrapper">

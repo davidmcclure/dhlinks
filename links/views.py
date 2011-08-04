@@ -318,8 +318,12 @@ def register(request):
         else: form = RegisterForm()
 
         # Push the form into the template.
+        tags = Tag.objects.rank()
         return render_to_response('links/register.html', {
-                'form': form
+                'form': form,
+                'tags': tags,
+                'anon': request.user.is_anonymous(),
+                'navigation': 'login'
             }, context_instance=RequestContext(request))
 
     # If the user is already logged in, bounce out to the front page.

@@ -1,17 +1,45 @@
-{% extends 'links/base.html' %}
+{% extends 'links/links.html' %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/deployments/_login_form_deployment.js"></script>
+{% endblock %}
 
 {% block content %}
 
-	<h3>Register</h3>
-	
-	<form action="/register" method="post">
-		
-		<table>
-			{{ form.as_table }}
-		</table>
-		
-		<input type="submit" value="Submit">
-	
-	</form>
+    <form action="/register" method="post" id="register-form">
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div class="fieldWrapper">
+            <input type="text" name="password" id="id_password" value="password">
+            {{ form.password.errors }}
+        </div>
+        <div class="fieldWrapper">
+            <input type="text" name="password_confirm" id="id_password_confirm" value="confirm">
+            {{ form.password_confirm.errors }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.firstname }}
+            {{ form.firstname.errors }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.lastname }}
+            {{ form.lastname.errors }}
+        </div>
+        <p><input type="submit" value="register" /></p>
+    </form>
 
 {% endblock %}
