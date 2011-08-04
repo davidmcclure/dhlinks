@@ -15,10 +15,12 @@ var Form = new Class ({
         password_input_name: 'password'
     },
 
-    initialize: function(form_id, options) {
+    initialize: function(form_id, names_to_prompts, password_names, options) {
 
         this.setOptions(options);
         this.form = document.id(form_id);
+        this.names_to_prompts = names_to_prompts;
+        this.password_names = password_names;
 
         this.gloss_text_inputs();
         this.gloss_submits();
@@ -51,7 +53,7 @@ var Form = new Class ({
 
             // if so, or if the name of the input is different from the value,
             // set focus_status and has_typed to true
-            if (error_messages.length != 0 || input.getAttribute('name') != input.getAttribute('value')) {
+            if (error_messages.length != 0 || (input.getAttribute('value') != this.names_to_prompts[input.getAttribute('name')])) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
                 input.setStyle('color', this.options.blue);
@@ -75,7 +77,7 @@ var Form = new Class ({
 
                     if (!input.retrieve('has_typed') || input.get('value') == '') {
                         input.setStyle('color', this.options.form_gray);
-                        input.set('value', input.getAttribute('name'));
+                        input.set('value', this.names_to_prompts[input.getAttribute('name')]);
                         input.store('has_typed', false);
                     }
 
@@ -125,7 +127,12 @@ var Form = new Class ({
 
     gloss_password_input: function() {
 
-        this.password_inputs = $$('input[name=' + this.options.password_input_name + ']');
+        var passwords_selector = [];
+        Array.each(this.password_names, function(name) {
+            passwords_selector.push('input[name=' + name + ']');
+        }.bind(this));
+
+        this.password_inputs = $$(passwords_selector.join(','));
 
         Array.each(this.password_inputs, function(input) {
 
