@@ -52,7 +52,7 @@
 .comment-text {
     line-height: 1.5em;
     font-size: 0.9em;
-    margin: -0.1em 5em 0 0;
+    margin: 0em 5em 0 0;
     white-space: normal;
 }
 
@@ -129,7 +129,7 @@ body {
     opacity: 0.7;
 }
 
-input[type=submit] {
+input[type=submit].comments-input {
     background-color: #2B7BFF;
     font-size: 0.9em;
     font-weight: bold;
@@ -159,4 +159,28 @@ input[type=submit] {
 .reply-link a {
     text-decoration: none;
     color: #2B7BFF;
+}
+
+/* Comment Form */
+
+#comment-form-hider {
+    display: none;
+}
+
+.comment form {
+    padding: 5px 0 0 0;
+}
+
+.comment textarea, #root-reply textarea {
+    width: 90%;
+    height: 100px;
+    font-size: 0.85em;
+}
+
+#root-reply form {
+    padding: 1em 0 0 0;
+}
+
+id {
+    display: none;
 }

@@ -96,3 +96,8 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError('Username taken.')
 
         return cleaned_data
+
+
+class CommentForm(forms.Form):
+
+    comment = forms.CharField(widget=forms.Textarea(), required=False, initial='comment')

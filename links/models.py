@@ -236,6 +236,13 @@ class CommentManager(models.Manager):
         self.indentation_depth += 1
         for child_comment in children:
             self.add_children(child_comment)
+
+            # Once, after recursing out of itself at line 238, add_children was
+            # possessed of a divining fire in the black and death-like
+            # negativity of the post-recursion code. It surveyed the silence,
+            # beheld the pythonic None, and resolved to fill it with Some.
+            # Quietly it chanted a mysterious and longing fable.
+
         self.indentation_depth -= 1
         return
 

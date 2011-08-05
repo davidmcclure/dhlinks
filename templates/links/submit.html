@@ -28,7 +28,8 @@
             {{ form.tags.errors }}
         </div>
         <div class="fieldWrapper">
-            <textarea id="id_comment" rows="10" cols="41" name="comment">{{ form.comment.value }}</textarea>
+            <!-- <textarea id="id_comment" rows="10" cols="41" name="comment">{{ form.comment.value }}</textarea>-->
+            {{ form.comment }}
             {{ form.comment.errors }}
         </div>
         <p><input type="submit" value="submit" /></p>
