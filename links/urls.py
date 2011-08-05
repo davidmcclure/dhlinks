@@ -24,6 +24,9 @@ urlpatterns = patterns('links.views',
     # Do logout (redirects).
     (r'^logout$', 'logout'),
 
+    # Do logout (redirects).
+    (r'^addcomment$', 'addcomment'),
+
     # Show comments for submission.
     (r'^comments/(?P<submission_id>\d+)$', 'comments'),
 
