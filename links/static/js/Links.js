@@ -27,6 +27,17 @@ var Links = new Class ({
             }.bind(this)
         });
 
+        this.get_tags = new Request.HTML({
+            method: 'get',
+            url: '/ajax/tags',
+            data: {
+                batch: this.link_batch
+            },
+            onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript) {
+                this.update_links(responseHTML);
+            }.bind(this)
+        });
+
         this.gloss_links();
 
     },
