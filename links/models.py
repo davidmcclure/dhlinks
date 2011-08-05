@@ -47,6 +47,8 @@ class SubmissionManager(models.Manager):
 
     LINKS_PER_PAGE = 50
 
+    TAGS_PER_PAGE = 90
+
     def sort(self, user, sort, tag, mylinks, batch):
 
         '''
