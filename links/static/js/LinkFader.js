@@ -40,6 +40,7 @@ var LinkFader = new Class ({
 
         this.div.set('tween', { duration: this.options.fadeout_duration });
         this.div.tween(this.options.property, this.starting_color);
+        // this.div.setStyle(this.options.property, this.starting_color);
         this.up = false;
 
     }
