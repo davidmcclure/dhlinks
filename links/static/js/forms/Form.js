@@ -8,6 +8,7 @@ var Form = new Class ({
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
         input_gray: '#dbdbdb',
+        purple: '#540ead',
         fps: 100,
         fadein_duration: 10,
         fadeout_duration: 70,
@@ -188,6 +189,10 @@ var Form = new Class ({
                 'mouseleave': function() {
                     input.set('tween', { duration: this.options.fadeout_duration + 200 });
                     input.tween('background-color', this.options.blue);
+                }.bind(this),
+
+                'mousedown': function() {
+                    input.setStyle('background-color', this.options.purple);
                 }.bind(this)
 
             });
