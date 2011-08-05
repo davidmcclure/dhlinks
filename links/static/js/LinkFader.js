@@ -8,7 +8,8 @@ var LinkFader = new Class ({
         fadeout_duration: 70,
         transition: Fx.Transitions.Quad.easeOut,
         fadeout_variance_interval: 100,
-        property: 'color'
+        property: 'color',
+        add_events: false
     },
 
     initialize: function(div, starting_color, target_color, options) {
@@ -24,6 +25,15 @@ var LinkFader = new Class ({
             transition: this.options.transition,
             fps: this.options.fps
         });
+
+        if(this.options.add_events) {
+
+            this.div.addEvents({
+                'mouseenter': function() { this.fade_up(); }.bind(this),
+                'mouseleave': function() { this.fade_down(); }.bind(this)
+            });
+
+        }
 
     },
 

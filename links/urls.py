@@ -44,12 +44,6 @@ urlpatterns = patterns('links.views',
         'sort': 'comments'
         }),
 
-    # Filtered by tag.
-    (r'^(?P<tag>[-\w]+)$', 'submissions'),
-
-    # Filtered by tag and sorted by sort parameter.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
-
     # Current user's links, ordered by rank.
     (r'^my-links$', 'submissions', {
         'mylinks': True,
@@ -80,6 +74,12 @@ urlpatterns = patterns('links.views',
     (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
-        })
+        }),
+
+    # Filtered by tag.
+    (r'^(?P<tag>[-\w]+)$', 'submissions'),
+
+    # Filtered by tag and sorted by sort parameter.
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions')
 
 )

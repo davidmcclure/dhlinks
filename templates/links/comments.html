@@ -31,12 +31,10 @@
 
         {% block tag %}
 
-        <!--
-        <div id="sort-menu">
-            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">collapse</a>
-            <a href="/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">expand</a>
-        </div>
-        -->
+        <!-- <div id="sort-menu">-->
+        <!--     <a href="#" class="sort-menu-item selected">expanded</a>-->
+        <!--     <a href="#" class="sort-menu-item">collapsed</a>-->
+        <!-- </div>-->
 
         {% endblock %}
 
@@ -71,6 +69,10 @@
 
                 </div>
 
+                <div class="reply">
+                    <p><input id="main-reply" type="submit" value="reply" /></p>
+                </div>
+
             </li>
 
         </div>
@@ -81,20 +83,22 @@
 
                 <div class="comment-container" style="margin-left: {{ indent }}px">
 
-                    {% if not comment.has_voted %}
-                        <a href="/comment/upvote/{{ comment.id }}" class="upvote-link comments-upvote">+</a>
-                    {% else %}
-                        <span class="upvote-link has-voted comments-has-voted">+</span>
-                    {% endif %}
+                    <!-- {% if not comment.has_voted %}-->
+                    <!--     <a href="/comment/upvote/{{ comment.id }}" class="upvote-link comments-upvote">+</a>-->
+                    <!-- {% else %}-->
+                    <!--     <span class="upvote-link has-voted comments-has-voted">+</span>-->
+                    <!-- {% endif %}-->
 
                     <div class="comment">
 
                         <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
 
                         <div class="comment-details">
-                            <span>| {{ comment.number_of_votes }} vote{{ comment.number_of_votes|pluralize }}</span> |
+                            <!-- <span>| {{ comment.number_of_votes }} vote{{ comment.number_of_votes|pluralize }}</span> --> |
                             <span>Posted {{ comment.posted_on }}</span>
                         </div>
+
+                        <span class="comment-details reply-link">| <a href="#">Reply</a></span>
 
                         <div class="comment-text">{{ comment.comment|linebreaks }}</div>
 

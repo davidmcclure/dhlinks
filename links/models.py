@@ -211,7 +211,7 @@ class Submission(models.Model):
 class CommentManager(models.Manager):
 
     indent_multipliers = {
-        'comments': 40,
+        'comments': 30,
         'teasers': 20
     }
 
