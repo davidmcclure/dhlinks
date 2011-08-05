@@ -9,6 +9,7 @@ from links.forms import *
 from links.models import *
 import datetime as dt
 
+
 def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None):
 
     '''
@@ -35,134 +36,6 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
         'anon': request.user.is_anonymous(),
         'mylinks': mylinks,
         'navigation': navigation
-    }, context_instance = RequestContext(request))
-
-
-
-
-
-def frontpage(request):
-
-    '''
-    Show submissions sorted by the core ranking algorithm.
-    '''
-
-    # Get submissions and tags.
-    submissions = Submission.objects.rank(request.user);
-    tags = Tag.objects.rank()
-
-    # Push to template.
-    return render_to_response('links/links.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'sort': 'rank',
-        'anon': request.user.is_anonymous()
-    }, context_instance = RequestContext(request))
-
-
-def new_sort(request):
-
-    '''
-    Show submissions sorted by when they were posted, most recent at the top.
-    '''
-
-    # Get submissions and tags.
-    submissions = Submission.objects.age_rank(request.user)
-    tags = Tag.objects.rank()
-
-    # Push to template.
-    return render_to_response('links/links.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'sort': 'age',
-        'anon': request.user.is_anonymous()
-    }, context_instance = RequestContext(request))
-
-
-def tag_sort(request, tag, sort):
-
-    '''
-    Show submissions with a certain tag.
-
-    @param tag(string) - The selected tag.
-    @param sort(string) - The selected sort parameter.
-    '''
-
-    # Get submissions, tags, and the selected tag.
-    submissions = Submission.objects.tag_rank(request.user, tag, sort)
-    tags = Tag.objects.rank()
-    tag = Tag.objects.get_by_url_slug(tag)
-
-    # Push to template.
-    return render_to_response('links/tag.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'tag': tag,
-        'sort': sort,
-        'anon': request.user.is_anonymous()
-    }, context_instance = RequestContext(request))
-
-
-def comments_sort(request):
-
-    '''
-    Show submissions sorted by most recent comment.
-    '''
-
-    # Get submissions and tags.
-    submissions = Submission.objects.comment_rank(request.user)
-    tags = Tag.objects.rank()
-
-    # Push to template.
-    return render_to_response('links/links.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'sort': 'comments',
-        'anon': request.user.is_anonymous()
-    }, context_instance = RequestContext(request))
-
-
-def mylinks_sort(request, sort):
-
-    '''
-    Show links and discussions submitted by the current user.
-    '''
-
-    # Get submissions and tags.
-    submissions = Submission.objects.mylinks_rank(request.user, sort);
-    tags = Tag.objects.mylinks_rank(request.user)
-
-
-    # Push to template.
-    return render_to_response('links/mylinks.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'sort': sort,
-        'tag': None,
-        'anon': request.user.is_anonymous(),
-        'navigation': 'mylinks'
-    }, context_instance = RequestContext(request))
-
-
-def mylinks_tag_sort(request, tag, sort):
-
-    '''
-    Show links and discussions submitted by the current user, filtered by tag.
-    '''
-
-    # Get submissions and tags.
-    submissions = Submission.objects.mylinks_tag_rank(request.user, sort, tag);
-    tags = Tag.objects.mylinks_rank(request.user)
-    tag = Tag.objects.get_by_url_slug(tag)
-
-    # Push to template.
-    return render_to_response('links/mylinks.html', {
-        'submissions': submissions,
-        'tags': tags,
-        'tag': tag,
-        'sort': sort,
-        'anon': request.user.is_anonymous(),
-        'navigation': 'mylinks'
     }, context_instance = RequestContext(request))
 
 
