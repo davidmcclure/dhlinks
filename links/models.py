@@ -228,11 +228,11 @@ class Comment(models.Model):
         if total_seconds > 86400:
             string = 'on ' + self.post_date.strftime('%A, %B %d, %Y at %I:%M %p').replace(' 0', ' ')
         elif total_seconds > 3600:
-            string = round((total_seconds / 3600), 0) + ' hours ago'
+            string = str(int(round((total_seconds / 3600), 0))) + ' hours ago'
         elif total_seconds > 60:
-            string = round((total_seconds / 60), 0) + ' minutes ago'
+            string = str(int(round((total_seconds / 60), 0))) + ' minutes ago'
         else:
-            string = total_seconds + ' seconds ago'
+            string = str(total_seconds) + ' seconds ago'
         return string
     posted_on = property(_get_posted_on)
 
