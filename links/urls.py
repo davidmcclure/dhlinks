@@ -2,22 +2,28 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('links.views',
 
-    (r'^$', 'frontpage'),
-    (r'^new$', 'new_sort'),
+    # Show submissions:
+
+    (r'^$', 'submissions'),
+    (r'^new$', 'submissions', { 'sort': 'new' }),
+    (r'^comments$', 'submissions', { 'sort': 'comments' }),
+    (r'^my-links$', 'submissions', { 'mylinks': True, 'navigation': 'mylinks' }),
+    (r'^my-links/new$', 'submissions', { 'mylinks': True, 'sort': 'new', 'navigation': 'mylinks' }),
+    (r'^my-links/comments$', 'submissions', { 'mylinks': True, 'sort': 'comments', 'navigation': 'mylinks' }),
+    (r'^my-links/(?P<tag>[-\w]+)$', 'submissions', { 'mylinks': True, 'navigation': 'mylinks' }),
+    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', { 'mylinks': True, 'navigation': 'mylinks' }),
+    (r'^(?P<tag>[-\w]+)$', 'submissions'),
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
+
+    # Comments:
+    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
+
+    # Administration and submission:
     (r'^submit$', 'submit'),
     (r'^login$', 'login'),
     (r'^logout$', 'logout'),
     (r'^submission/upvote/(?P<submission_id>\d+)$', 'submissionvote', { 'direction': True }),
     (r'^comment/upvote/(?P<comment_id>\d+)$', 'commentvote', { 'direction': True }),
-    (r'^register$', 'register'),
-    (r'^comments$', 'comments_sort'),
-    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
-    (r'^my-links$', 'mylinks_sort', { 'sort': 'rank' }),
-    (r'^my-links/new$', 'mylinks_sort', { 'sort': 'new' }),
-    (r'^my-links/comments$', 'mylinks_sort', { 'sort': 'comments' }),
-    (r'^my-links/(?P<tag>[-\w]+)$', 'mylinks_tag_sort', { 'sort': 'rank' }),
-    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'mylinks_tag_sort'),
-    (r'^(?P<tag>[-\w]+)$', 'tag_sort', { 'sort': 'rank' }),
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'tag_sort')
+    (r'^register$', 'register')
 
 )

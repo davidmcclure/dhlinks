@@ -6,9 +6,8 @@
 
     <title>{% block title %}Digital Humanities Links{% endblock %}</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Cabin:regular,regularitalic,500,500italic,600,600italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'>
-
     {% block css %}
+        <link href='http://fonts.googleapis.com/css?family=Cabin:regular,regularitalic,500,500italic,600,600italic,bold,bolditalic&v1' rel='stylesheet' type='text/css'>
     {% endblock %}
 
     {% block javascript %}
@@ -31,17 +30,6 @@
         <div id="navigation">
 
             {% block navigation %}
-
-            <ul>
-                <li class="navigation-link{% if navigation = 'submit' %} selected{% endif %}"><a href="/submit"><span class="navigation-main-word">submit</span></a></li>
-                {% if not anon %}
-                <li class="navigation-link{% if navigation = 'mylinks' %} selected{% endif %}"><a href="/my-links"><span class="navigation-main-word">my links</span></a></li>
-                <li class="navigation-link"><a href="/logout"><span class="navigation-main-word">logout</span></a></li>
-                {% else %}
-                <li class="navigation-link{% if navigation = 'login' %} selected{% endif %}"><a href="/login"><span class="navigation-main-word">login</span></a></li>
-                {% endif %}
-            </ul>
-
             {% endblock %}
 
         </div>
@@ -57,7 +45,8 @@
 
         <div id="content">
 
-            {% block content %}{% endblock %}
+            {% block content %}
+            {% endblock %}
 
         </div>
 
