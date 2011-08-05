@@ -8,6 +8,6 @@ window.addEvent('domready', function() {
 
     this.links = new Links('link-container');
 
-    this.comments = new Comments('comments', 'comment-container', 'comment-form');
+    this.comments = new Comments('comments', 'comment-container', 'comment-form', { first: true });
 
 });
