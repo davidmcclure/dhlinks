@@ -17,7 +17,7 @@ window.addEvent('domready', function() {
             // fire get new links method
             // start loader
 
-            this.loader.start();
+            // this.loader.start();
 
         }.bind(this)
 

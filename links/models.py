@@ -189,13 +189,15 @@ class CommentManager(models.Manager):
         self.indentation_depth -= 1
         return
 
-    def create_comment(self, comment, post_date, submission, user):
+    def create_comment(self, comment, post_date, submission, user, parent):
         if comment != '':
-            first_comment = Comment(
+            new_comment = Comment(
                 comment = comment,
                 post_date = post_date,
-                submission = submission)
-            first_comment.save()
+                submission = submission,
+                parent = parent,
+                user = user)
+            new_comment.save()
 
 
 class Comment(models.Model):

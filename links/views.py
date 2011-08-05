@@ -51,6 +51,8 @@ def comments(request, submission_id, first = False):
     tags = Tag.objects.rank()
     form = CommentForm()
 
+    request.session['comments_redirect'] = 'comments/' + submission_id
+
     # Push to template.
     return render_to_response('links/comments.html', {
         'submission': submission,
@@ -62,6 +64,39 @@ def comments(request, submission_id, first = False):
         'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))
 
+
+def addcomment(request):
+
+    '''
+    Insert a new comment.
+    '''
+
+    # Has a form been posted?
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+
+        # Does the data in the form pass the validation checks?
+        if form.is_valid():
+
+            parent_id = form.cleaned_data['parent_id']
+            submission_id = form.cleaned_data['submission_id']
+
+            if parent_id != 'root': parent = Comment.objects.get(id = int(parent_id))
+            else: parent = None
+
+            submission = Submission.objects.get(id = int(submission_id))
+
+            comment = form.cleaned_data['comment']
+            post_date = dt.datetime.now()
+            user = request.user
+
+            # Create the first comment, if it exists.
+            Comment.objects.create_comment(
+                comment, post_date, submission, user, parent)
+
+    return HttpResponseRedirect('/' + \
+            request.session.get('comments_redirect', ''))
 
 def submit(request):
 
@@ -101,7 +136,7 @@ def submit(request):
 
                 # Create the first comment, if it exists.
                 Comment.objects.create_comment(
-                    comment, post_date, submission, user)
+                    comment, post_date, submission, user, None)
 
                 # Redirect to the front page.
                 return HttpResponseRedirect('/')
