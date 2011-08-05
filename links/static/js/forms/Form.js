@@ -179,6 +179,8 @@ var Form = new Class ({
 
         Array.each(this.submits, function(input) {
 
+            var starting_color = input.getStyle('background-color');
+
             input.addEvents({
 
                 'mouseenter': function() {
@@ -188,7 +190,7 @@ var Form = new Class ({
 
                 'mouseleave': function() {
                     input.set('tween', { duration: this.options.fadeout_duration + 200 });
-                    input.tween('background-color', this.options.blue);
+                    input.tween('background-color', starting_color);
                 }.bind(this),
 
                 'mousedown': function() {
