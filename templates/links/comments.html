@@ -21,11 +21,13 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Comments.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/_comments_deployment.js"></script>
+    {% if not is_first %}
+        <script type="text/javascript" src="{{ STATIC_URL }}/js/_comments_deployment.js"></script>
+    {% else %}
+        <script type="text/javascript" src="{{ STATIC_URL }}/js/_first_comment_deployment.js"></script>
+    {% endif %}
 
 {% endblock %}
-
-
 
 {% block content %}
 
@@ -81,6 +83,7 @@
                             </div>
                             <p><input class="comments-input comments-reply" type="submit" value="reply" disabled /></p>
                             <input class="parent-id-hidden" type="hidden" name="parent_id" value="root" />
+                            <input class="parent-id-hidden" type="hidden" name="submission_id" value="{{ submission.id }}" />
                         </form>
                     {% else %}
                         <p><input class="comments-input" id="main-reply" type="submit" value="reply" /></p>
@@ -138,6 +141,7 @@
             </div>
             <p><input class="comments-input comments-reply" type="submit" value="reply" disabled /><input class="comments-input cancel" type="submit" value="cancel" /></p>
             <input class="parent-id-hidden" type="hidden" name="parent_id" value="" />
+            <input class="parent-id-hidden" type="hidden" name="submission_id" value="{{ submission.id }}" />
         </form>
 
     </div>

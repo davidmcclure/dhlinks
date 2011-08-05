@@ -100,4 +100,6 @@ class RegisterForm(forms.Form):
 
 class CommentForm(forms.Form):
 
-    comment = forms.CharField(widget=forms.Textarea(), required=False, initial='comment')
+    comment = forms.CharField(widget=forms.Textarea(), required=True, initial='comment')
+    parent_id = forms.CharField(widget=forms.HiddenInput(), required=True)
+    submission_id = forms.CharField(widget=forms.HiddenInput(), required=True)
