@@ -46,19 +46,19 @@
     color: #2B7BFF;
     font-size: 0.7em;
     display: inline;
-    opacity: 0.4;
+    /* opacity: 0.4;*/
 }
 
 .comment-text {
     line-height: 1.5em;
     font-size: 0.9em;
-    margin: -0.1em 0 0 0;
-    white-space: nowrap;
+    margin: -0.1em 5em 0 0;
+    white-space: normal;
 }
 
 .comment-text p {
     margin: 0 0 1em 0;
-    display: inline;
+    display: block;
 }
 
 #comments {
@@ -94,7 +94,7 @@ body {
 
 .comment-details {
     display: inline;
-    opacity: 0.6;
+    /* opacity: 0.6;*/
 }
 
 .comment {
@@ -102,7 +102,7 @@ body {
 }
 
 .comments-upvote, .comments-has-voted {
-    opacity: 0.4;
+    /* opacity: 0.4;*/
     top: 17px;
 }
 
@@ -119,4 +119,44 @@ body {
     font-size: 0.8em;
     line-height: 19px;
     padding: 2em 0 0 2em;
+}
+
+.vote-count {
+    font-family: Consolas, Cabin;
+    float: left;
+    position: relative;
+    color: #2B7BFF;
+    opacity: 0.7;
+}
+
+input[type=submit] {
+    background-color: #2B7BFF;
+    font-size: 0.9em;
+    font-weight: bold;
+    width: 50px;
+    height: 25px;
+    border: 0;
+    color: #fff;
+    border-radius: 0px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
+    box-shadow:
+        0 30px 30px -18px rgba(255,255,255,0.65) inset, /* Inner gradient */
+        1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
+    ;
+
+    -webkit-border-radius: 0px;
+    -webkit-text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
+    -webkit-box-shadow:
+        0 30px 30px -18px rgba(255,255,255,0.65) inset, /* Inner gradient */
+        1px 1px 3px rgba(0,0,0,0.2) /* Drop shadow */
+    ;
+}
+
+#main-reply {
+    margin: 0 0 0 1em;
+}
+
+.reply-link a {
+    text-decoration: none;
+    color: #2B7BFF;
 }
