@@ -322,6 +322,7 @@ var Form = new Class ({
                         input.setStyle('color', this.options.form_gray);
                         input.set('value', input.getAttribute('name'));
                         input.store('has_typed', false);
+                        this.fireEvent('nocontent');
                     }
 
                     else {
@@ -336,6 +337,7 @@ var Form = new Class ({
                 'keydown': function() {
 
                     input.store('has_typed', true);
+                    this.fireEvent('content');
 
                 }.bind(this),
 

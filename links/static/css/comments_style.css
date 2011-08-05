@@ -152,6 +152,10 @@ input[type=submit].comments-input {
     ;
 }
 
+input[type=submit].comments-reply {
+    opacity: 0.4;
+}
+
 input[type=submit].cancel {
     margin-left: 1em;
     background-color: #e14646;

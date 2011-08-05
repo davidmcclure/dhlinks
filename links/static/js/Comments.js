@@ -57,8 +57,23 @@ var Comments = new Class ({
                     if (!comment.retrieve('reply_form')) {
 
                         var reply_form = this.get_reply_form(id);
+                        var reply_input = reply_form.getElement('.comments-reply');
                         reply_form.inject(comment.getElement('.comment'));
-                        new Form('reply-form-' + id, { 'comment': 'comment' }, []);
+
+                        new Form('reply-form-' + id, { 'comment': 'comment' }, [], {
+
+                            'onContent': function() {
+                                reply_input.setStyle('opacity', 1);
+                                reply_input.removeProperty('disabled');
+                            }.bind(this),
+
+                            'onNocontent': function() {
+                                reply_input.setStyle('opacity', 0.4);
+                                reply_input.setProperty('disabled', 'disabled');
+                            }.bind(this)
+
+                        });
+
                         comment.store('reply_form', true);
 
                         reply_form.getElement('.cancel').addEvent('mousedown', function() {
@@ -101,13 +116,28 @@ var Comments = new Class ({
             'mousedown': function() {
 
                 var reply_form = this.get_reply_form('root');
-                input.setStyles({ 'display': 'none', 'background-color': this.options.blue });
+                starting_input_p.setStyle( 'display', 'none');
+                input.setStyle('background-color', this.options.blue);
                 reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
-                new Form('reply-form-' + 'root', { 'comment': 'comment' }, []);
+                var reply_input = reply_form.getElement('.comments-reply');
+
+                new Form('reply-form-root', { 'comment': 'comment' }, [], {
+
+                    'onContent': function() {
+                        reply_input.setStyle('opacity', 1);
+                        reply_input.removeProperty('disabled');
+                    }.bind(this),
+
+                    'onNocontent': function() {
+                        reply_input.setStyle('opacity', 0.4);
+                        reply_input.setProperty('disabled', 'disabled');
+                    }.bind(this)
+
+                });
 
                 reply_form.getElement('.cancel').addEvent('mousedown', function() {
                     reply_form.destroy();
-                    input.setStyle('display', 'inline');
+                    starting_input_p.setStyle('display', 'block');
                 }.bind(this));
 
             }.bind(this)

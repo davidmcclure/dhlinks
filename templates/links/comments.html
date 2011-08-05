@@ -79,7 +79,7 @@
                                 {{ form.comment }}
                                 {{ form.comment.errors }}
                             </div>
-                            <p><input class="comments-input" type="submit" value="reply" /></p>
+                            <p><input class="comments-input comments-reply" type="submit" value="reply" /></p>
                             <input class="parent-id-hidden" type="hidden" name="parent_id" value="root" />
                         </form>
                     {% else %}
@@ -136,7 +136,7 @@
                 {{ form.comment }}
                 {{ form.comment.errors }}
             </div>
-            <p><input class="comments-input" type="submit" value="reply" /><input class="comments-input cancel" type="submit" value="cancel" /></p>
+            <p><input class="comments-input comments-reply" type="submit" value="reply" disabled /><input class="comments-input cancel" type="submit" value="cancel" /></p>
             <input class="parent-id-hidden" type="hidden" name="parent_id" value="" />
         </form>
 
