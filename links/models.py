@@ -45,6 +45,53 @@ class SubmissionManager(models.Manager):
         'new': operator.attrgetter('post_date')
     }
 
+    def sort(self, user, sort, tag, mylinks):
+
+        '''
+        Core sort method. Returns a list of submissions sorted according to
+        the sort parameter and filtered by mylinks and tag, if present.
+
+        @param user (request.user) - The current user.
+        @param sort (string) - The tag to filter by.
+        @param mylinks (boolean) - If the mylinks filter is applied.
+        '''
+
+        result_list = []
+
+        # Apply filters to the Submissions object set depending on the inputs.
+
+        if tag and not mylinks:
+            # Just filter by tag.
+            objects = self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' '))
+
+        elif not tag and mylinks:
+            # Just filter by user.
+            objects = self.model.objects.filter(user = user)
+
+        elif tag and mylinks:
+            # Filter by user and tag.
+            objects = self.model.objects.filter(tagsubmission__tag__tag = tag.replace('-', ' '), user = user)
+
+        else:
+            # Get everything.
+            objects = self.model.objects.all()
+
+        # Iterate over the rows; add has-the-user-voted? attribute and, if sort
+        # is 'comment,' filter out submissions without comments.
+
+        for row in objects:
+            submsision = self.model.objects.get(id = row.id)
+            row.has_voted = submsision.user_has_voted(user)
+            if sort == 'comments' and row.comment_set.count() == 0:
+                pass
+            else: result_list.append(row)
+
+        # Apply the sorting function and return the final set.
+
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
+
+
+
     def rank(self, user):
         result_list = []
         for row in self.model.objects.all():
@@ -257,7 +304,8 @@ class SubmissionVoteManager(models.Manager):
         vote_record.save()
 
     def vote_exists(self, user, submission):
-        return True if SubmissionVote.objects.filter(user = user, submission = submission).exists() else False
+        return SubmissionVote.objects.filter(user = user, submission =
+                submission).exists()
 
 
 class SubmissionVote(Vote):
@@ -281,7 +329,8 @@ class CommentVoteManager(models.Manager):
         vote_record.save()
 
     def vote_exists(self, user, comment):
-        return True if CommentVote.objects.filter(user = user, comment = comment).exists() else False
+        return CommentVote.objects.filter(user = user, comment =
+                comment).exists()
 
 
 class CommentVote(Vote):

@@ -9,16 +9,35 @@ from links.forms import *
 from links.models import *
 import datetime as dt
 
-def submissions(request, sort = None, mylinks = False):
+def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None):
 
     '''
     Show submissions.
 
-    @param sort(string) - The sort vertical (rank, rage, or comments).
-    @param mylinks(boolean) - True if the 'my links' filter is active.
+    @param sort (string) - The sort vertical (rank, rage, or comments).
+    @param tag (string) - The tag to sort by.
+    @param mylinks (boolean) - True if the 'my links' filter is active.
     '''
 
     # Get submissions and tags.
+    submissions = Submission.objects.sort(request.user, sort, tag, mylinks)
+    tags = Tag.objects.rank()
+
+    # If a tag is selected, get the tag record for the view.
+    if tag: tag = Tag.objects.get_by_url_slug(tag)
+
+    # Push to template.
+    return render_to_response('links/links.html', {
+        'submissions': submissions,
+        'tags': tags,
+        'sort': sort,
+        'tag': tag,
+        'anon': request.user.is_anonymous(),
+        'mylinks': mylinks,
+        'navigation': navigation
+    }, context_instance = RequestContext(request))
+
+
 
 
 
