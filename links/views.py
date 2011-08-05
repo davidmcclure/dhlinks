@@ -244,74 +244,45 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 
-def submissionvote(request, submission_id, direction):
+def vote(request, voted_object_type, object_id, direction):
 
     '''
     Process an upvote.
+
+    @param upvoted_object_type (string) - 'Comment' or 'Submission.'
+    @param object_it (integer) - The id of the object to apply the vote to.
+    @param direction (boolean) - True for up, False for down.
     '''
 
     # Is the user logged in?
     if request.user.is_authenticated():
 
         # Fetch the submission object, get the current time.
-        submission = Submission.objects.get(pk = submission_id)
+        voted_object = eval(voted_object_type).objects.get(pk = object_id)
         user = request.user
         submit_date = dt.datetime.now()
 
         # If the user has already upvoted the link, redirect to the front page.
         # Theoretically, this should never be the case, since the view code
         # only displays the upvote link if the user has not already upvoted a
-        # given submission. This safeguard prevents cheating by manually
+        # given submission. This safeguard prevents users from cheating by manually
         # hitting the /submission/upvote route.
-        if SubmissionVote.objects.vote_exists(user, submission):
+        if eval(voted_object_type + 'Vote').objects.vote_exists(user, voted_object):
             return HttpResponseRedirect('/')
 
         # Otherwise, create the new vote record and redirect to the front page.
         else:
-            SubmissionVote.objects.create_vote(
-                user, submission, direction, submit_date)
-            return HttpResponseRedirect('/')
+            eval(voted_object_type + 'Vote').objects.create_vote(
+                user, voted_object, direction, submit_date)
+
+            if voted_object_type == 'Submission': return HttpResponseRedirect('/')
+            elif voted_object_type == 'Comment': return HttpResponseRedirect('/comments/' \
+                    + str(int(voted_object.submission.id)))
 
     # If the user is not logged in, prompt login and store flow origin.
     else:
-        request.session['login_redirect'] = 'submission/upvote/' + submission_id
-        request.session['register_redirect'] = 'submission/upvote/' + submission_id
-        return HttpResponseRedirect('/login')
-
-
-def commentvote(request, comment_id, direction):
-
-    '''
-    Process a comment upvote.
-    '''
-
-    # Is the user logged in?
-    if request.user.is_authenticated():
-
-        # Fetch the submission object, get the current time.
-        comment = Comment.objects.get(pk = comment_id)
-        user = request.user
-        submit_date = dt.datetime.now()
-
-        # If the user has already upvoted the link, redirect to the front page.
-        # Theoretically, this should never be the case, since the view code
-        # only displays the upvote link if the user has not already upvoted a
-        # given submission. This safeguard prevents cheating by manually
-        # hitting the /submission/upvote route.
-        if CommentVote.objects.vote_exists(user, comment):
-            return HttpResponseRedirect('/')
-
-        # Otherwise, create the new vote record and redirect back to the
-        # comments thread.
-        else:
-            CommentVote.objects.create_vote(
-                user, comment, direction, submit_date)
-            return HttpResponseRedirect('/comments/' + str(int(comment.submission.id)))
-
-    # If the user is not logged in, prompt login and store flow origin.
-    else:
-        request.session['login_redirect'] = 'comment/upvote/' + comment_id
-        request.session['register_redirect'] = 'comment/upvote/' + comment_id
+        request.session['login_redirect'] = voted_object_type.lower() + '/upvote/' + object_id
+        request.session['register_redirect'] = voted_object_type.lower() + '/upvote/' + object_id
         return HttpResponseRedirect('/login')
 
 

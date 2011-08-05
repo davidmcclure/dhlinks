@@ -12,13 +12,40 @@ urlpatterns = patterns('links.views',
         'sort': 'new'
         }),
 
-    # Filtered by tag.
-    (r'^(?P<tag>[-\w]+)$', 'submissions'),
+    # Submit form.
+    (r'^submit$', 'submit'),
+
+    # Login form.
+    (r'^login$', 'login'),
+
+    # Register form.
+    (r'^register$', 'register'),
+
+    # Do logout (redirects).
+    (r'^logout$', 'logout'),
+
+    # Show comments for submission.
+    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
+
+    # Upvote submission.
+    (r'^submission/upvote/(?P<object_id>\d+)$', 'vote',{
+        'direction': True,
+        'voted_object_type': 'Submission'
+        }),
+
+    # Upvote comment.
+    (r'^comment/upvote/(?P<object_id>\d+)$', 'vote',{
+        'direction': True,
+        'voted_object_type': 'Comment'
+        }),
 
     # Sorted by most recent comment.
     (r'^comments$', 'submissions', {
         'sort': 'comments'
         }),
+
+    # Filtered by tag.
+    (r'^(?P<tag>[-\w]+)$', 'submissions'),
 
     # Filtered by tag and sorted by sort parameter.
     (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
@@ -53,35 +80,6 @@ urlpatterns = patterns('links.views',
     (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
-        }),
-
-    # ** Comments ** #
-
-    # Show comments for submission.
-    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
-
-    # ** Administration and submission. ** #
-
-    # Submit form.
-    (r'^submit$', 'submit'),
-
-    # Login form.
-    (r'^login$', 'login'),
-
-    # Register form.
-    (r'^register$', 'register'),
-
-    # Do logout (redirects).
-    (r'^logout$', 'logout'),
-
-    # Upvote submission.
-    (r'^submission/upvote/(?P<submission_id>\d+)$', 'submissionvote',{
-        'direction': True
-        }),
-
-    # Upvote comment.
-    (r'^comment/upvote/(?P<comment_id>\d+)$', 'commentvote',{
-        'direction': True
         })
 
 )
