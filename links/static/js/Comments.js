@@ -10,13 +10,16 @@ var Comments = new Class ({
         base_text_color: '#484848'
     },
 
-    initialize: function(comment_block_container_id, comment_container_class, options) {
+    initialize: function(comment_block_container_id, comment_container_class, reply_form_id, options) {
 
         this.setOptions(options);
         this.comments_container = document.id('comment_block_container_id');
         this.comments = $$('.' + comment_container_class);
+        this.reply_form = document.id(reply_form_id);
+        this.root_reply_container = document.id('root-reply');
 
         this.gloss_comments();
+        this.gloss_root_reply();
 
     },
 
@@ -24,135 +27,90 @@ var Comments = new Class ({
 
         Array.each(this.comments, function(comment) {
 
-            new DisableSelect(comment);
-
             comment.store('status', 'expanded'); // collapsed or expanded
             comment.store('on_upvote', false);
+            comment.store('reply_form', false);
 
-            var comment_author = comment.getElement('.comment-author');
-            var comment_details = comment.getElement('.comment-details');
-            var upvote_link = comment.getElement('.upvote-link');
             var reply_link = comment.getElement('.reply-link a');
-            var opaque_content = $$([comment_author, comment_details, upvote_link]);
-            var comment_text = comment.getElement('.comment-text');
-            var comment_paragraphs = comment_text.getElements('p');
-            var last_comment_paragraph = comment_text.getElement('p:last-child');
+            var reply_fader = new LinkFader(reply_link, this.options.blue, this.options.orange);
 
-            var link_text_fader = new LinkFader(comment_text, this.options.base_text_color, this.options.blue);
-            // var upvote_fader = new LinkFader(upvote_link, this.options.blue, this.options.orange);
-            var author_fader = new LinkFader(comment_author, this.options.blue, this.options.orange);
-            var reply_fader = new LinkFader(reply_link, this.options.blue, this.options.orange, { add_events: true });
+            var id = comment.getElement('id').get('html');
 
-            comment.addEvents({
+            reply_link.addEvents({
 
                 'mouseenter': function() {
 
-                    author_fader.fade_up();
+                    reply_fader.fade_up();
 
-                }.bind(this),
+                },
 
                 'mouseleave': function() {
 
-                    author_fader.fade_down();
+                    reply_fader.fade_down();
 
-                    // something of a hack to get around an issue where
-                    // mouseleave isn't fired on the upvote link when the
-                    // cursor goes out of the whole comment block.
-                    // if (!upvote_link.hasClass('has-voted')) {
-                    //     upvote_link.setStyle('color', this.options.blue);
-                    //     comment.store('on_upvote', false);
-                    // }
+                },
 
+                'mousedown': function(event) {
+
+                    event.stop();
+
+                    if (!comment.retrieve('reply_form')) {
+                        var reply_form = this.get_reply_form(id);
+                        reply_form.inject(comment.getElement('.comment'));
+                        new Form('reply-form-' + id, { 'comment': 'comment' }, []);
+                        comment.store('reply_form', true);
+                    }
+
+                    else {
+                        comment.getElement('form').destroy();
+                        comment.store('reply_form', false);
+                    }
 
                 }.bind(this),
 
-                'mousedown': function() {
+                'click': function(event) {
 
-                    switch (comment.retrieve('status')) {
-
-                        case 'collapsed':
-
-                            if (!comment.retrieve('on_upvote')) {
-                                // this.expand_comment(comment);
-                            }
-
-                        break;
-
-                        case 'expanded':
-
-                            if (!comment.retrieve('on_upvote')) {
-
-                                // this.collapse_comment(comment);
-
-                            }
-
-                        break;
-
-                    }
+                    event.stop();
 
                 }.bind(this)
 
             });
 
-            // upvote_link.addEvents({
-
-            //     'mouseenter': function() {
-
-            //         if (!upvote_link.hasClass('has-voted')) {
-            //             upvote_fader.fade_up();
-            //             comment.store('on_upvote', true);
-            //         }
-
-            //     }.bind(this),
-
-            //     'mouseleave': function() {
-
-            //         if (!upvote_link.hasClass('has-voted')) {
-            //             upvote_fader.fade_down();
-            //             comment.store('on_upvote', false);
-            //         }
-
-            //     }.bind(this)
-
-            // });
-
         }.bind(this));
 
     },
 
-    expand_comment: function(comment) {
+    gloss_root_reply: function() {
 
-        var comment_text = comment.getElement('.comment-text');
-        var comment_paragraphs = comment_text.getElements('p');
-        var last_comment_paragraph = comment_text.getElement('p:last-child');
+        new Form('root-reply', {}, []);
 
-        comment_text.setStyles({
-            'white-space': 'normal',
-            'margin-right': '5em'
+        var starting_input_p = this.root_reply_container.getElement('p');
+        var input = starting_input_p.getElement('input');
+
+        input.addEvents({
+
+            'mousedown': function() {
+
+                var reply_form = this.get_reply_form('root');
+                starting_input_p.destroy();
+                reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
+                new Form('reply-form-' + 'root', { 'comment': 'comment' }, []);
+
+            }.bind(this)
+
         });
-
-        comment_paragraphs.setStyle('display', 'block');
-        last_comment_paragraph.setStyle('margin', 0);
-
-        comment.store('status', 'expanded');
 
     },
 
-    collapse_comment: function(comment) {
+    get_reply_form: function(id) {
 
-        var comment_text = comment.getElement('.comment-text');
-        var comment_paragraphs = comment_text.getElements('p');
+        var new_form = this.reply_form.clone();
+        var id_input = new_form.getElement('.parent-id-hidden');
+        id_input.setProperty('value', id);
+        new_form.setProperty('id', 'reply-form-' + id);
 
-        comment_text.setStyles({
-            'white-space': 'nowrap',
-            'margin-right': '0'
-        });
 
-        comment_paragraphs.setStyles({
-            'display': 'inline'
-        });
-
-        comment.store('status', 'collapsed');
+        return new_form;
 
     }
 

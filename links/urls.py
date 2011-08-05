@@ -27,6 +27,11 @@ urlpatterns = patterns('links.views',
     # Show comments for submission.
     (r'^comments/(?P<submission_id>\d+)$', 'comments'),
 
+    # Show comments for submission.
+    (r'^comments/(?P<submission_id>\d+)/first$', 'comments', {
+        'first': True
+        }),
+
     # Upvote submission.
     (r'^submission/upvote/(?P<object_id>\d+)$', 'vote',{
         'direction': True,

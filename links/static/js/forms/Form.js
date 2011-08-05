@@ -310,7 +310,7 @@ var Form = new Class ({
                     input.store('focus_status', true);
                     input.set('tween', { duration: this.options.fadein_duration });
                     input.setStyle('color', '#484848');
-                    input.setStyle('font-size', '0.8em');
+                    input.setStyle('font-size', '0.85em');
 
                 }.bind(this),
 

@@ -39,7 +39,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     }, context_instance = RequestContext(request))
 
 
-def comments(request, submission_id):
+def comments(request, submission_id, first = False):
 
     '''
     Show comments for a given submission.
@@ -49,12 +49,15 @@ def comments(request, submission_id):
     submission = Submission.objects.get(pk = submission_id)
     comments = Comment.objects.comments(submission_id, request.user)
     tags = Tag.objects.rank()
+    form = CommentForm()
 
     # Push to template.
     return render_to_response('links/comments.html', {
         'submission': submission,
         'hasvoted': submission.user_has_voted(request.user),
         'comments': comments,
+        'form': form,
+        'is_first': first,
         'tags': tags,
         'anon': request.user.is_anonymous()
     }, context_instance = RequestContext(request))

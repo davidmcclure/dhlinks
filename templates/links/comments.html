@@ -1,8 +1,9 @@
 {% extends 'links/links.html' %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
+    {{ block.super }}
     <link href="{{ STATIC_URL }}/css/comments_style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascript %}
@@ -18,6 +19,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Comments.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}/js/_comments_deployment.js"></script>
 
@@ -69,8 +71,20 @@
 
                 </div>
 
-                <div class="reply">
-                    <p><input id="main-reply" type="submit" value="reply" /></p>
+                <div id="root-reply">
+                    {% if is_first %}
+                        <form action="/addcomment" method="post" id="comment-form" style="margin-left: 1em">
+                            {{ form.non_field_errors }}
+                            <div class="fieldWrapper">
+                                {{ form.comment }}
+                                {{ form.comment.errors }}
+                            </div>
+                            <p><input class="comments-input" type="submit" value="reply" /></p>
+                            <input class="parent-id-hidden" type="hidden" name="parent_id" value="root" />
+                        </form>
+                    {% else %}
+                        <p><input class="comments-input" id="main-reply" type="submit" value="reply" /></p>
+                    {% endif %}
                 </div>
 
             </li>
@@ -91,6 +105,8 @@
 
                     <div class="comment">
 
+                        <id>{{ comment.id }}</id>
+
                         <div class="comment-author">{{ comment.user.first_name }} {{ comment.user.last_name }}</div>
 
                         <div class="comment-details">
@@ -98,7 +114,7 @@
                             <span>Posted {{ comment.posted_on }}</span>
                         </div>
 
-                        <span class="comment-details reply-link">| <a href="#">Reply</a></span>
+                        <span class="comment-details reply-link">| <a href="">Reply</a></span>
 
                         <div class="comment-text">{{ comment.comment|linebreaks }}</div>
 
@@ -112,7 +128,18 @@
 
     </div>
 
-    <div id="fader"></div>
-    <div id="fader-margin"></div>
+    <div id="comment-form-hider">
+
+        <form action="/addcomment" method="post" id="comment-form">
+            {{ form.non_field_errors }}
+            <div class="fieldWrapper">
+                {{ form.comment }}
+                {{ form.comment.errors }}
+            </div>
+            <p><input class="comments-input" type="submit" value="reply" /></p>
+            <input class="parent-id-hidden" type="hidden" name="parent_id" value="" />
+        </form>
+
+    </div>
 
 {% endblock %}
