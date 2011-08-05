@@ -9,6 +9,18 @@ from links.forms import *
 from links.models import *
 import datetime as dt
 
+def submissions(request, sort = None, mylinks = False):
+
+    '''
+    Show submissions.
+
+    @param sort(string) - The sort vertical (rank, rage, or comments).
+    @param mylinks(boolean) - True if the 'my links' filter is active.
+    '''
+
+    # Get submissions and tags.
+
+
 
 def frontpage(request):
 
@@ -53,8 +65,8 @@ def tag_sort(request, tag, sort):
     '''
     Show submissions with a certain tag.
 
-    @param tag - The selected tag.
-    @param sort - The selected sort parameter.
+    @param tag(string) - The selected tag.
+    @param sort(string) - The selected sort parameter.
     '''
 
     # Get submissions, tags, and the selected tag.
