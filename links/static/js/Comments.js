@@ -55,15 +55,24 @@ var Comments = new Class ({
                     event.stop();
 
                     if (!comment.retrieve('reply_form')) {
+
                         var reply_form = this.get_reply_form(id);
                         reply_form.inject(comment.getElement('.comment'));
                         new Form('reply-form-' + id, { 'comment': 'comment' }, []);
                         comment.store('reply_form', true);
+
+                        reply_form.getElement('.cancel').addEvent('mousedown', function() {
+                            reply_form.destroy();
+                            comment.store('reply_form', false);
+                        }.bind(this));
+
                     }
 
                     else {
+
                         comment.getElement('form').destroy();
                         comment.store('reply_form', false);
+
                     }
 
                 }.bind(this),
@@ -92,9 +101,14 @@ var Comments = new Class ({
             'mousedown': function() {
 
                 var reply_form = this.get_reply_form('root');
-                starting_input_p.destroy();
+                input.setStyles({ 'display': 'none', 'background-color': this.options.blue });
                 reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
                 new Form('reply-form-' + 'root', { 'comment': 'comment' }, []);
+
+                reply_form.getElement('.cancel').addEvent('mousedown', function() {
+                    reply_form.destroy();
+                    input.setStyle('display', 'inline');
+                }.bind(this));
 
             }.bind(this)
 
@@ -108,7 +122,6 @@ var Comments = new Class ({
         var id_input = new_form.getElement('.parent-id-hidden');
         id_input.setProperty('value', id);
         new_form.setProperty('id', 'reply-form-' + id);
-
 
         return new_form;
 
