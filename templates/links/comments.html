@@ -23,20 +23,7 @@
 
 {% endblock %}
 
-{% block tags %}
 
-    <ul id="tag-list">
-    {% for tag in tags %}
-
-        <div class="tag-container">
-            <span class="tag-count">{{ tag.count }}</span>
-            <li class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></li>
-        </div>
-
-    {% endfor %}
-    </ul>
-
-{% endblock %}
 
 {% block content %}
 

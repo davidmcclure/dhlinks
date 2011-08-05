@@ -24,8 +24,7 @@
     {% for sidetag in tags %}
 
         <tr class="tag-container">
-            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
-            <td class="tag-count {% if tag and sidetag.tag == tag.tag %}selected-tagcount{% endif %}">{{ sidetag.count }}</td>
+            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><span class="tag-count">({{ sidetag.count }}) </span><a href="/my-links/{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
         </tr>
 
     {% endfor %}

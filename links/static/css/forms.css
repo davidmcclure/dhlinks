@@ -85,8 +85,9 @@ ul.errorlist li {
 }
 
 #submit-form textarea {
-    width: 90%;
-    height: 100px;
+    width: 500px;
+    height: 450px;
+    font-size: 0.85em;
 }
 
 .sign-up-link {

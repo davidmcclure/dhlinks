@@ -32,8 +32,7 @@
     {% for tag in tags %}
 
         <tr class="tag-container">
-            <td class="tag"><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></td>
-            <td class="tag-count">{{ tag.count }}</td>
+            <td class="tag"><span class="tag-count">({{ tag.count }}) </span><a href="/{{ tag.url_slug }}">{{ tag.tag }}</a></td>
         </tr>
 
     {% endfor %}

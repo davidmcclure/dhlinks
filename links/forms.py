@@ -13,6 +13,9 @@ class SubmitForm(forms.Form):
         url = self.cleaned_data.get('url')
         title = self.cleaned_data.get('title')
 
+        if url == 'url':
+            url = ''
+
         if url == '' and comment == '':
             raise forms.ValidationError('Enter a comment.')
 
@@ -29,7 +32,7 @@ class SubmitForm(forms.Form):
         for tag in tags:
             tag = tag.strip().lower()
             if len(tag) > 30:
-                raise forms.ValidationError('Tags have to be shorter than 30 characters')
+                raise forms.ValidationError('// tags have to be shorter than 30 characters')
             else:
                 cleaned_tags.append(tag)
 
