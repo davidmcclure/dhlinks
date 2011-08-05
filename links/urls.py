@@ -7,6 +7,9 @@ urlpatterns = patterns('links.views',
     # Default front page.
     (r'^$', 'submissions'),
 
+    # Paged front page.
+    (r'^(?P<page>\d+)$', 'submissions'),
+
     # Sorted by age.
     (r'^new$', 'submissions', {
         'sort': 'new'
@@ -58,6 +61,12 @@ urlpatterns = patterns('links.views',
         'navigation': 'mylinks' 
         }),
 
+    # Current user's links, ordered by rank, with paging.
+    (r'^my-links/(?P<page>\d+)$', 'submissions', {
+        'mylinks': True,
+        'navigation': 'mylinks' 
+        }),
+
     # Current user's links, ordered by age.
     (r'^my-links/new$', 'submissions', {
         'mylinks': True,
@@ -65,8 +74,22 @@ urlpatterns = patterns('links.views',
         'navigation': 'mylinks'
         }),
 
+    # Current user's links, ordered by age, with paging.
+    (r'^my-links/new/(?P<page>\d+)$', 'submissions', {
+        'mylinks': True,
+        'sort': 'new',
+        'navigation': 'mylinks'
+        }),
+
     # Current user's links, ordered by most recent comment.
-    (r'^my-links/comments$', 'submissions', { 
+    (r'^my-links/comments$', 'submissions', {
+        'mylinks': True,
+        'sort': 'comments',
+        'navigation': 'mylinks'
+        }),
+
+    # Current user's links, ordered by most recent comment, with paging.
+    (r'^my-links/comments/(?P<page>\d+)$', 'submissions', {
         'mylinks': True,
         'sort': 'comments',
         'navigation': 'mylinks'
@@ -78,8 +101,21 @@ urlpatterns = patterns('links.views',
         'navigation': 'mylinks' 
         }),
 
+    # Current user's links, filtered by tag, with paging.
+    (r'^my-links/(?P<tag>[-\w]+)/(?P<page>\d+)', 'submissions', {
+        'mylinks': True,
+        'navigation': 'mylinks'
+        }),
+
     # Current user's links, filtered by tag and sorted by sort parameter.
     (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', {
+        'mylinks': True,
+        'navigation': 'mylinks'
+        }),
+
+    # Current user's links, filtered by tag and sorted by sort parameter, with
+    # paging.
+    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
         }),
