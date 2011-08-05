@@ -7,7 +7,8 @@ var Comments = new Class ({
         blue: '#2b7bff',
         gray: '#9b9b9b',
         light_blue: '#9cc1ff',
-        base_text_color: '#484848'
+        base_text_color: '#484848',
+        first: false
     },
 
     initialize: function(comment_block_container_id, comment_container_class, reply_form_id, options) {
@@ -19,7 +20,14 @@ var Comments = new Class ({
         this.root_reply_container = document.id('root-reply');
 
         this.gloss_comments();
-        this.gloss_root_reply();
+
+        if(!this.options.first) {
+            this.gloss_root_reply();
+        }
+
+        else {
+            this.gloss_first_reply();
+        }
 
     },
 
@@ -121,6 +129,11 @@ var Comments = new Class ({
                 reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
                 var reply_input = reply_form.getElement('.comments-reply');
 
+                reply_form.getElement('.cancel').addEvent('mousedown', function() {
+                    reply_form.destroy();
+                    starting_input_p.setStyle('display', 'block');
+                }.bind(this));
+
                 new Form('reply-form-root', { 'comment': 'comment' }, [], {
 
                     'onContent': function() {
@@ -135,11 +148,26 @@ var Comments = new Class ({
 
                 });
 
-                reply_form.getElement('.cancel').addEvent('mousedown', function() {
-                    reply_form.destroy();
-                    starting_input_p.setStyle('display', 'block');
-                }.bind(this));
+            }.bind(this)
 
+        });
+
+    },
+
+    gloss_first_reply: function() {
+
+        var reply_input = document.id('root-reply').getElement('.comments-reply');
+
+        new Form('comment-form', { 'comment': 'comment' }, [], {
+
+            'onContent': function() {
+                reply_input.setStyle('opacity', 1);
+                reply_input.removeProperty('disabled');
+            }.bind(this),
+
+            'onNocontent': function() {
+                reply_input.setStyle('opacity', 0.4);
+                reply_input.setProperty('disabled', 'disabled');
             }.bind(this)
 
         });
