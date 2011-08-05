@@ -16,6 +16,17 @@ var Links = new Class ({
 
         this.link_batch = 1;
 
+        this.get_links = new Request.HTML({
+            method: 'get',
+            url: '/ajax/submissions',
+            data: {
+                batch: this.link_batch
+            },
+            onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript) {
+                this.update_links(responseHTML);
+            }.bind(this)
+        });
+
         this.gloss_links();
 
     },

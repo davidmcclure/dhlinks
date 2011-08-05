@@ -45,15 +45,19 @@ class SubmissionManager(models.Manager):
         'new': operator.attrgetter('post_date')
     }
 
-    def sort(self, user, sort, tag, mylinks):
+    LINKS_PER_PAGE = 50
+
+    def sort(self, user, sort, tag, mylinks, batch):
 
         '''
         Core sort method. Returns a list of submissions sorted according to
         the sort parameter and filtered by mylinks and tag, if present.
 
         @param user (request.user) - The current user.
-        @param sort (string) - The tag to filter by.
+        @param sort (string) - The sort parameter to order by.
+        @param tag (string) - The tag to filter by.
         @param mylinks (boolean) - If the mylinks filter is applied.
+        @param batch (integer) - The batching number.
         '''
 
         result_list = []
@@ -88,7 +92,8 @@ class SubmissionManager(models.Manager):
 
         # Apply the sorting function and return the final set.
 
-        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
+        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)\
+                [:(batch * SubmissionManager.LINKS_PER_PAGE)]
 
     def create_submission(self, url, title, user, post_date):
         submission = Submission(

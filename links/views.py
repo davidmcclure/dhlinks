@@ -10,7 +10,7 @@ from links.models import *
 import datetime as dt
 
 
-def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None):
+def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None, batch = 1, ajax = False):
 
     '''
     Show submissions.
@@ -21,7 +21,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     '''
 
     # Get submissions and tags.
-    submissions = Submission.objects.sort(request.user, sort, tag, mylinks)
+    submissions = Submission.objects.sort(request.user, sort, tag, mylinks, batch)
     tags = Tag.objects.rank()
 
     # If a tag is selected, get the tag record for the view.
