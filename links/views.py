@@ -10,7 +10,7 @@ from links.models import *
 import datetime as dt
 
 
-def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None, batch = 1):
+def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None, page = 1):
 
     '''
     Show submissions.
@@ -19,12 +19,12 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     @param tag (string) - The tag to sort by.
     @param mylinks (boolean) - True if the 'my links' filter is active.
     @param navigation (string) - The active nagivation link.
-    @param batch (integer) - The batch number; used for ajaxing in more links.
+    @param page (integer) - The page number.
     '''
 
     # Get submissions and tags.
-    submissions = Submission.objects.sort(request.user, sort, tag, mylinks, batch)
-    tags = Tag.objects.rank()
+    submissions = Submission.objects.sort(request.user, sort, tag, mylinks, int(page))
+    tags = Tag.objects.rank(request.user, int(page), mylinks)
 
     # If a tag is selected, get the tag record for the view.
     if tag: tag = Tag.objects.get_by_url_slug(tag)

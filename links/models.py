@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Min
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser
 import datetime as dt
 import urlparse
 import operator
@@ -47,9 +48,9 @@ class SubmissionManager(models.Manager):
 
     LINKS_PER_PAGE = 50
 
-    TAGS_PER_PAGE = 90
+    TAGS_PER_PAGE = 80
 
-    def sort(self, user, sort, tag, mylinks, batch):
+    def sort(self, user, sort, tag, mylinks, page):
 
         '''
         Core sort method. Returns a list of submissions sorted according to
@@ -95,7 +96,7 @@ class SubmissionManager(models.Manager):
         # Apply the sorting function and return the final set.
 
         return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)\
-                [:(batch * SubmissionManager.LINKS_PER_PAGE)]
+                [((page - 1) * SubmissionManager.LINKS_PER_PAGE):(page * SubmissionManager.LINKS_PER_PAGE)]
 
     def create_submission(self, url, title, user, post_date):
         submission = Submission(
@@ -304,17 +305,38 @@ class CommentVote(Vote):
 
 class TagManager(models.Manager):
 
-    def rank(self):
-        return sorted(self.model.objects.all(), key = lambda a: a.count, reverse = True)
+    def rank(self, user = AnonymousUser, page = 1, mylinks = False):
 
-    def mylinks_rank(self, user):
+        '''
+        Core sort method. Returns list of tags, sliced by page and filtered by
+        user if mylinks is specified.
+
+        @param page (string) - The page number.
+        @param mylinks (boolean) - True if mylinks is selected.
+        '''
+
         result_list = []
-        for row in self.model.objects.all():
+
+        # Get tag set.
+        tags = self.model.objects.all()
+
+        # Iterate through and filter.
+        for row in tags:
+
+            # Add user count attribute to rowset.
             tag = self.model.objects.get(id = row.id)
-            if TagSubmission.objects.filter(submission__user = user, tag = tag).exists():
-                row.user_count = tag._get_total_user_submissions(user)
+
+            # Filter out tags not posted by user if mylinks is selected.
+            if mylinks:
+                if TagSubmission.objects.filter(submission__user = user, tag = tag).exists():
+                    row.user_count = tag._get_total_user_submissions(user)
+                    result_list.append(row)
+
+            else:
                 result_list.append(row)
-        return sorted(result_list, key = lambda a: a.count, reverse = True)
+
+        return sorted(result_list, key = lambda a: a.count, reverse = True)\
+                [((page - 1) * SubmissionManager.TAGS_PER_PAGE):(page * SubmissionManager.TAGS_PER_PAGE)]
 
     def get_by_url_slug(self, slug):
         return self.model.objects.get(tag = slug.replace('-', ' '))
