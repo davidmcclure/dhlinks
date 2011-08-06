@@ -1,51 +1,60 @@
 from django import forms
 from links.models import *
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 class SubmitForm(forms.Form):
 
-    url = forms.URLField(required=False, initial='url')
-    title = forms.CharField(required=True, initial='title')
+    url = forms.CharField(required=False, initial='url - leave blank to post a discussion thread')
+    title = forms.CharField(required=True, initial='title', error_messages = { 'required': '// enter a title' })
     tags = forms.CharField(required=False, initial='tags')
     comment = forms.CharField(widget=forms.Textarea(), required=False, initial='comment')
 
-    def clean_url(self):
+    def clean(self):
 
-        url = self.cleaned_data.get('url')
-        title = self.cleaned_data.get('title')
+        cleaned_data = self.cleaned_data
+        title = cleaned_data.get('title')
+        url = cleaned_data.get('url')
+        tags = cleaned_data.get('tags')
+        comment = cleaned_data.get('comment')
 
-        if url == 'url':
-            url = ''
+        # Title.
+        if title == 'title' or title == '':
+            msg = u'// enter a title'
+            self._errors['title'] = self.error_class([msg])
 
-        if url == '' and comment == '':
-            raise forms.ValidationError('Enter a comment.')
+        # Url.
+        if url not in ['', 'url - leave blank to post a discussion thread']:
+            validate = URLValidator(verify_exists = True)
+            try:
+                validate(url)
+            except ValidationError, e:
+                msg = u'// bad url'
+                self._errors['url'] = self.error_class([msg])
 
-        if url and title and comment:
-            if url == '' and comment == '':
-                raise forms.ValidationError('Enter a comment.')
-
-        return url
-
-    def clean_tags(self):
-
-        tags = self.cleaned_data.get('tags').split(',')
+        # Tags.
+        split_tags = tags.split(',')
         cleaned_tags = []
-        for tag in tags:
+        for tag in split_tags:
             tag = tag.strip().lower()
             if len(tag) > 30:
-                raise forms.ValidationError('// tags have to be shorter than 30 characters')
+                msg = u'// tags must be < 30 characters'
+                self._errors['tags'] = self.error_class([msg])
             else:
-                cleaned_tags.append(tag)
+                if tag != 'tags': cleaned_tags.append(tag)
 
-        return cleaned_tags
+        cleaned_data['tags'] = cleaned_tags
 
-    def clean_comment(self):
+        # Comment.
+        if url in ['', 'url - leave blank to post a discussion thread'] and comment in ['', 'comment']:
+            msg = u'// enter either a url or a comment'
+            # self._errors['comment'] = self.error_class([msg])
+            self._errors['url'] = self.error_class([msg])
 
-        dummy_form = SubmitForm()
-        cleaned_comment = self.cleaned_data.get('comment')
-        if cleaned_comment == 'comment':
-            cleaned_comment = ''
+        if comment in ['', 'comment']:
+            cleaned_data['comment'] = ''
 
-        return cleaned_comment
+        return cleaned_data
 
 
 class LoginForm(forms.Form):
@@ -69,7 +78,6 @@ class LoginForm(forms.Form):
         else:
             msg = u'// nonexistent user name'
             self._errors['username'] = self.error_class([msg])
-
 
         return cleaned_data
 

@@ -44,19 +44,34 @@ var Form = new Class ({
         Array.each(this.text_inputs, function(input) {
 
             input.set('autocomplete', 'off')
-
             input.store('focus_status', false);
             input.store('has_typed', false);
+            input.store('is_error', false);
 
             // does the field have an error output, meaning that the field
             // should be glossed on by default?
-
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
-            // if so, or if the name of the input is different from the value,
-            // set focus_status and has_typed to true
+            // if so set focus_status and has_typed to true
+            if (error_messages.length != 0 && (input.getAttribute('value') != this.names_to_prompts[input.getAttribute('name')])) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', 'red');
+                input.store('is_error', true);
+            }
 
-            if (error_messages.length != 0 || (input.getAttribute('value') != this.names_to_prompts[input.getAttribute('name')])) {
+            // if so set focus_status and has_typed to true
+            if (error_messages.length != 0 && (input.getAttribute('value') == this.names_to_prompts[input.getAttribute('name')])) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', 'red');
+                input.store('is_error', true);
+                input.set('value', '');
+            }
+
+            // if data was entered in the last submit, gloss the field and keep
+            // the data.
+            else if (error_messages.length == 0 && input.getAttribute('value') != this.names_to_prompts[input.getAttribute('name')]) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
                 input.setStyle('color', this.options.blue);
@@ -66,7 +81,7 @@ var Form = new Class ({
 
                 'focus': function() {
 
-                    if (!input.retrieve('has_typed')) {
+                    if (!input.retrieve('has_typed') || input.retrieve('is_error')) {
                         input.set('value', '');
                     }
 
@@ -292,26 +307,42 @@ var Form = new Class ({
 
             input.store('focus_status', false);
             input.store('has_typed', false);
+            input.store('is_error', false);
 
             // does the field have an error output, meaning that the field
             // should be glossed on by default?
-
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
-            // if so, or if the name of the input is different from the value,
-            // set focus_status and has_typed to true
-
-            if (error_messages.length != 0 || input.getAttribute('name') != input.get('text')) {
+            // if so set focus_status and has_typed to true
+            if (error_messages.length != 0 && (input.get('html') != this.names_to_prompts[input.getAttribute('name')])) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
-                input.setStyle('color', this.options.blue);
+                input.setStyle('color', 'red');
+                input.store('is_error', true);
+            }
+
+            // if so set focus_status and has_typed to true
+            if (error_messages.length != 0 && (input.get('html') == this.names_to_prompts[input.getAttribute('name')])) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', 'red');
+                input.store('is_error', true);
+                input.set('html', '');
+            }
+
+            // if data was entered in the last submit, gloss the field and keep
+            // the data.
+            else if (error_messages.length == 0 && input.get('html') != this.names_to_prompts[input.getAttribute('name')]) {
+                input.store('focus_status', true);
+                input.store('has_typed', true);
+                input.setStyle('color', '#484848');
             }
 
             input.addEvents({
 
                 'focus': function() {
 
-                    if (!input.retrieve('has_typed')) {
+                    if (!input.retrieve('has_typed') || input.retrieve('is_error')) {
                         input.set('value', '');
                     }
 
