@@ -50,6 +50,11 @@
         </tr>
 
     {% endfor %}
+
+        <tr class="tag-container" id="view-all-tags">
+            <td><a href="/tags">view all {{ total_tags }} tags</a></td>
+        </tr>
+
     </table>
 
     <div id="loader-region">
@@ -119,9 +124,9 @@
                     <span>Submitted by {{ submission.user.first_name }} {{ submission.user.last_name }}</span>
 
                     {% if submission.number_of_comments > 0 %}
-                        | <span><a href="/comments/{{ submission.id }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
+                        | <span><a href="/comments/{{ submission.comments_slug }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
                     {% else %}
-                        | <span><a href="/comments/{{ submission.id }}/first" class="start-comments-link">declaim</a></span>
+                        | <span><a href="/comments/{{ submission.comments_slug }}/first" class="start-comments-link">declaim</a></span>
                     {% endif %}
 
                 </div>

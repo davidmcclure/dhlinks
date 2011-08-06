@@ -13,6 +13,11 @@ urlpatterns = patterns('links.views',
         'sort': 'new'
         }),
 
+    # Sorted by age, with paging.
+    (r'^new/(?P<page>\d+)$', 'submissions', {
+        'sort': 'new'
+        }),
+
     # Submit form.
     (r'^submit$', 'submit'),
 
@@ -50,6 +55,11 @@ urlpatterns = patterns('links.views',
 
     # Sorted by most recent comment.
     (r'^comments$', 'submissions', {
+        'sort': 'comments'
+        }),
+
+    # Sorted by most recent comment, with paging.
+    (r'^comments/(?P<page>\d+)$', 'submissions', {
         'sort': 'comments'
         }),
 
