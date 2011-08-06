@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Min
+from django.db.models import Max
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AnonymousUser
 import datetime as dt
@@ -330,7 +331,7 @@ class CommentVote(Vote):
 
 class TagManager(models.Manager):
 
-    def rank(self, user = AnonymousUser, mylinks = False):
+    def rank(self, user = AnonymousUser, mylinks = False, all_tags = False):
 
         '''
         Core sort method. Returns list of tags, sliced by page and filtered by
@@ -338,6 +339,7 @@ class TagManager(models.Manager):
 
         @param page (string) - The page number.
         @param mylinks (boolean) - True if mylinks is selected.
+        @param all_tags (boolean) - True if all tags should be queried.
 
         @return queryset - The tags.
         '''
@@ -362,11 +364,15 @@ class TagManager(models.Manager):
             else:
                 result_list.append(row)
 
-        return sorted(result_list, key = lambda a: a.count, reverse = True)\
-                [:SubmissionManager.TAGS_PER_PAGE]
+        sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
+        sliced_tags = sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
+
+        return sorted_tags if all_tags else sliced_tags
+
 
     def get_by_url_slug(self, slug):
         return self.model.objects.get(tag = slug.replace('-', ' '))
+
 
     def create_tags(self, tags, submission):
        for tag in tags:
@@ -405,7 +411,6 @@ class Tag(models.Model):
     def _get_url_slug(self):
         return '-'.join(self.tag.split(' '))
     url_slug = property(_get_url_slug)
-
 
 class TagSubmission(models.Model):
 

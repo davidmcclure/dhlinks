@@ -24,7 +24,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
 
     # Get submissions and tags.
     submissions = Submission.objects.sort(request.user, sort, tag, mylinks, int(page))
-    tags = Tag.objects.rank(request.user, mylinks)
+    tags = Tag.objects.rank(request.user, mylinks, False)
     next_page_route = SubmissionManager().next_page_route(sort, tag, mylinks, page)
 
     # If a tag is selected, get the tag record for the view.
@@ -47,10 +47,33 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     }, context_instance = RequestContext(request))
 
 
+def tags(request):
+
+    '''
+    Show tags.
+    '''
+
+    # Get tags.
+    big_tags = Tag.objects.rank(request.user, False, True)
+    small_tags = Tag.objects.rank(request.user, False, False)
+
+    # Push to template.
+    return render_to_response('links/tags.html', {
+        'tags': small_tags,
+        'big_tags': big_tags,
+        'anon': request.user.is_anonymous(),
+        'total_tags': Tag.objects.all().count(),
+        'navigation': None
+    }, context_instance = RequestContext(request))
+
+
 def comments(request, submission_id, first = False):
 
     '''
     Show comments for a given submission.
+
+    @param submission_id (integer) - The id of the submission.
+    @param first (boolean) - True if this is the first comment.
     '''
 
     # Get comments and tags.

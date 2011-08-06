@@ -116,6 +116,11 @@ span.tags-bracket {
 
 #view-all-tags a {
     color: #9B9B9B;
+    display: none;
+}
+
+ul.big-tags li a {
+    font-size: 1.4em;
 }
 
 /* Sort Menu */
@@ -169,6 +174,7 @@ li.link {
 
 .link-container {
     margin: 0 0 0.5em 0;
+    z-index: 99;
 }
 
 a.link-title {
@@ -292,4 +298,13 @@ li.childe-digital-humanist {
 
 #navigation li.selected .navigation-main-word {
     color: #F7BA36;
+}
+
+/* Scholars' Lab logo */
+
+#slab-logo {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    /* z-index: -99;*/
 }
