@@ -1,0 +1,85 @@
+{% extends 'links/base.html' %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block javascript %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/_mootools.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/LetterSplitter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Letter.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Navigation.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/ScrollMonitor.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/LinkFader.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Sorters.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Loader.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+
+    <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/_links_deployment.js"></script>
+
+{% endblock %}
+
+{% block navigation %}
+
+    <ul>
+        <li class="navigation-link{% if navigation = 'submit' %} selected{% endif %}"><a href="/submit"><span class="navigation-main-word">submit</span></a></li>
+        {% if not anon %}
+            <li class="navigation-link{% if navigation = 'mylinks' %} selected{% endif %}"><a href="/my-links"><span class="navigation-main-word">my links</span></a></li>
+            <li class="navigation-link"><a href="/logout"><span class="navigation-main-word">logout</span></a></li>
+        {% else %}
+            <li class="navigation-link{% if navigation = 'login' %} selected{% endif %}"><a href="/login"><span class="navigation-main-word">login</span></a></li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+
+{% block tags %}
+
+    <table id="tag-list">
+    {% for sidetag in tags %}
+
+        <tr class="tag-container">
+            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><span class="tag-count">({% if mylinks %}{{ sidetag.user_count }}{% else %}{{ sidetag.count }}{% endif %}) </span><a href="/{% if mylinks %}my-links/{% endif %}{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
+        </tr>
+
+    {% endfor %}
+
+        <tr class="tag-container" id="view-all-tags">
+            <td><a href="/tags">view all {{ total_tags }} tags</a></td>
+        </tr>
+
+    </table>
+
+    <div id="loader-region">
+        <span id="tags-loader-text">loading</span>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <ul class="big-tags">
+    {% for tag in big_tags %}
+
+        <div class="link-container">
+
+            <li class="link">
+
+            <a href="/{{ tag.url_slug }}" target="_blank" class="link-title"">{{ tag.tag }}</a>
+
+            </li>
+
+        </div>
+
+    {% endfor %}
+
+    </ul>
+
+{% endblock %}

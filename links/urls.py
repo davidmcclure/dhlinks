@@ -128,6 +128,9 @@ urlpatterns = patterns('links.views',
         }),
 
     # Filtered by tag.
+    (r'^tags$', 'tags'),
+
+    # Filtered by tag.
     (r'^(?P<tag>[-\w]+)$', 'submissions'),
 
     # Filtered by tag, with paging.

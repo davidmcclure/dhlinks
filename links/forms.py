@@ -34,7 +34,7 @@ class SubmitForm(forms.Form):
                 self._errors['url'] = self.error_class([msg])
 
         # Tags.
-        split_tags = tags.split(',')
+        split_tags = tags.rstrip(',').split(',')
         cleaned_tags = []
         for tag in split_tags:
             tag = tag.strip().lower()
