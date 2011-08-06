@@ -34,10 +34,10 @@ urlpatterns = patterns('links.views',
     (r'^addcomment$', 'addcomment'),
 
     # Show comments for submission.
-    (r'^comments/(?P<submission_id>\d+)$', 'comments'),
+    (r'^comments/read/(?P<submission_id>\d+)$', 'comments'),
 
     # Show comments for submission.
-    (r'^comments/(?P<submission_id>\d+)/first$', 'comments', {
+    (r'^comments/read/(?P<submission_id>\d+)/first$', 'comments', {
         'first': True
         }),
 
