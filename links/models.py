@@ -61,7 +61,10 @@ class SubmissionManager(models.Manager):
         @param mylinks (boolean) - If the mylinks filter is applied.
         @param batch (integer) - The batching number.
 
-        @return queryset - The submissions.
+        @return tuple (queryset, are_more) - The submissions along with a
+        boolean that indicates whether or not there are more links beyond those
+        contained in the queryset (used to control whether or not a 'more' link
+        should be displayed).
         '''
 
         result_list = []
@@ -94,10 +97,16 @@ class SubmissionManager(models.Manager):
                 pass
             else: result_list.append(row)
 
-        # Apply the sorting function and return the final set.
+        # Apply the sorting function and slice the sorted set.
+        sorted_links = sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
+        sliced_links = sorted_links[((page - 1) * SubmissionManager.LINKS_PER_PAGE):(page * SubmissionManager.LINKS_PER_PAGE)]
 
-        return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)\
-                [((page - 1) * SubmissionManager.LINKS_PER_PAGE):(page * SubmissionManager.LINKS_PER_PAGE)]
+        # Figure out whether there are more links beyond those contained in the
+        # final, sliced query set.
+        are_more = ((page * SubmissionManager.LINKS_PER_PAGE) < len(sorted_links))
+
+        # Return a tuple with the query set and the are_more boolean
+        return (sliced_links, are_more)
 
 
     def create_submission(self, url, title, user, post_date):
@@ -108,6 +117,16 @@ class SubmissionManager(models.Manager):
             post_date = post_date)
         submission.save()
         return submission
+
+
+    def next_page_route(self, sort, tag, mylinks, page):
+        route = ''
+        if mylinks: route += '/my-links'
+        if tag: route += ('/' + tag)
+        if sort != 'rank': route += ('/' + sort)
+        route += ('/' + str((int(page) + 1)))
+        return route
+
 
 
 class Submission(models.Model):
