@@ -235,6 +235,12 @@ span.are-more-arrow {
     color: #F7BA36;
 }
 
+li.childe-digital-humanist {
+    font-family: Consolas, Cabin;
+    font-size: 0.8em;
+    color: #c1c1c1;
+}
+
 /* Loader */
 
 #links-loader-text {

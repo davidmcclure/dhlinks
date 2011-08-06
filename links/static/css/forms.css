@@ -81,12 +81,12 @@ ul.errorlist li {
 
 
 #submit-form input[type=text] {
-    width: 500px;
+    width: 70%;
 }
 
 #submit-form textarea {
-    width: 500px;
-    height: 450px;
+    width: 70%;
+    height: 150px;
     font-size: 0.85em;
 }
 
