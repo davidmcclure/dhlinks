@@ -113,7 +113,7 @@ class SubmissionManager(models.Manager):
 class Submission(models.Model):
 
     url = models.CharField(max_length=500, null=True)
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
     user = models.ForeignKey(User)
     post_date = models.DateTimeField()
 
