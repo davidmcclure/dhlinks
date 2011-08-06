@@ -72,9 +72,13 @@
                     <span class="sort-menu-tag" class="selected">{{ tag.url_slug }}</span><span class="tags-double-slash"> // </span>
                 {% endif %}
 
-                <a href="/{% if mylinks %}my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
-                <a href="/{% if mylinks %}my-links/{% endif %}{% if tag != None %}{{ tag.url_slug }}/{% endif %}new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
-                <a href="/{% if mylinks %}my-links/{% endif %}{% if tag != None %}{{ tag.url_slug }}/{% endif %}comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+                <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+                <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
+                <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
+
+                {% if page != 1 %}
+                    <span class="tags-bracket">[</span><span class="sort-menu-tag" class="selected">{{ page }}</span><span class="tags-bracket">]</span>
+                {% endif %}
 
             </div>
 

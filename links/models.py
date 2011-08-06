@@ -47,8 +47,7 @@ class SubmissionManager(models.Manager):
     }
 
     LINKS_PER_PAGE = 50
-
-    TAGS_PER_PAGE = 80
+    TAGS_PER_PAGE = 100
 
     def sort(self, user, sort, tag, mylinks, page):
 
@@ -61,6 +60,8 @@ class SubmissionManager(models.Manager):
         @param tag (string) - The tag to filter by.
         @param mylinks (boolean) - If the mylinks filter is applied.
         @param batch (integer) - The batching number.
+
+        @return queryset - The submissions.
         '''
 
         result_list = []
@@ -97,6 +98,7 @@ class SubmissionManager(models.Manager):
 
         return sorted(result_list, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)\
                 [((page - 1) * SubmissionManager.LINKS_PER_PAGE):(page * SubmissionManager.LINKS_PER_PAGE)]
+
 
     def create_submission(self, url, title, user, post_date):
         submission = Submission(
@@ -313,6 +315,8 @@ class TagManager(models.Manager):
 
         @param page (string) - The page number.
         @param mylinks (boolean) - True if mylinks is selected.
+
+        @return queryset - The tags.
         '''
 
         result_list = []
