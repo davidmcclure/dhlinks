@@ -364,7 +364,9 @@ class TagManager(models.Manager):
             else:
                 result_list.append(row)
 
-        sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
+        if mylinks: sorted_tags = sorted(result_list, key = lambda a: a.user_count, reverse = True)
+        else: sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
+
         sliced_tags = sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
 
         return sorted_tags if all_tags else sliced_tags

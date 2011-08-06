@@ -108,7 +108,11 @@
 
             <li class="link">
 
-                <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+                {% if submission.submission_type == 'link' %}
+                    <a href="{{ submission.url }}" target="_blank" class="link-title">{{ submission.title }}</a> 
+                {% else %}
+                    <a href="/comments/read/{{ submission.id }}" class="link-title">{{ submission.title }}</a> 
+                {% endif %}
 
                 <span class="submission-details">
                     {% if submission.submission_type == 'link' %}
