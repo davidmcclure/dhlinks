@@ -114,6 +114,10 @@ span.tags-bracket {
     padding: 0 0 3px 0;
 }
 
+#view-all-tags a {
+    color: #9B9B9B;
+}
+
 /* Sort Menu */
 
 #sort-menu {

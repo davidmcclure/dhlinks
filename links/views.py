@@ -24,7 +24,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
 
     # Get submissions and tags.
     submissions = Submission.objects.sort(request.user, sort, tag, mylinks, int(page))
-    tags = Tag.objects.rank(request.user, int(page), mylinks)
+    tags = Tag.objects.rank(request.user, mylinks)
 
     # If a tag is selected, get the tag record for the view.
     if tag: tag = Tag.objects.get_by_url_slug(tag)
@@ -39,7 +39,8 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
         'mylinks': mylinks,
         'navigation': navigation,
         'page': page,
-        'request': request
+        'request': request,
+        'total_tags': Tag.objects.all().count()
     }, context_instance = RequestContext(request))
 
 

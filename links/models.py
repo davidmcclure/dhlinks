@@ -113,7 +113,7 @@ class SubmissionManager(models.Manager):
 class Submission(models.Model):
 
     url = models.CharField(max_length=500, null=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     user = models.ForeignKey(User)
     post_date = models.DateTimeField()
 
@@ -153,6 +153,10 @@ class Submission(models.Model):
     def _get_date_of_last_comment(self):
         return self.comment_set.aggregate(Min('post_date'))
     date_of_last_comment = property(_get_date_of_last_comment)
+
+    def _get_comments_slug(self):
+        return '-'.join(self.title.split(' ')).lower()
+    comments_slug = property(_get_comments_slug)
 
     def user_has_voted(self, user):
         vote = []
@@ -307,7 +311,7 @@ class CommentVote(Vote):
 
 class TagManager(models.Manager):
 
-    def rank(self, user = AnonymousUser, page = 1, mylinks = False):
+    def rank(self, user = AnonymousUser, mylinks = False):
 
         '''
         Core sort method. Returns list of tags, sliced by page and filtered by
@@ -340,7 +344,7 @@ class TagManager(models.Manager):
                 result_list.append(row)
 
         return sorted(result_list, key = lambda a: a.count, reverse = True)\
-                [((page - 1) * SubmissionManager.TAGS_PER_PAGE):(page * SubmissionManager.TAGS_PER_PAGE)]
+                [:SubmissionManager.TAGS_PER_PAGE]
 
     def get_by_url_slug(self, slug):
         return self.model.objects.get(tag = slug.replace('-', ' '))

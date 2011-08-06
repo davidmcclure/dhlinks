@@ -14,10 +14,13 @@ var Tags = new Class ({
         this.setOptions(options);
         this.tags = $$('td.' + tag_class + ' a');
         this.tag_faders = [];
+        this.view_more = document.id('view-all-tags');
 
         Array.each(this.tags, function(tag) {
             this.tag_faders.push(new LinkFader(tag, this.options.blue, this.options.orange));
         }.bind(this));
+
+        new LinkFader(this.view_more.getElement('a'), this.options.gray, this.options.orange, { add_events: true });
 
         Array.each(this.tag_faders, function(fader) {
 
