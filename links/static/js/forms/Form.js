@@ -332,7 +332,9 @@ var Form = new Class ({
 
             // if data was entered in the last submit, gloss the field and keep
             // the data.
-            else if (error_messages.length == 0 && input.get('html') != this.names_to_prompts[input.getAttribute('name')]) {
+            else if (error_messages.length == 0 &&
+                     input.get('html') != this.names_to_prompts[input.getAttribute('name')] &&
+                     input.getParent('form').getProperty('action') != '/addcomment') {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
                 input.setStyle('color', '#484848');

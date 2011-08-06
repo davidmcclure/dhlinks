@@ -1,6 +1,7 @@
 from django import forms
 from links.models import *
 from django.core.validators import URLValidator
+from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
 class SubmitForm(forms.Form):
@@ -48,7 +49,6 @@ class SubmitForm(forms.Form):
         # Comment.
         if url in ['', 'url - leave blank to post a discussion thread'] and comment in ['', 'comment']:
             msg = u'// enter either a url or a comment'
-            # self._errors['comment'] = self.error_class([msg])
             self._errors['url'] = self.error_class([msg])
 
         if comment in ['', 'comment']:
@@ -84,24 +84,59 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.Form):
 
-    username = forms.CharField(required=True, initial='username')
-    password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password')
-    password_confirm = forms.CharField(required=True, widget=forms.PasswordInput, initial='confirm')
+    username = forms.CharField(required=True, initial='username', error_messages = { 'required': '// enter a username' })
+    password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password', error_messages = { 'required': '// try again' })
+    password_confirm = forms.CharField(required=True, widget=forms.PasswordInput, initial='confirm', error_messages = { 'required': '// try again' })
     email = forms.EmailField(required=True, initial='email')
-    firstname = forms.CharField(required=True, initial='first name')
-    lastname = forms.CharField(required=True, initial='last name')
+    firstname = forms.CharField(required=True, initial='first name', error_messages = { 'required': '// enter your first name' })
+    lastname = forms.CharField(required=True, initial='last name', error_messages = { 'required': '// enter your last name' })
 
     def clean(self):
 
         cleaned_data = self.cleaned_data
+        username = cleaned_data.get('username')
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
+        email = cleaned_data.get('email')
+        firstname = cleaned_data.get('firstname')
+        lastname = cleaned_data.get('lastname')
 
-        if password != password_confirm:
-            raise forms.ValidationError('Passwords do not match.')
+        # Username.
+        if username in ['', 'username']:
+            msg = u'// enter a username'
+            self._errors['username'] = self.error_class([msg])
 
-        if User.objects.filter(username=cleaned_data.get('username')).exists():
-            raise forms.ValidationError('Username taken.')
+        elif User.objects.filter(username=username).exists():
+            msg = u'// username taken'
+            self._errors['username'] = self.error_class([msg])
+
+        # Passwords.
+        if (password in ['', 'password'] or password_confirm in ['', 'confirm']) or password != password_confirm:
+            msg = u'// try again'
+            self._errors['password'] = self.error_class([msg])
+            self._errors['password_confirm'] = self.error_class([msg])
+
+        # Email.
+        if email not in ['', 'email']:
+            try:
+                validate_email(email)
+            except ValidationError:
+                msg = u'// invalid address'
+                self._errors['email'] = self.error_class([msg])
+
+        else:
+            msg = u'// enter an email address'
+            self._errors['email'] = self.error_class([msg])
+
+        # First name.
+        if firstname in ['', 'firstname', 'first name']:
+            msg = u'// enter your first name'
+            self._errors['firstname'] = self.error_class([msg])
+
+        # Last name.
+        if lastname in ['', 'lastname', 'last name']:
+            msg = u'// enter your last name'
+            self._errors['lastname'] = self.error_class([msg])
 
         return cleaned_data
 
