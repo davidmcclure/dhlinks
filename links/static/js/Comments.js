@@ -66,6 +66,7 @@ var Comments = new Class ({
 
                         var reply_form = this.get_reply_form(id);
                         var reply_input = reply_form.getElement('.comments-reply');
+
                         reply_form.inject(comment.getElement('.comment'));
 
                         new Form('reply-form-' + id, { 'comment': 'comment' }, [], {
@@ -124,10 +125,11 @@ var Comments = new Class ({
             'mousedown': function() {
 
                 var reply_form = this.get_reply_form('root');
+                var reply_input = reply_form.getElement('.comments-reply');
+
                 starting_input_p.setStyle( 'display', 'none');
                 input.setStyle('background-color', this.options.blue);
                 reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
-                var reply_input = reply_form.getElement('.comments-reply');
 
                 reply_form.getElement('.cancel').addEvent('mousedown', function() {
                     reply_form.destroy();

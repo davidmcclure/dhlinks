@@ -106,8 +106,12 @@ span.tags-double-slash {
     margin: 0 0.9em 0 0.9em;
 }
 
+span.tags-bracket {
+    margin: 0 0.2em 0 0.2em;
+}
+
 #tag-list td {
-    padding: 0 0 5px 0;
+    padding: 0 0 3px 0;
 }
 
 /* Sort Menu */
@@ -206,6 +210,11 @@ img.submission-type-icon {
     position: relative;
     margin: 0 4px 0 3px;
     top: 1px;
+}
+
+.link-number {
+    font-size: 0.95em;
+    color: #696969;
 }
 
 /* Loader */

@@ -50,10 +50,12 @@ var Form = new Class ({
 
             // does the field have an error output, meaning that the field
             // should be glossed on by default?
+
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
             // if so, or if the name of the input is different from the value,
             // set focus_status and has_typed to true
+
             if (error_messages.length != 0 || (input.getAttribute('value') != this.names_to_prompts[input.getAttribute('name')])) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
@@ -139,9 +141,11 @@ var Form = new Class ({
 
             // does the field have an error output, meaning that the field
             // should be glossed on by default?
+
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
             // if so, set focus_status and has_typed to true
+
             if (error_messages.length != 0) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);
@@ -291,10 +295,12 @@ var Form = new Class ({
 
             // does the field have an error output, meaning that the field
             // should be glossed on by default?
+
             var error_messages = input.getParent('.fieldWrapper').getElements('ul.errorlist li');
 
             // if so, or if the name of the input is different from the value,
             // set focus_status and has_typed to true
+
             if (error_messages.length != 0 || input.getAttribute('name') != input.get('text')) {
                 input.store('focus_status', true);
                 input.store('has_typed', true);

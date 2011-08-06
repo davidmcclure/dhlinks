@@ -123,7 +123,13 @@ urlpatterns = patterns('links.views',
     # Filtered by tag.
     (r'^(?P<tag>[-\w]+)$', 'submissions'),
 
+    # Filtered by tag, with paging.
+    (r'^(?P<tag>[-\w]+)/(?P<page>\d+)$', 'submissions'),
+
     # Filtered by tag and sorted by sort parameter.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions')
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
+
+    # Filtered by tag and sorted by sort parameter, with paging.
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions')
 
 )

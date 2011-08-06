@@ -37,7 +37,8 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
         'tag': tag,
         'anon': request.user.is_anonymous(),
         'mylinks': mylinks,
-        'navigation': navigation
+        'navigation': navigation,
+        'page': page
     }, context_instance = RequestContext(request))
 
 
