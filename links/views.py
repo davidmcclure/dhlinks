@@ -59,7 +59,7 @@ def comments(request, submission_id, first = False):
     tags = Tag.objects.rank()
     form = CommentForm()
 
-    request.session['comments_redirect'] = 'comments/' + submission_id
+    request.session['comments_redirect'] = 'comments/read/' + submission_id
 
     # Push to template.
     return render_to_response('links/comments.html', {

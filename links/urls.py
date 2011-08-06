@@ -115,14 +115,14 @@ urlpatterns = patterns('links.views',
         'navigation': 'mylinks'
         }),
 
-    # Current user's links, filtered by tag and sorted by sort parameter.
-    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', {
+    # Current user's links, filtered by tag and sorted by sort parameter, with paging.
+    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
         }),
 
-    # Current user's links, filtered by tag and sorted by sort parameter, with paging.
-    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions', {
+    # Current user's links, filtered by tag and sorted by sort parameter.
+    (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
         }),
@@ -133,10 +133,10 @@ urlpatterns = patterns('links.views',
     # Filtered by tag, with paging.
     (r'^(?P<tag>[-\w]+)/(?P<page>\d+)$', 'submissions'),
 
-    # Filtered by tag and sorted by sort parameter.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
-
     # Filtered by tag and sorted by sort parameter, with paging.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions')
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions'),
+
+    # Filtered by tag and sorted by sort parameter.
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions')
 
 )
