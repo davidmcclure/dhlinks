@@ -219,7 +219,7 @@ img.submission-type-icon {
 
 /* Loader */
 
-#loader-text {
+#links-loader-text {
     margin: 0 0 0 2px;
     font-family: Consolas, Cabin;
     position: relative;
@@ -228,6 +228,17 @@ img.submission-type-icon {
     top: 4px;
     left: 15px;
     display: none;
+}
+
+#tags-loader-text {
+    margin: 0 68px 0 0;
+    font-family: Consolas, Cabin;
+    position: relative;
+    font-size: 0.7em;
+    color: #f7ba36;
+    left: 15px;
+    display: none;
+    float: right;
 }
 
 /* Navigation */
