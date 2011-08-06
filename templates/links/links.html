@@ -46,11 +46,15 @@
     {% for sidetag in tags %}
 
         <tr class="tag-container">
-            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><span class="tag-count">({{ sidetag.count }}) </span><a href="/{% if mylinks %}my-links/{% endif %}{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
+            <td class="tag {% if tag and sidetag.tag == tag.tag %}selected-tag{% endif %}"><span class="tag-count">({% if mylinks %}{{ sidetag.user_count }}{% else %}{{ sidetag.count }}{% endif %}) </span><a href="/{% if mylinks %}my-links/{% endif %}{{ sidetag.url_slug }}">{{ sidetag.tag }}</a></td>
         </tr>
 
     {% endfor %}
     </table>
+
+    <div id="loader-region">
+        <span id="tags-loader-text">loading</span>
+    </div>
 
 {% endblock %}
 
@@ -72,7 +76,7 @@
                     <span class="sort-menu-tag" class="selected">{{ tag.url_slug }}</span><span class="tags-double-slash"> // </span>
                 {% endif %}
 
-                <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
+                <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}/" class="sort-menu-item{% if sort == 'rank' %} selected{% endif %}">rank</a>
                 <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}/new" class="sort-menu-item{% if sort == 'new' %} selected{% endif %}">age</a>
                 <a href="{% if mylinks %}/my-links{% endif %}{% if tag != None %}/{{ tag.url_slug }}{% endif %}/comments" class="sort-menu-item{% if sort == 'comments' %} selected{% endif %}">comments</a>
 
@@ -129,9 +133,7 @@
     </ul>
 
     <div id="loader-region">
-
-        <span id="loader-text">loading</span>
-
+        <span id="links-loader-text">loading</span>
     </div>
 
 {% endblock %}

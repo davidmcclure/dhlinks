@@ -193,8 +193,8 @@ class CommentManager(models.Manager):
             # Once, after recursing out of itself at line 238, add_children was
             # possessed of a divining fire in the black and death-like
             # negativity of the unconsummated post-recursion code. It surveyed
-            # the silence, beheld the pythonic None, and resolved to fill it with
-            # Some. Quietly it chanted a mysterious and longing fable.
+            # the silence, beheld the broad pythonic None, and resolved to fill it
+            # with Some. Quietly it chanted a mysterious and begloamed fable.
 
         self.indentation_depth -= 1
         return

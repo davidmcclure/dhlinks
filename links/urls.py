@@ -5,7 +5,7 @@ urlpatterns = patterns('links.views',
     # Default front page.
     (r'^$', 'submissions'),
 
-    # Paged front page.
+    # Default front page, with paging.
     (r'^(?P<page>\d+)$', 'submissions'),
 
     # Sorted by age.
@@ -127,12 +127,6 @@ urlpatterns = patterns('links.views',
     (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
 
     # Filtered by tag and sorted by sort parameter, with paging.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions'),
-
-    # ** AJAX ** *
-
-    # Filtered by tag.
-    (r'^ajax/submissions$', 'submissions', { 'ajax': True }),
-
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions')
 
 )
