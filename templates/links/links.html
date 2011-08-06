@@ -135,6 +135,13 @@
         </div>
 
     {% endfor %}
+
+        {% if are_more %}
+            <li class="link">
+            <a href="{{ next_page_route }}" class="are-more"><span class="are-more-more">more</span> <span class="are-more-arrow">-></span></a>
+            </li>
+        {% endif %}
+
     </ul>
 
     <div id="loader-region">

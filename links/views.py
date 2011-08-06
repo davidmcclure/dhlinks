@@ -25,13 +25,14 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     # Get submissions and tags.
     submissions = Submission.objects.sort(request.user, sort, tag, mylinks, int(page))
     tags = Tag.objects.rank(request.user, mylinks)
+    next_page_route = SubmissionManager().next_page_route(sort, tag, mylinks, page)
 
     # If a tag is selected, get the tag record for the view.
     if tag: tag = Tag.objects.get_by_url_slug(tag)
 
     # Push to template.
     return render_to_response('links/links.html', {
-        'submissions': submissions,
+        'submissions': submissions[0],
         'tags': tags,
         'sort': sort,
         'tag': tag,
@@ -40,7 +41,9 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
         'navigation': navigation,
         'page': page,
         'request': request,
-        'total_tags': Tag.objects.all().count()
+        'total_tags': Tag.objects.all().count(),
+        'are_more': submissions[1],
+        'next_page_route': next_page_route
     }, context_instance = RequestContext(request))
 
 

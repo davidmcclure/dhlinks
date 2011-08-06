@@ -221,6 +221,20 @@ img.submission-type-icon {
     color: #696969;
 }
 
+a.are-more {
+    font-family: Consolas, Cabin;
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+span.are-more-more {
+    color: #2B7BFF;
+}
+
+span.are-more-arrow {
+    color: #F7BA36;
+}
+
 /* Loader */
 
 #links-loader-text {

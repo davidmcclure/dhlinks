@@ -34,6 +34,31 @@ var Links = new Class ({
         this.links = [];
         this.comment_links = [];
         this.upvote_links = [];
+        this.are_more = $$('.are-more');
+
+        if(this.are_more.length > 0) {
+
+            var are_more = this.are_more[0];
+            var more = are_more.getElement('.are-more-more');
+            var arrow = are_more.getElement('.are-more-arrow');
+            var more_fader = new LinkFader(more, this.options.blue, this.options.orange);
+            var arrow_fader = new LinkFader(arrow, this.options.orange, this.options.blue);
+
+            are_more.addEvents({
+
+                'mouseenter': function() {
+                    more_fader.fade_up();
+                    arrow_fader.fade_up();
+                }.bind(this),
+
+                'mouseleave': function() {
+                    more_fader.fade_down();
+                    arrow_fader.fade_down();
+                }.bind(this)
+
+            });
+
+        }
 
         Array.each(this.links_dom, function(link_dom) {
 
