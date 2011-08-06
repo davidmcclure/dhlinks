@@ -2,8 +2,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('links.views',
 
-    # ** Show submissions ** #
-
     # Default front page.
     (r'^$', 'submissions'),
 
@@ -113,8 +111,7 @@ urlpatterns = patterns('links.views',
         'navigation': 'mylinks'
         }),
 
-    # Current user's links, filtered by tag and sorted by sort parameter, with
-    # paging.
+    # Current user's links, filtered by tag and sorted by sort parameter, with paging.
     (r'^my-links/(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions', {
         'mylinks': True,
         'navigation': 'mylinks'
@@ -130,6 +127,12 @@ urlpatterns = patterns('links.views',
     (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions'),
 
     # Filtered by tag and sorted by sort parameter, with paging.
-    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions')
+    (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)/(?P<page>\d+)', 'submissions'),
+
+    # ** AJAX ** *
+
+    # Filtered by tag.
+    (r'^ajax/submissions$', 'submissions', { 'ajax': True }),
+
 
 )

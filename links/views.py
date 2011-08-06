@@ -10,7 +10,7 @@ from links.models import *
 import datetime as dt
 
 
-def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None, page = 1):
+def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation = None, page = 1, ajax = False):
 
     '''
     Show submissions.
