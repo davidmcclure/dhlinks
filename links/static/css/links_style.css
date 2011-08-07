@@ -302,9 +302,18 @@ li.childe-digital-humanist {
 
 /* Scholars' Lab logo */
 
-#slab-logo {
+#bottom-logos {
     position: fixed;
     right: 20px;
     bottom: 20px;
     /* z-index: -99;*/
+}
+
+#bottom-logos .logo-spacer {
+    display: inline-block;
+    height: 31px;
+    width: 2px;
+    clear: none;
+    background-color: #e4e4e4;
+    margin: 0 5px 0 5px;
 }
