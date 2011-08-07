@@ -1,6 +1,7 @@
 # Django settings for dhlinks project.
 
-DEBUG = False
+DEBUG = True
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -107,7 +108,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/davidmcclure/Projects/dhlinks/templates'
+    '/home/clured/webapps/dhlinks/dhlinks/templates'
 )
 
 INSTALLED_APPS = (
@@ -118,7 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'links',
-	'south'
+    'south'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
