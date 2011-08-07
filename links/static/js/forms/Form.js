@@ -3,17 +3,17 @@ var Form = new Class ({
     Implements: [Options, Events],
 
     options: {
-        orange: '#f7ba36',
-        blue: '#2b7bff',
-        gray: '#9b9b9b',
-        light_blue: '#9cc1ff',
-        input_gray: '#dbdbdb',
-        purple: '#540ead',
-        fps: 100,
-        fadein_duration: 10,
-        fadeout_duration: 70,
-        transition: Fx.Transitions.Quad.easeOut,
-        password_input_name: 'password'
+        'orange': '#f7ba36',
+        'blue': '#2b7bff',
+        'gray': '#9b9b9b',
+        'light_blue': '#9cc1ff',
+        'input_gray': '#dbdbdb',
+        'purple': '#540ead',
+        'fps': 100,
+        'fadein_duration': 10,
+        'fadeout_duration': 70,
+        'transition': Fx.Transitions.Quad.easeOut,
+        'password_input_name': 'password'
     },
 
     initialize: function(form_id, names_to_prompts, password_names, options) {
@@ -86,7 +86,7 @@ var Form = new Class ({
                     }
 
                     input.store('focus_status', true);
-                    input.set('tween', { duration: this.options.fadein_duration });
+                    input.set('tween', { 'duration': this.options.fadein_duration });
                     input.tween('color', this.options.blue);
 
                 }.bind(this),
@@ -100,7 +100,7 @@ var Form = new Class ({
                     }
 
                     else {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.blue);
                     }
 
@@ -117,7 +117,7 @@ var Form = new Class ({
                 'mouseenter': function() {
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadein_duration });
+                        input.set('tween', { 'duration': this.options.fadein_duration });
                         input.tween('color', this.options.blue);
                     }
 
@@ -126,12 +126,12 @@ var Form = new Class ({
                 'mouseleave': function() {
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.input_gray);
                     }
 
                     else if (!input.retrieve('focus_status') && input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.blue);
                     }
 
@@ -192,8 +192,8 @@ var Form = new Class ({
         this.submits = $$('input[type=submit]');
 
         this.submits.set('tween', {
-            transition: this.options.transition,
-            fps: this.options.fps
+            'transition': this.options.transition,
+            'fps': this.options.fps
         });
 
         Array.each(this.submits, function(input) {
@@ -203,12 +203,12 @@ var Form = new Class ({
             input.addEvents({
 
                 'mouseenter': function() {
-                    input.set('tween', { duration: this.options.fadein_duration });
+                    input.set('tween', { 'duration': this.options.fadein_duration });
                     input.tween('background-color', this.options.orange);
                 }.bind(this),
 
                 'mouseleave': function() {
-                    input.set('tween', { duration: this.options.fadeout_duration + 200 });
+                    input.set('tween', { 'duration': this.options.fadeout_duration + 200 });
                     input.tween('background-color', starting_color);
                 }.bind(this),
 
@@ -240,8 +240,8 @@ var Form = new Class ({
             }
 
             container.set('tween', {
-                transition: this.options.transition,
-                fps: this.options.fps
+                'transition': this.options.transition,
+                'fps': this.options.fps
             });
 
             container.addEvents({
@@ -249,7 +249,7 @@ var Form = new Class ({
                 'mouseenter': function() {
 
                     if (!container.retrieve('checked')) {
-                        label.set('tween', { duration: this.options.fadein_duration });
+                        label.set('tween', { 'duration': this.options.fadein_duration });
                         label.tween('color', this.options.light_blue);
                     }
 
@@ -258,7 +258,7 @@ var Form = new Class ({
                 'mouseleave': function() {
 
                     if (!container.retrieve('checked')) {
-                        label.set('tween', { duration: this.options.fadeout_duration });
+                        label.set('tween', { 'duration': this.options.fadeout_duration });
                         label.tween('color', this.options.input_gray);
                     }
 
@@ -299,8 +299,8 @@ var Form = new Class ({
         this.textareas = $$('textarea');
 
         this.textareas.set('tween', {
-            transition: this.options.transition,
-            fps: this.options.fps
+            'transition': this.options.transition,
+            'fps': this.options.fps
         });
 
         Array.each(this.textareas, function(input) {
@@ -349,7 +349,7 @@ var Form = new Class ({
                     }
 
                     input.store('focus_status', true);
-                    input.set('tween', { duration: this.options.fadein_duration });
+                    input.set('tween', { 'duration': this.options.fadein_duration });
                     input.setStyle('color', '#484848');
                     input.setStyle('font-size', '0.85em');
 
@@ -365,7 +365,7 @@ var Form = new Class ({
                     }
 
                     else {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.blue);
                     }
 
@@ -383,7 +383,7 @@ var Form = new Class ({
                 'mouseenter': function() {
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadein_duration });
+                        input.set('tween', { 'duration': this.options.fadein_duration });
                         input.tween('color', this.options.blue);
                     }
 
@@ -392,12 +392,12 @@ var Form = new Class ({
                 'mouseleave': function() {
 
                     if (!input.retrieve('focus_status') && !input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.input_gray);
                     }
 
                     else if (!input.retrieve('focus_status') && input.retrieve('has_typed')) {
-                        input.set('tween', { duration: this.options.fadeout_duration });
+                        input.set('tween', { 'duration': this.options.fadeout_duration });
                         input.tween('color', this.options.blue);
                     }
 
