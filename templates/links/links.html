@@ -20,8 +20,6 @@
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Loader.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
 
-    <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
-
     <script type="text/javascript" src="{{ STATIC_URL }}/js/_links_deployment.js"></script>
 
 {% endblock %}
@@ -156,6 +154,10 @@
 
 {% block scholarslab %}
 
-    <a href="http://www.scholarslab.org/" target="blank"><img src="{{ STATIC_URL }}/img/scholarslab_logo.png" id="slab-logo" /></a>
+    <div id="bottom-logos">
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="blank"><img src="{{ STATIC_URL }}/img/cc_logo.png" id="slab-logo" /></a>
+        <span class="logo-spacer"></span>
+        <a href="http://www.scholarslab.org/" target="blank"><img src="{{ STATIC_URL }}/img/scholarslab_logo.png" id="slab-logo" /></a>
+    </div>
 
 {% endblock %}
