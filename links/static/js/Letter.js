@@ -10,7 +10,7 @@ var Letter = new Class ({
 
         this.tween_templates = {
 
-            default: {
+            'default': {
                 duration: this.durations.fade_duration,
                 fps: this.durations.fps,
                 transition: this.durations.transition
