@@ -70,11 +70,19 @@ def tags(request):
 def comments(request, submission_id, first = False):
 
     '''
-    Show comments for a given submission.
+    Show comments for a given submission. If there are no comments
+    and the user is not logged in, initiate login flow.
 
     @param submission_id (integer) - The id of the submission.
     @param first (boolean) - True if this is the first comment.
     '''
+
+    # If there are no comments and the user is not logged in, redirect
+    # to the login flow.
+    if first and request.user.is_anonymous():
+        request.session['login_redirect'] = 'comments/read/' + submission_id + '/first'
+        request.session['register_redirect'] = 'comments/read/' + submission_id + '/first'
+        return HttpResponseRedirect('/login')
 
     # Get comments and tags.
     submission = Submission.objects.get(pk = submission_id)
