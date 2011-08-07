@@ -180,11 +180,16 @@ input[type=submit].cancel {
     ;
 }
 
-#main-reply {
-    margin: 0 0 0 1em;
+input[type=submit].login-to-reply {
+    background-color: #e14646;
+    width: 120px;
 }
 
-.reply-link a {
+#main-reply, #login-to-reply {
+    margin: 0 0 0 1.2em;
+}
+
+.reply-link a, .login-link a {
     text-decoration: none;
     color: #2B7BFF;
 }
@@ -211,4 +216,9 @@ input[type=submit].cancel {
 
 id {
     display: none;
+}
+
+form#comment-login {
+    margin: 0;
+    padding: 0;
 }

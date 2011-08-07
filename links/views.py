@@ -84,6 +84,12 @@ def comments(request, submission_id, first = False):
         request.session['register_redirect'] = 'comments/read/' + submission_id + '/first'
         return HttpResponseRedirect('/login')
 
+    # Set registry redirects in case the anonymous user clicks through login
+    # prompts on comments read page.
+    elif not first and request.user.is_anonymous():
+        request.session['login_redirect'] = 'comments/read/' + submission_id
+        request.session['register_redirect'] = 'comments/read/' + submission_id
+
     # Get comments and tags.
     submission = Submission.objects.get(pk = submission_id)
     comments = Comment.objects.comments(submission_id, request.user)

@@ -40,74 +40,78 @@ var Comments = new Class ({
             comment.store('reply_form', false);
 
             var reply_link = comment.getElement('.reply-link a');
-            var reply_fader = new LinkFader(reply_link, this.options.blue, this.options.orange);
-
             var id = comment.getElement('id').get('html');
 
-            reply_link.addEvents({
+            if (reply_link != null) {
 
-                'mouseenter': function() {
+                var reply_fader = new LinkFader(reply_link, this.options.blue, this.options.orange);
 
-                    reply_fader.fade_up();
+                reply_link.addEvents({
 
-                },
+                    'mouseenter': function() {
 
-                'mouseleave': function() {
+                        reply_fader.fade_up();
 
-                    reply_fader.fade_down();
+                    },
 
-                },
+                    'mouseleave': function() {
 
-                'mousedown': function(event) {
+                        reply_fader.fade_down();
 
-                    event.stop();
+                    },
 
-                    if (!comment.retrieve('reply_form')) {
+                    'mousedown': function(event) {
 
-                        var reply_form = this.get_reply_form(id);
-                        var reply_input = reply_form.getElement('.comments-reply');
+                        event.stop();
 
-                        reply_form.inject(comment.getElement('.comment'));
+                        if (!comment.retrieve('reply_form')) {
 
-                        new Form('reply-form-' + id, { 'comment': 'comment' }, [], {
+                            var reply_form = this.get_reply_form(id);
+                            var reply_input = reply_form.getElement('.comments-reply');
 
-                            'onContent': function() {
-                                reply_input.setStyle('opacity', 1);
-                                reply_input.removeProperty('disabled');
-                            }.bind(this),
+                            reply_form.inject(comment.getElement('.comment'));
 
-                            'onNocontent': function() {
-                                reply_input.setStyle('opacity', 0.4);
-                                reply_input.setProperty('disabled', 'disabled');
-                            }.bind(this)
+                            new Form('reply-form-' + id, { 'comment': 'comment' }, [], {
 
-                        });
+                                'onContent': function() {
+                                    reply_input.setStyle('opacity', 1);
+                                    reply_input.removeProperty('disabled');
+                                }.bind(this),
 
-                        comment.store('reply_form', true);
+                                'onNocontent': function() {
+                                    reply_input.setStyle('opacity', 0.4);
+                                    reply_input.setProperty('disabled', 'disabled');
+                                }.bind(this)
 
-                        reply_form.getElement('.cancel').addEvent('mousedown', function() {
-                            reply_form.destroy();
+                            });
+
+                            comment.store('reply_form', true);
+
+                            reply_form.getElement('.cancel').addEvent('mousedown', function() {
+                                reply_form.destroy();
+                                comment.store('reply_form', false);
+                            }.bind(this));
+
+                        }
+
+                        else {
+
+                            comment.getElement('form').destroy();
                             comment.store('reply_form', false);
-                        }.bind(this));
 
-                    }
+                        }
 
-                    else {
+                    }.bind(this),
 
-                        comment.getElement('form').destroy();
-                        comment.store('reply_form', false);
+                    'click': function(event) {
 
-                    }
+                        event.stop();
 
-                }.bind(this),
+                    }.bind(this)
 
-                'click': function(event) {
+                });
 
-                    event.stop();
-
-                }.bind(this)
-
-            });
+            }
 
         }.bind(this));
 
@@ -115,44 +119,48 @@ var Comments = new Class ({
 
     gloss_root_reply: function() {
 
-        new Form('root-reply', {}, []);
+        new Form('main-reply', {}, []);
 
         var starting_input_p = this.root_reply_container.getElement('p');
         var input = starting_input_p.getElement('input');
 
-        input.addEvents({
+        if (input.getProperty('id') != 'login-to-reply') {
 
-            'mousedown': function() {
+            input.addEvents({
 
-                var reply_form = this.get_reply_form('root');
-                var reply_input = reply_form.getElement('.comments-reply');
+                'mousedown': function() {
 
-                starting_input_p.setStyle( 'display', 'none');
-                input.setStyle('background-color', this.options.blue);
-                reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
+                    var reply_form = this.get_reply_form('root');
+                    var reply_input = reply_form.getElement('.comments-reply');
 
-                reply_form.getElement('.cancel').addEvent('mousedown', function() {
-                    reply_form.destroy();
-                    starting_input_p.setStyle('display', 'block');
-                }.bind(this));
+                    starting_input_p.setStyle( 'display', 'none');
+                    input.setStyle('background-color', this.options.blue);
+                    reply_form.setStyle('margin-left', '1em').inject(this.root_reply_container);
 
-                new Form('reply-form-root', { 'comment': 'comment' }, [], {
+                    reply_form.getElement('.cancel').addEvent('mousedown', function() {
+                        reply_form.destroy();
+                        starting_input_p.setStyle('display', 'block');
+                    }.bind(this));
 
-                    'onContent': function() {
-                        reply_input.setStyle('opacity', 1);
-                        reply_input.removeProperty('disabled');
-                    }.bind(this),
+                    new Form('reply-form-root', { 'comment': 'comment' }, [], {
 
-                    'onNocontent': function() {
-                        reply_input.setStyle('opacity', 0.4);
-                        reply_input.setProperty('disabled', 'disabled');
-                    }.bind(this)
+                        'onContent': function() {
+                            reply_input.setStyle('opacity', 1);
+                            reply_input.removeProperty('disabled');
+                        }.bind(this),
 
-                });
+                        'onNocontent': function() {
+                            reply_input.setStyle('opacity', 0.4);
+                            reply_input.setProperty('disabled', 'disabled');
+                        }.bind(this)
 
-            }.bind(this)
+                    });
 
-        });
+                }.bind(this)
+
+            });
+
+        }
 
     },
 

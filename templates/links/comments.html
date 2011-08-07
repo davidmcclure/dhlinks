@@ -81,12 +81,18 @@
                                 {{ form.comment }}
                                 {{ form.comment.errors }}
                             </div>
-                            <p><input class="comments-input comments-reply" type="submit" value="reply" disabled /></p>
+                            <input class="comments-input comments-reply" type="submit" value="reply" disabled /></p>
                             <input class="parent-id-hidden" type="hidden" name="parent_id" value="root" />
                             <input class="parent-id-hidden" type="hidden" name="submission_id" value="{{ submission.id }}" />
                         </form>
                     {% else %}
-                        <p><input class="comments-input" id="main-reply" type="submit" value="reply" /></p>
+                        {% if not anon %}
+                            <p><input class="comments-input" id="main-reply" type="submit" value="reply" /></p>
+                        {% else %}
+                            <form action="/login" id="comment-login">
+                                <p><input class="comments-input login-to-reply" id="login-to-reply" type="submit" value="log in to reply" /></p>
+                            </form>
+                        {% endif %}
                     {% endif %}
                 </div>
 
@@ -117,7 +123,9 @@
                             <span>Posted {{ comment.posted_on }}</span>
                         </div>
 
-                        <span class="comment-details reply-link">| <a href="">Reply</a></span>
+                        {% if not anon %}
+                            <span class="comment-details reply-link">| <a href="">Reply</a></span>
+                        {% endif %}
 
                         <div class="comment-text">{{ comment.comment|linebreaks }}</div>
 
