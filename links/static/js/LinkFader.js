@@ -3,13 +3,13 @@ var LinkFader = new Class ({
     Implements: [Options, Events],
 
     options: {
-        fps: 100,
-        fadein_duration: 10,
-        fadeout_duration: 70,
-        transition: Fx.Transitions.Quad.easeOut,
-        fadeout_variance_interval: 100,
-        property: 'color',
-        add_events: false
+        'fps': 100,
+        'fadein_duration': 10,
+        'fadeout_duration': 70,
+        'transition': Fx.Transitions.Quad.easeOut,
+        'fadeout_variance_interval': 100,
+        'property': 'color',
+        'add_events': false
     },
 
     initialize: function(div, starting_color, target_color, options) {

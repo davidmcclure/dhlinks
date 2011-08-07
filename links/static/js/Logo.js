@@ -3,12 +3,12 @@ var Logo = new Class ({
     Implements: [Options, Events],
 
     options: {
-        starting_color: '#fff',
-        orange: '#f7ba36',
-        blue: '#2b7bff',
-        gray: '#9b9b9b',
-        light_blue: '#9cc1ff',
-        pop_interval: 20
+        'starting_color': '#fff',
+        'orange': '#f7ba36',
+        'blue': '#2b7bff',
+        'gray': '#9b9b9b',
+        'light_blue': '#9cc1ff',
+        'pop_interval': 20
     },
 
     initialize: function(container, dighum, links, arrow, options) {
@@ -25,7 +25,7 @@ var Logo = new Class ({
 
         this.split();
         this.add_letter_glosses();
-        // this.fx_materialize_random();
+        this.fx_materialize_random();
 
     },
 
