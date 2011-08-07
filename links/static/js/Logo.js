@@ -25,7 +25,7 @@ var Logo = new Class ({
 
         this.split();
         this.add_letter_glosses();
-        // this.fx_materialize_random();
+        this.fx_materialize_random();
 
     },
 
