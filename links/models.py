@@ -331,7 +331,7 @@ class CommentVote(Vote):
 
 class TagManager(models.Manager):
 
-    def rank(self, user = AnonymousUser, mylinks = False, all_tags = False):
+    def rank(self, user = AnonymousUser, mylinks = False):
 
         '''
         Core sort method. Returns list of tags, sliced by page and filtered by
@@ -339,7 +339,6 @@ class TagManager(models.Manager):
 
         @param page (string) - The page number.
         @param mylinks (boolean) - True if mylinks is selected.
-        @param all_tags (boolean) - True if all tags should be queried.
 
         @return queryset - The tags.
         '''
@@ -367,12 +366,7 @@ class TagManager(models.Manager):
         if mylinks: sorted_tags = sorted(result_list, key = lambda a: a.user_count, reverse = True)
         else: sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
 
-        sliced_tags = sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
-
-		if all_tags:
-			return sorted_tags
-		else:
-			return sliced_tags
+        return sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
 
 
     def get_by_url_slug(self, slug):

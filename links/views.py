@@ -24,7 +24,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
 
     # Get submissions and tags.
     submissions = Submission.objects.sort(request.user, sort, tag, mylinks, int(page))
-    tags = Tag.objects.rank(request.user, mylinks, False)
+    tags = Tag.objects.rank(request.user, mylinks)
     next_page_route = SubmissionManager().next_page_route(sort, tag, mylinks, page)
 
     # If a tag is selected, get the tag record for the view.
