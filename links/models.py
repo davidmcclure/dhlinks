@@ -367,9 +367,12 @@ class TagManager(models.Manager):
         if mylinks: sorted_tags = sorted(result_list, key = lambda a: a.user_count, reverse = True)
         else: sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
 
-        sliced_tags = sorted_tags[:95]
+        sliced_tags = sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
 
-        return sorted_tags if all_tags else sliced_tags
+		if all_tags:
+			return sorted_tags
+		else:
+			return sliced_tags
 
 
     def get_by_url_slug(self, slug):
