@@ -1,3 +1,7 @@
 .DS_Store
 *.pyc
+<<<<<<< HEAD
 local_settings.py
+=======
+settings.py
+>>>>>>> 3bd1b7fdb5ca151c7829d90bf5a3bf6eae657e03
