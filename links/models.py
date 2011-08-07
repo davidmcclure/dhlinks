@@ -366,7 +366,7 @@ class TagManager(models.Manager):
         if mylinks: sorted_tags = sorted(result_list, key = lambda a: a.user_count, reverse = True)
         else: sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
 
-        return sorted_tags[0:5]
+        return sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
 
 
     def get_by_url_slug(self, slug):
