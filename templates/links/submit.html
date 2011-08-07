@@ -2,13 +2,13 @@
 
 {% block css %}
     {{ block.super }}
-    <link href="{{ STATIC_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}/css/forms.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascript %}
     {{ block.super }}
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/forms/Form.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/deployments/_submit_form_deployment.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/forms/Form.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/deployments/_submit_form_deployment.js"></script>
 {% endblock %}
 
 {% block content %}

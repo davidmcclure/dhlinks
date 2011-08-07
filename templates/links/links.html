@@ -1,26 +1,26 @@
 {% extends 'links/base.html' %}
 
 {% block css %}
-    <link href="{{ STATIC_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}/css/links_style.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block javascript %}
 
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/_mootools.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/_mootools.js"></script>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/DisableSelect.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/LetterSplitter.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Letter.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Navigation.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/ScrollMonitor.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/LinkFader.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Links.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Tags.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Sorters.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Loader.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/Logo.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/DisableSelect.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/LetterSplitter.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Letter.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Navigation.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/ScrollMonitor.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/LinkFader.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Links.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Tags.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Sorters.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Loader.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/Logo.js"></script>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}/js/_links_deployment.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}/js/_links_deployment.js"></script>
 
 {% endblock %}
 
@@ -114,9 +114,9 @@
 
                 <span class="submission-details">
                     {% if submission.submission_type == 'link' %}
-                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ STATIC_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
+                        <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ MEDIA_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
                     {% else %}
-                        <a href="/comments/{{ submission.id }}" class="link-base-url"><img src="{{ STATIC_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                        <a href="/comments/{{ submission.id }}" class="link-base-url"><img src="{{ MEDIA_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
                     {% endif %}
                 </span>
 
@@ -155,9 +155,9 @@
 {% block scholarslab %}
 
     <div id="bottom-logos">
-        <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="blank"><img src="{{ STATIC_URL }}/img/cc_logo.png" id="slab-logo" /></a>
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="blank"><img src="{{ MEDIA_URL }}img/cc_logo.png" id="slab-logo" /></a>
         <div class="logo-spacer"></div>
-        <a href="http://www.scholarslab.org/" target="blank"><img src="{{ MEDIA_URL }}/img/scholarslab_logo.png" id="slab-logo" /></a>
+        <a href="http://www.scholarslab.org/" target="blank"><img src="{{ MEDIA_URL }}img/scholarslab_logo.png" id="slab-logo" /></a>
     </div>
 
 {% endblock %}
