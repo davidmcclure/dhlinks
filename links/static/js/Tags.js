@@ -21,8 +21,6 @@ var Tags = new Class ({
             this.tag_faders.push(new LinkFader(tag, this.options.tag_blue, this.options.orange));
         }.bind(this));
 
-        // new LinkFader(this.view_more.getElement('a'), this.options.gray, this.options.orange, { add_events: true });
-
         Array.each(this.tag_faders, function(fader) {
 
             if (!fader.div.getParent('tr').hasClass('selected-tag')) {

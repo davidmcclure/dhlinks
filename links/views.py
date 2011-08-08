@@ -92,7 +92,7 @@ def comments(request, submission_id, first = False):
 
     # Get comments and tags.
     submission = Submission.objects.get(pk = submission_id)
-    comments = Comment.objects.comments(submission_id, request.user)
+    comments = Comment.objects.sort(submission_id, request.user)
     tags = Tag.objects.rank()
     form = CommentForm()
 
