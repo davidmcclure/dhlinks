@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 urlpatterns = patterns('links.views',
 
@@ -143,3 +144,10 @@ urlpatterns = patterns('links.views',
     (r'^(?P<tag>[-\w]+)/(?P<sort>[\w]+)', 'submissions')
 
 )
+
+# Serve static files in development.
+if settings.DEBUG:
+
+    urlpatterns += patterns('django.contrib.staticfiles.views',
+        url(r'^media/(?P<path>.*)$', 'serve'),
+    )
