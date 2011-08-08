@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Count
 from django.db.models import Min
 from django.db.models import Max
 from django.contrib.auth.models import User
@@ -90,15 +89,13 @@ class SubmissionManager(models.Manager):
             objects = self.model.objects.all()
 
         if sort == 'comments':
-            objects = objects.annotate(num_comments=Count('comment')).filter(num_comments__gt=0)
+            objects = objects.filter(comments__count__gt=0)
 
         # Iterate over the rows; add has-the-user-voted? attribute and, if sort
         # is 'comment,' filter out submissions without comments.
 
-        if user.is_authenticated():
-            objects = objects.annotate(has_voted=SubmissionVote.objects.filter(user = user, submission = self))
-        # for row in objects:
-        #     row.has_voted = row.user_has_voted(user)
+        for row in objects:
+            row.has_voted = row.user_has_voted(user)
 
         # Apply the sorting function and slice the sorted set.
         sorted_links = sorted(objects, key = SubmissionManager.SORT_FUNCS[sort], reverse = True)
@@ -350,23 +347,14 @@ class TagManager(models.Manager):
         # Get tag set.
         tags = self.model.objects.all()
 
-        # Iterate through and filter.
         for row in tags:
 
-            # Add user count attribute to rowset.
-            tag = self.model.objects.get(id = row.id)
-
-            # Filter out tags not posted by user if mylinks is selected.
             if mylinks:
                 if TagSubmission.objects.filter(submission__user = user, tag = tag).exists():
-                    row.user_count = tag._get_total_user_submissions(user)
-                    result_list.append(row)
+                    row.user_count = row._get_total_user_submissions(user)
 
-            else:
-                result_list.append(row)
-
-        if mylinks: sorted_tags = sorted(result_list, key = lambda a: a.user_count, reverse = True)
-        else: sorted_tags = sorted(result_list, key = lambda a: a.count, reverse = True)
+        if mylinks: sorted_tags = sorted(tags, key = lambda a: a.user_count, reverse = True)
+        else: sorted_tags = sorted(tags, key = lambda a: a.count, reverse = True)
 
         return sorted_tags[:SubmissionManager.TAGS_PER_PAGE]
 
