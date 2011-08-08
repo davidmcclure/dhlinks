@@ -6,7 +6,8 @@ var Tags = new Class ({
         orange: '#f7ba36',
         blue: '#2b7bff',
         gray: '#9b9b9b',
-        light_blue: '#9cc1ff'
+        light_blue: '#9cc1ff',
+        tag_blue: '#659FFF'
     },
 
     initialize: function(tag_class, options) {
@@ -17,7 +18,7 @@ var Tags = new Class ({
         this.view_more = document.id('view-all-tags');
 
         Array.each(this.tags, function(tag) {
-            this.tag_faders.push(new LinkFader(tag, this.options.blue, this.options.orange));
+            this.tag_faders.push(new LinkFader(tag, this.options.tag_blue, this.options.orange));
         }.bind(this));
 
         // new LinkFader(this.view_more.getElement('a'), this.options.gray, this.options.orange, { add_events: true });
