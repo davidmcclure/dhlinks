@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Min
 from django.db.models import Max
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AnonymousUser
 import datetime as dt
@@ -138,7 +139,9 @@ class SubmissionManager(models.Manager):
             objects = self.model.objects.all()
 
         if sort == 'comments':
-            objects = objects.filter(comments__count__gt=0)
+            # *** NOT WORKING *** #
+            objects = objects.annotate(Count('comment'))
+            objects = objects.filter(comment__count__gt=0)
 
         # Iterate over the rows; add has-the-user-voted? attribute and, if sort
         # is 'comment,' filter out submissions without comments.
