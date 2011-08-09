@@ -45,7 +45,7 @@ var Logo = new Class ({
 
                 'mouseenter': function() {
 
-                    letter.shift_color(this.options.orange, letter.tween_templates.mouseover_fase);
+                    letter.shift_color(this.options.orange, letter.tween_templates.mouseover_fast);
 
                 }.bind(this),
 
