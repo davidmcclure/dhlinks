@@ -6,12 +6,24 @@ from django.core.exceptions import ValidationError
 
 class SubmitForm(forms.Form):
 
+    '''
+    Main submission form.
+    '''
+
+
     url = forms.CharField(required=False, initial='url - leave blank to post a discussion thread')
     title = forms.CharField(required=True, initial='title', error_messages = { 'required': '// enter a title' })
     tags = forms.CharField(required=False, initial='tags')
     comment = forms.CharField(widget=forms.Textarea(), required=False, initial='comment')
 
+
     def clean(self):
+
+        '''
+        Validate the data.
+
+        @return list - The cleaned data.
+        '''
 
         cleaned_data = self.cleaned_data
         title = cleaned_data.get('title')
@@ -39,6 +51,7 @@ class SubmitForm(forms.Form):
         # Tags.
         split_tags = tags.rstrip(',').split(',')
         cleaned_tags = []
+
         for tag in split_tags:
             tag = tag.strip().lower()
             if len(tag) > 30:
@@ -62,22 +75,36 @@ class SubmitForm(forms.Form):
 
 class LoginForm(forms.Form):
 
+    '''
+    Login form.
+    '''
+
+
     username = forms.CharField(required=True, initial='username')
     password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password')
     remember_me = forms.BooleanField(required=False, label='remember me', initial=True)
 
+
     def clean(self):
+
+        '''
+        Validate the data.
+
+        @return list - The cleaned data.
+        '''
 
         cleaned_data = self.cleaned_data
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
 
+        # If the user exists, is the password correct?
         if User.objects.filter(username=cleaned_data.get('username')).exists():
             user = User.objects.get(username=cleaned_data.get('username'))
             if not user.check_password(password):
                 msg = u'// wrong password'
                 self._errors['password'] = self.error_class([msg])
 
+        # If the user doesn't exist...
         else:
             msg = u'// nonexistent user name'
             self._errors['username'] = self.error_class([msg])
@@ -87,6 +114,11 @@ class LoginForm(forms.Form):
 
 class RegisterForm(forms.Form):
 
+    '''
+    Sign up form.
+    '''
+
+
     username = forms.CharField(required=True, initial='username', error_messages = { 'required': '// enter a username' })
     password = forms.CharField(required=True, widget=forms.PasswordInput, initial='password', error_messages = { 'required': '// try again' })
     password_confirm = forms.CharField(required=True, widget=forms.PasswordInput, initial='confirm', error_messages = { 'required': '// try again' })
@@ -94,7 +126,14 @@ class RegisterForm(forms.Form):
     firstname = forms.CharField(required=True, initial='first name', error_messages = { 'required': '// enter your first name' })
     lastname = forms.CharField(required=True, initial='last name', error_messages = { 'required': '// enter your last name' })
 
+
     def clean(self):
+
+        '''
+        Validate the data.
+
+        @return list - The cleaned data.
+        '''
 
         cleaned_data = self.cleaned_data
         username = cleaned_data.get('username')
@@ -145,6 +184,10 @@ class RegisterForm(forms.Form):
 
 
 class CommentForm(forms.Form):
+
+    '''
+    Comment form.
+    '''
 
     comment = forms.CharField(widget=forms.Textarea(), required=True, initial='comment')
     parent_id = forms.CharField(widget=forms.HiddenInput(), required=True)
