@@ -239,6 +239,35 @@ class Submission(models.Model):
         return self.title
 
 
+    def update(self, url, title, tags, comment):
+
+        '''
+        Update the submission.
+
+        @param url (string) - The url.
+        @param title (string) - The title.
+
+        @return None.
+        '''
+
+        # Make the edits to the submission fields.
+        self.url = url
+        self.title = title
+        self.save()
+
+        # Delete old tags.
+        TagSubmission.objects.filter(submission = self).delete()
+
+        # Add updated tags.
+        Tag.objects.create_tags(tags, self)
+
+        # Update comment.
+        if self._get_number_of_comments() > 0:
+            first_comment = Comment.objects.filter(submission = self).order_by('post_date')[0]
+            first_comment.comment = comment
+            first_comment.save()
+
+
     def _get_number_of_comments(self):
 
         '''
@@ -368,9 +397,15 @@ class Submission(models.Model):
         @return route (string) - The constructed form.
         '''
 
+        # Construct the initial values for the edit form.
         url = self.url if self.url != '' else 'url - leave blank to post a discussion thread'
-        comment = Comment.objects.filter(submission = self).order_by('post_date')[0].comment
         tags = ', '.join([t.tag.tag for t in TagSubmission.objects.filter(submission = self)])
+
+        if self._get_number_of_comments() > 0:
+            comment = Comment.objects.filter(submission = self).order_by('post_date')[0].comment
+
+        else:
+            comment = 'comment'
 
         form = SubmitForm(initial={
             'title': self.title,

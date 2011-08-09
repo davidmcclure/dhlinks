@@ -277,23 +277,9 @@ def edit(request, submission_id):
                 title = form.cleaned_data['title']
                 comment = form.cleaned_data['comment']
                 tags = form.cleaned_data['tags']
-                user = request.user
-                post_date = dt.datetime.now()
 
-                # Create the new submission.
-                submission = Submission.objects.create_submission(
-                    url, title, user, post_date)
-
-                # Create the new tags.
-                Tag.objects.create_tags(tags, submission)
-
-                # Create the starting upvote.
-                SubmissionVote.objects.create_vote(
-                    user, submission, True, post_date)
-
-                # Create the first comment, if it exists.
-                Comment.objects.create_comment(
-                    comment, post_date, submission, user, None)
+                # Update the new submission.
+                submission.update(url, title, tags, comment)
 
                 # Redirect to the front page.
                 return HttpResponseRedirect('/')
@@ -305,6 +291,7 @@ def edit(request, submission_id):
         tags = Tag.objects.rank()
         return render_to_response('links/edit.html', {
             'form': form,
+            'submission': submission,
             'tags': tags,
             'anon': request.user.is_anonymous(),
             'navigation': 'submit'

@@ -13,7 +13,7 @@
 
 {% block content %}
 
-    <form action="/submission/edit" method="post" id="submit-form">
+<form action="/submission/edit/{{ submission.id }}" method="post" id="submit-form">
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
             <input type="text" name="title" id="id_title" value="{{ form.title.value }}">
