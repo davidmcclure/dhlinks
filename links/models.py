@@ -27,7 +27,7 @@ class UserProfileManager(models.Manager):
         @param firstname (string) - The new first name.
         @param lastname (string) - The new last name.
 
-        @return void.
+        @return None.
         '''
 
         # Create the new native User object.
@@ -386,16 +386,14 @@ class CommentManager(models.Manager):
         indentation relative to the root level.
 
         @param submission_id (integer) - The id of the submission that comments
-        are being shown for.
+            are being shown for.
         @param user (request.user) - The current user.
 
         @return list - A list of tuples in which the first element, at index 0,
         is the comment objects, and the second element, at index 1, is the
         number of pixels that the comment should be indented from the root
         level. This is calculated using the static multipliers defined in
-        indent_multipliers. This could also be done by just returning the level
-        of indentation in integer format (0, 1, 2, etc.) and then defining css
-        styles for each of these indentation levels, up to some max.
+        indent_multipliers.
         '''
 
         # Create empty lists for ordered_comments (the container for the final
@@ -431,7 +429,7 @@ class CommentManager(models.Manager):
 
         @param comment (Comment) - The comment to add children to.
 
-        @return void.
+        @return None.
         '''
 
         # If the comment's id is not already in the order list (that is, if it
@@ -468,7 +466,7 @@ class CommentManager(models.Manager):
         @param user (request.user) - The current user.
         @param parent (Comment) - The parent comment.
 
-        @return void.
+        @return None.
         '''
 
         if comment != '':
@@ -485,43 +483,113 @@ class CommentManager(models.Manager):
 
 class Comment(models.Model):
 
+    '''
+    Row class for comment.
+    '''
+
+
     user = models.ForeignKey(User)
     comment = models.TextField()
     post_date = models.DateTimeField()
     submission = models.ForeignKey(Submission)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='mastercomment')
-
     objects = CommentManager()
 
+
     def __unicode__(self):
+
+        '''
+        Return readable output for shell sessions.
+
+        @return string - The Submission's content.
+        '''
+
         return self.comment
 
+
     def _get_number_of_votes(self):
+
+        '''
+        Return the number of upvotes that the comment has.
+
+        @return integet - The number of votes.
+        '''
+
         return self.commentvote_set.filter(direction=True).count()
+
+    # Property assignment for _get_number_of_votes.
     number_of_votes = property(_get_number_of_votes)
 
+
     def _get_posted_on(self):
+
+        '''
+        Construct a human-readable string for the links views indicating
+        when the comment was posted.
+
+        - If the comment was posted more than 24 hours ago, returns a string
+          with format "Monday, August 8, 2011 at 1:50 PM"
+
+        - If the comment was posted within 24 hours but more than 1 hour ago,
+          returns a string with format "20 hours ago"
+
+        - If the comment was posted between 1 and 60 minutes ago, return a
+          string with format "40 minutes ago"
+
+        - If the comment was posted within 60 seconds, return a string with
+          format "40 seconds ago"
+
+        @return string - The readable timedelta.
+        '''
+
+        # Calculate the total time in seconds since the comment was posted.
         age = dt.datetime.now() - self.post_date
         total_seconds = (age.microseconds + (age.seconds + age.days * 24 * 3600) * 10**6) / 10**6
+
+        # Construct the string depending on the size of total_seconds.
         if total_seconds > 86400:
             string = 'on ' + self.post_date.strftime('%A, %B %d, %Y at %I:%M %p').replace(' 0', ' ')
+
         elif total_seconds > 3600:
             string = str(int(round((total_seconds / 3600), 0))) + ' hours ago'
+
         elif total_seconds > 60:
             string = str(int(round((total_seconds / 60), 0))) + ' minutes ago'
+
         else:
             string = str(total_seconds) + ' seconds ago'
+
         return string
+
+    # Property definition for _get_posted_on.
     posted_on = property(_get_posted_on)
 
+
     def user_has_voted(self, user):
-        vote = []
+
+        '''
+        For a given user, determine whether or not the user has already upvoted
+        the comment.
+
+        @param user (request.user) - The current user.
+
+        @return boolean - True if the user has already upvoted the comment.
+        '''
+
+        vote = None
+
         if user.is_authenticated():
             vote = CommentVote.objects.filter(user = user, comment = self)
-        return True if vote else False
+
+        return bool(vote)
 
 
 class Vote(models.Model):
+
+    '''
+    Master class for SubmissionVote and CommentVote.
+    '''
+
 
     user = models.ForeignKey(User)
     submit_date = models.DateTimeField()
@@ -530,55 +598,140 @@ class Vote(models.Model):
 
 class SubmissionVoteManager(models.Manager):
 
+    '''
+    Table class for SubmissionVote.
+    '''
+
+
     def create_vote(self, user, submission, direction, post_date):
+
+        '''
+        Insert a new vote.
+
+        @param user (request.user) - The current user.
+        @param submission (Submission) - The submission being voted on.
+        @param direction (boolean) - True if up, False if down.
+        @param post_date (datetime) - The time of the vote.
+
+        @return None.
+        '''
+
         vote_record = SubmissionVote(
             user = user,
             submission = submission,
             direction = direction,
             submit_date = post_date)
+
         vote_record.save()
 
+
     def vote_exists(self, user, submission):
-        return SubmissionVote.objects.filter(user = user, submission =
-                submission).exists()
+
+        '''
+        Determine whether or not a user has voted on a submission.
+
+        @param user (request.user) - The current user.
+        @param submission (Submission) - The submission to test for.
+
+        @return None.
+        '''
+
+        return SubmissionVote.objects.filter(user = user, submission = submission).exists()
 
 
 class SubmissionVote(Vote):
 
-    submission = models.ForeignKey(Submission)
+    '''
+    Row class for SubmissionVote.
+    '''
 
+
+    submission = models.ForeignKey(Submission)
     objects = SubmissionVoteManager()
 
+
     def __unicode__(self):
+
+        '''
+        Return readable output for shell sessions.
+
+        @return string - The title of the submission being voted on.
+        '''
+
         return self.submission.title
 
 
 class CommentVoteManager(models.Manager):
 
+    '''
+    Table class for CommentVote.
+    '''
+
+
     def create_vote(self, user, comment, direction, post_date):
+
+        '''
+        Insert a new vote.
+
+        @param user (request.user) - The current user.
+        @param comment (Comment) - The comment being voted on.
+        @param direction (boolean) - True if up, False if down.
+        @param post_date (datetime) - The time of the vote.
+
+        @return None.
+        '''
+
         vote_record = CommentVote(
             user = user,
             comment = comment,
             direction = direction,
             submit_date = post_date)
+
         vote_record.save()
 
+
     def vote_exists(self, user, comment):
-        return CommentVote.objects.filter(user = user, comment =
-                comment).exists()
+
+        '''
+        Determine whether or not a user has voted on a comment.
+
+        @param user (request.user) - The current user.
+        @param comment (Comment) - The comment to test for.
+
+        @return None.
+        '''
+
+        return CommentVote.objects.filter(user = user, comment = comment).exists()
 
 
 class CommentVote(Vote):
 
-    comment = models.ForeignKey(Comment)
+    '''
+    Row class for CommentVote.
+    '''
 
+
+    comment = models.ForeignKey(Comment)
     objects = CommentVoteManager()
 
+
     def __unicode__(self):
+
+        '''
+        Return readable output for shell sessions.
+
+        @return string - The content of the vote's comment.
+        '''
+
         return self.comment.comment
 
 
 class TagManager(models.Manager):
+
+    '''
+    Table class for Tag.
+    '''
+
 
     def rank(self, user = AnonymousUser, mylinks = False):
 
@@ -610,51 +763,144 @@ class TagManager(models.Manager):
 
 
     def get_by_url_slug(self, slug):
+
+        '''
+        Fetch a tag based on its url slug - the name of the tag, with spaces
+        joined on "-".
+
+        @param slug (string) - The slug.
+
+        @return Tag - The tag.
+        '''
+
         return self.model.objects.get(tag = slug.replace('-', ' '))
 
 
     def create_tags(self, tags, submission):
-       for tag in tags:
+
+        '''
+        Create new tags.
+
+        @param tags (list) - A list of strings.
+        @param submission (Submission) - The parent submission.
+
+        @return None.
+        '''
+
+        for tag in tags:
+
             new_tag = Tag(tag = tag)
             parent_tag = new_tag.save()
+
             tag_submission = TagSubmission(
                 submission = submission,
                 tag = parent_tag)
+
             tag_submission.save()
 
 
 class Tag(models.Model):
 
-    tag = models.CharField(max_length=50)
+    '''
+    Row class for Tag.
+    '''
 
+
+    tag = models.CharField(max_length=50)
     objects = TagManager()
 
+
     def save(self, *args, **kwargs):
+
+        '''
+        Overwrites default Django ORM save(). Checks that there isn't already a
+        tag with the name of the passed-in Tag object.
+
+        @return Tag - The duplicate tag, if one is found; otherwise, the newly
+        created tag.
+        '''
+
         duplicate_test = Tag.objects.filter(tag = self.tag)
+
         if duplicate_test:
             return duplicate_test[0]
+
         else:
             super(Tag, self).save(self, *args, **kwargs)
             return self
 
+
     def __unicode__(self):
+
+        '''
+        Return readable output for shell sessions.
+
+        @return string - The content of the vote's comment.
+        '''
+
         return self.tag
 
+
     def _get_total_submissions(self):
+
+        '''
+        Get the total number of submissions to which the tag is assigned.
+
+        @return integer - The total number of submissions.
+        '''
+
         return self.tagsubmission_set.count()
+
+    # Property assignment for _get_total_submissions.
     count = property(_get_total_submissions)
 
+
     def _get_total_user_submissions(self, user):
+
+        '''
+        Get the total number of times that the current user has assigned the
+        tag to links that he/she has submitted.
+
+        @param user (request.user) - The current user.
+
+        @return integer - The total number of tag assignments.
+        '''
+
         return TagSubmission.objects.filter(tag = self, submission__user = user).count()
 
+
     def _get_url_slug(self):
+
+        '''
+        Construct the URL slug for the tag. The slug is the name of the tag,
+        with whitespace collapsed to "-".
+
+        @return string - The slug.
+        '''
+
         return '-'.join(self.tag.split(' '))
+
+    # Property assignment for _get_url_slug.
     url_slug = property(_get_url_slug)
 
+
 class TagSubmission(models.Model):
+
+    '''
+    Row class for TagSubmission.
+    '''
+
 
     submission = models.ForeignKey(Submission)
     tag = models.ForeignKey(Tag)
 
+
     def __unicode__(self):
+
+        '''
+        Return readable output for shell sessions.
+
+        @return string - The content of the vote's comment.
+        '''
+
         return self.submission.title + ' ~ ' + self.tag.tag

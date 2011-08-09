@@ -47,24 +47,24 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     }, context_instance = RequestContext(request))
 
 
-def tags(request):
+# def tags(request):
 
-    '''
-    Show tags.
-    '''
+#     '''
+#     Show tags.
+#     '''
 
-    # Get tags.
-    big_tags = Tag.objects.rank(request.user, False, True)
-    small_tags = Tag.objects.rank(request.user, False, False)
+#     # Get tags.
+#     big_tags = Tag.objects.rank(request.user, False, True)
+#     small_tags = Tag.objects.rank(request.user, False, False)
 
-    # Push to template.
-    return render_to_response('links/tags.html', {
-        'tags': small_tags,
-        'big_tags': big_tags,
-        'anon': request.user.is_anonymous(),
-        'total_tags': Tag.objects.all().count(),
-        'navigation': None
-    }, context_instance = RequestContext(request))
+#     # Push to template.
+#     return render_to_response('links/tags.html', {
+#         'tags': small_tags,
+#         'big_tags': big_tags,
+#         'anon': request.user.is_anonymous(),
+#         'total_tags': Tag.objects.all().count(),
+#         'navigation': None
+#     }, context_instance = RequestContext(request))
 
 
 def comments(request, submission_id, first = False):
