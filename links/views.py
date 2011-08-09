@@ -36,6 +36,7 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
         'tags': tags,
         'sort': sort,
         'tag': tag,
+        'user': request.user,
         'anon': request.user.is_anonymous(),
         'mylinks': mylinks,
         'navigation': navigation,
@@ -47,24 +48,69 @@ def submissions(request, sort = 'rank', tag = None, mylinks = False, navigation 
     }, context_instance = RequestContext(request))
 
 
-# def tags(request):
+def edit(request, submission_id):
 
-#     '''
-#     Show tags.
-#     '''
+    '''
+    Edit a submission.
+    '''
 
-#     # Get tags.
-#     big_tags = Tag.objects.rank(request.user, False, True)
-#     small_tags = Tag.objects.rank(request.user, False, False)
+    # Is the user logged in?
+    if request.user.is_authenticated():
 
-#     # Push to template.
-#     return render_to_response('links/tags.html', {
-#         'tags': small_tags,
-#         'big_tags': big_tags,
-#         'anon': request.user.is_anonymous(),
-#         'total_tags': Tag.objects.all().count(),
-#         'navigation': None
-#     }, context_instance = RequestContext(request))
+        submission = Submission.objects.get(pk = submission_id)
+
+        # Has a form been posted?
+        if request.method == 'POST':
+
+            form = SubmitForm(request.POST)
+
+            # Does the data in the form pass the validation checks?
+            if form.is_valid():
+
+                # Establish variables for model instantiations.
+                url = form.cleaned_data['url']
+                title = form.cleaned_data['title']
+                comment = form.cleaned_data['comment']
+                tags = form.cleaned_data['tags']
+                user = request.user
+                post_date = dt.datetime.now()
+
+                # Create the new submission.
+                submission = Submission.objects.create_submission(
+                    url, title, user, post_date)
+
+                # Create the new tags.
+                Tag.objects.create_tags(tags, submission)
+
+                # Create the starting upvote.
+                SubmissionVote.objects.create_vote(
+                    user, submission, True, post_date)
+
+                # Create the first comment, if it exists.
+                Comment.objects.create_comment(
+                    comment, post_date, submission, user, None)
+
+                # Redirect to the front page.
+                return HttpResponseRedirect('/')
+
+        # If no form is posted, show the form.
+        else: form = SubmitForm(submission_id)
+
+        # Push the form into the template.
+        tags = Tag.objects.rank()
+        return render_to_response('links/edit.html', {
+            'form': form,
+            'tags': tags,
+            'anon': request.user.is_anonymous(),
+            'navigation': 'submit'
+        }, context_instance=RequestContext(request))
+
+    # If the user is not logged in, set a session variable that
+    # records the origin of the login flow and redirect to login.
+    else:
+        request.session['login_redirect'] = 'submit'
+        request.session['register_redirect'] = 'submit'
+        return HttpResponseRedirect('/login')
 
 
 def comments(request, submission_id, first = False):
@@ -192,6 +238,72 @@ def submit(request):
         # Push the form into the template.
         tags = Tag.objects.rank()
         return render_to_response('links/submit.html', {
+            'form': form,
+            'tags': tags,
+            'anon': request.user.is_anonymous(),
+            'navigation': 'submit'
+        }, context_instance=RequestContext(request))
+
+    # If the user is not logged in, set a session variable that
+    # records the origin of the login flow and redirect to login.
+    else:
+        request.session['login_redirect'] = 'submit'
+        request.session['register_redirect'] = 'submit'
+        return HttpResponseRedirect('/login')
+
+
+def edit(request, submission_id):
+
+    '''
+    Edit a submission.
+    '''
+
+    # Is the user logged in?
+    if request.user.is_authenticated():
+
+        # Fetch the object of the submission that is being edited.
+        submission = Submission.objects.get(pk = submission_id)
+
+        # Has a form been posted?
+        if request.method == 'POST':
+
+            form = SubmitForm(request.POST)
+
+            # Does the data in the form pass the validation checks?
+            if form.is_valid():
+
+                # Establish variables for model instantiations.
+                url = form.cleaned_data['url']
+                title = form.cleaned_data['title']
+                comment = form.cleaned_data['comment']
+                tags = form.cleaned_data['tags']
+                user = request.user
+                post_date = dt.datetime.now()
+
+                # Create the new submission.
+                submission = Submission.objects.create_submission(
+                    url, title, user, post_date)
+
+                # Create the new tags.
+                Tag.objects.create_tags(tags, submission)
+
+                # Create the starting upvote.
+                SubmissionVote.objects.create_vote(
+                    user, submission, True, post_date)
+
+                # Create the first comment, if it exists.
+                Comment.objects.create_comment(
+                    comment, post_date, submission, user, None)
+
+                # Redirect to the front page.
+                return HttpResponseRedirect('/')
+
+        # Build out the form with the existing data.
+        else: form = submission.build_edit_form()
+
+        # Push the form into the template.
+        tags = Tag.objects.rank()
+        return render_to_response('links/edit.html', {
             'form': form,
             'tags': tags,
             'anon': request.user.is_anonymous(),

@@ -13,7 +13,7 @@
 
 {% block content %}
 
-    <form action="/submit" method="post" id="submit-form">
+    <form action="/submission/edit" method="post" id="submit-form">
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
             <input type="text" name="title" id="id_title" value="{{ form.title.value }}">
@@ -31,7 +31,7 @@
             {{ form.comment }}
             {{ form.comment.errors }}
         </div>
-        <p><input type="submit" value="submit" /></p>
+        <p><input type="submit" value="save" /></p>
     </form>
 
 {% endblock %}

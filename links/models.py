@@ -4,6 +4,7 @@ from django.db.models import Max
 from django.db.models import Count
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AnonymousUser
+from links.forms import *
 import datetime as dt
 import urlparse
 import operator
@@ -140,12 +141,9 @@ class SubmissionManager(models.Manager):
 
         if sort == 'comments':
             # *** NOT WORKING *** #
-            objects = objects.annotate(Count('comment'))
-            objects = objects.filter(comment__count__gt=0)
+            objects = objects.annotate(Count('comment')).filter(comment__count__gt=0)
 
-        # Iterate over the rows; add has-the-user-voted? attribute and, if sort
-        # is 'comment,' filter out submissions without comments.
-
+        # Iterate over the rows; add has_voted and is_users attributes.
         for row in objects:
             row.has_voted = row.user_has_voted(user)
 
@@ -360,6 +358,28 @@ class Submission(models.Model):
             vote = SubmissionVote.objects.filter(user = user, submission = self)
 
         return bool(vote)
+
+
+    def build_edit_form(self):
+
+        '''
+        Build the edit form for the submission.
+
+        @return route (string) - The constructed form.
+        '''
+
+        url = self.url if self.url != '' else 'url - leave blank to post a discussion thread'
+        comment = Comment.objects.filter(submission = self).order_by('post_date')[0].comment
+        tags = ', '.join([t.tag.tag for t in TagSubmission.objects.filter(submission = self)])
+
+        form = SubmitForm(initial={
+            'title': self.title,
+            'url': url,
+            'comment': comment,
+            'tags': tags
+        })
+
+        return form
 
 
 class CommentManager(models.Manager):
@@ -750,11 +770,12 @@ class TagManager(models.Manager):
         # Get tag set.
         tags = self.model.objects.all()
 
-        for row in tags:
+        if mylinks:
 
-            if mylinks:
+            for tag in tags:
+
                 if TagSubmission.objects.filter(submission__user = user, tag = tag).exists():
-                    row.user_count = row._get_total_user_submissions(user)
+                    tag.user_count = tag._get_total_user_submissions(user)
 
         if mylinks: sorted_tags = sorted(tags, key = lambda a: a.user_count, reverse = True)
         else: sorted_tags = sorted(tags, key = lambda a: a.count, reverse = True)

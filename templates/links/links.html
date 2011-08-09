@@ -131,6 +131,10 @@
                         | <span><a href="/comments/read/{{ submission.id }}/first" class="start-comments-link">declaim</a></span>
                     {% endif %}
 
+                    {% if submission.user == user or user.is_superuser %}
+                        | <span><a href="/submission/edit/{{ submission.id }}" class="edit-link">edit</a></span>
+                    {% endif %}
+
                 </div>
             </li>
 

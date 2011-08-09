@@ -210,7 +210,7 @@ a.comments-link {
     color: #F7BA36;
 }
 
-a.start-comments-link {
+a.start-comments-link, a.edit-link {
     text-decoration: none;
     color: #9CC1FF;
 }
