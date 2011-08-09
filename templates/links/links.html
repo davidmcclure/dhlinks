@@ -116,7 +116,7 @@
                     {% if submission.submission_type == 'link' %}
                         <a href="{{ submission.url }}" target="_blank" class="link-base-url"><span class="gray-parentheses">(</span><img src="{{ MEDIA_URL }}/img/link_icon.png" class="submission-type-icon" /><span class="base-url-text">{{ submission.base_url }}</span><span class="gray-parentheses">)</span></a>
                     {% else %}
-                        <a href="/comments/{{ submission.id }}" class="link-base-url"><img src="{{ MEDIA_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
+                        <a href="/comments/read/{{ submission.id }}" class="link-base-url"><img src="{{ MEDIA_URL }}/img/discussion_icon.png" class="submission-type-icon" /></a>
                     {% endif %}
                 </span>
 

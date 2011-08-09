@@ -33,6 +33,9 @@ class SubmitForm(forms.Form):
                 msg = u'// bad url'
                 self._errors['url'] = self.error_class([msg])
 
+        else:
+            cleaned_data['url'] = ''
+
         # Tags.
         split_tags = tags.rstrip(',').split(',')
         cleaned_tags = []
