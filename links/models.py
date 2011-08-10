@@ -418,7 +418,13 @@ class Submission(models.Model):
 
         # Construct the initial values for the edit form.
         url = self.url if self.url != '' else 'url - leave blank to post a discussion thread'
-        tags = ', '.join([t.tag.tag for t in TagSubmission.objects.filter(submission = self)])
+
+        # Build tags string, if tag submissions exist for the submission.
+        if TagSubmission.objects.filter(submission = self).count() > 0:
+            tags = ', '.join([t.tag.tag for t in TagSubmission.objects.filter(submission = self)])
+
+        else:
+            tags = 'tags'
 
         if self._get_number_of_comments() > 0:
             comment = Comment.objects.filter(submission = self).order_by('post_date')[0].comment
