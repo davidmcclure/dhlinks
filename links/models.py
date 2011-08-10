@@ -139,8 +139,8 @@ class SubmissionManager(models.Manager):
             # Get everything.
             objects = self.model.objects.all()
 
+        # If sort is comments, filter out submissions with 0 comments.
         if sort == 'comments':
-            # *** NOT WORKING *** #
             objects = objects.annotate(comment_count = Count('comment')).filter(comment_count__gt=0)
 
         # Iterate over the rows; add has_voted and is_users attributes.

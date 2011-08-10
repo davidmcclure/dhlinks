@@ -128,7 +128,8 @@
                     {% if submission.number_of_comments > 0 %}
                         | <span><a href="/comments/read/{{ submission.id }}" class="comments-link">{{ submission.number_of_comments }} comment{{ submission.number_of_comments|pluralize }}</a></span>
                     {% else %}
-                        | <span><a href="/comments/read/{{ submission.id }}/first" class="start-comments-link">declaim</a></span>
+                        | <span><a href="/comments/read/{{ submission.id
+                                }}/first" class="start-comments-link">discuss</a></span>
                     {% endif %}
 
                     {% if submission.user == user or user.is_superuser %}

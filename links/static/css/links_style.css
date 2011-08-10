@@ -39,7 +39,7 @@ body {
 
 #logospan_dighum {
     letter-spacing: 1px;
-    margin: 0 0 2px 0.25em;
+    margin: 0 0 1px 0.25em;
     color: #2b7bff;
     float: right;
     /* color: #fff;*/
@@ -67,7 +67,6 @@ body {
 /* Tags */
 
 #tags {
-    opacity: 0.9;
 }
 
 #tag-list {
@@ -84,7 +83,7 @@ body {
 
 .tag-container a {
     text-decoration: none;
-    color: #2b7bff;
+    color: #659FFF;
 }
 
 li.tag {
@@ -139,7 +138,7 @@ ul.big-tags li a {
     position: relative;
     font-size: 0.9em;
     color: #9B9B9B;
-    top: 15px;
+    top: 10px;
     left: 15px;
     float: left;
 }
