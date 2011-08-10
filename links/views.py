@@ -258,11 +258,13 @@ def edit(request, submission_id):
     Edit a submission.
     '''
 
-    # Is the user logged in?
-    if request.user.is_authenticated():
+    # Fetch the object of the submission that is being edited and the user.
+    submission = Submission.objects.get(pk = submission_id)
+    user = request.user
 
-        # Fetch the object of the submission that is being edited.
-        submission = Submission.objects.get(pk = submission_id)
+    # Is the user logged in and either a superuser or the user that posted the
+    # submssion?
+    if user.is_authenticated() and (user.is_superuser or user == submission.user):
 
         # Has a form been posted?
         if request.method == 'POST':
