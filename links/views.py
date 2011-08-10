@@ -300,8 +300,8 @@ def edit(request, submission_id):
     # If the user is not logged in, set a session variable that
     # records the origin of the login flow and redirect to login.
     else:
-        request.session['login_redirect'] = 'submit'
-        request.session['register_redirect'] = 'submit'
+        request.session['login_redirect'] = 'submission/edit/' + submission_id
+        request.session['register_redirect'] = 'submission/edit/' + submission_id
         return HttpResponseRedirect('/login')
 
 

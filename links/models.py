@@ -141,7 +141,7 @@ class SubmissionManager(models.Manager):
 
         if sort == 'comments':
             # *** NOT WORKING *** #
-            objects = objects.annotate(Count('comment')).filter(comment__count__gt=0)
+            objects = objects.annotate(comment_count = Count('comment')).filter(comment_count__gt=0)
 
         # Iterate over the rows; add has_voted and is_users attributes.
         for row in objects:
@@ -256,16 +256,35 @@ class Submission(models.Model):
         self.save()
 
         # Delete old tags.
-        TagSubmission.objects.filter(submission = self).delete()
+        old_tags = self.tagsubmission_set.all()
+        old_tags.delete()
+
+        # Delete Tag objects with no submissions.
+        # *** NOT WORKING *** #
+        for submission in old_tags:
+            tag = submission.tag
+            if tag.tagsubmission_set.all().count() == 0:
+                tag.delete()
 
         # Add updated tags.
         Tag.objects.create_tags(tags, self)
 
         # Update comment.
         if self._get_number_of_comments() > 0:
-            first_comment = Comment.objects.filter(submission = self).order_by('post_date')[0]
-            first_comment.comment = comment
-            first_comment.save()
+
+            first_comment = self.comment_set.all().order_by('post_date')[0]
+
+            if comment != '':
+                first_comment.comment = comment
+                first_comment.save()
+
+            else:
+                first_comment.delete()
+
+        else:
+            Comment.objects.create_comment(
+                comment, dt.datetime.now(), self, self.user, None)
+
 
 
     def _get_number_of_comments(self):
@@ -423,6 +442,7 @@ class CommentManager(models.Manager):
     Table class for Comment.
     '''
 
+
     # Constants for the number of pixels that children comments should be
     # indented on comments pages ('comments') and for the previews on the links
     # pages ('teasers').
@@ -430,6 +450,7 @@ class CommentManager(models.Manager):
         'comments': 30,
         'teasers': 20
     }
+
 
     def sort(self, submission_id, user):
 

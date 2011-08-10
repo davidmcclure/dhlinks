@@ -58,7 +58,7 @@ class SubmitForm(forms.Form):
                 msg = u'// tags must be < 30 characters'
                 self._errors['tags'] = self.error_class([msg])
             else:
-                if tag != 'tags': cleaned_tags.append(tag)
+                if tag != 'tags' and tag not in cleaned_tags: cleaned_tags.append(tag)
 
         cleaned_data['tags'] = cleaned_tags
 
